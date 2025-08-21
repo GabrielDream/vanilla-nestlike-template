@@ -1,29 +1,35 @@
 {
-  "name": "mission5",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@prisma/client": "^6.14.0",
-    "bcrypt": "^6.0.0",
-    "chalk": "^5.5.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
-  },
-  "devDependencies": {
-    "cross-env": "^10.0.0",
-    "eslint": "^9.33.0",
-    "jest": "^30.0.5",
-    "nodemon": "^3.1.10",
-    "prisma": "^6.14.0",
-    "supertest": "^7.1.4"
-  }
+	"name": "mission5",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+		"dev": "nodemon src/server.js",
+		"start": "node src/server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"@prisma/client": "^6.14.0",
+		"bcrypt": "^6.0.0",
+		"chalk": "^5.6.0",
+		"cors": "^2.8.5",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2"
+	},
+	"devDependencies": {
+		"cross-env": "^10.0.0",
+		"eslint": "^8.57.1",
+		"eslint-plugin-import": "^2.32.0",
+		"jest": "^30.0.5",
+		"nodemon": "^3.1.10",
+		"prisma": "^6.14.0",
+		"supertest": "^7.1.4"
+	}
 }
