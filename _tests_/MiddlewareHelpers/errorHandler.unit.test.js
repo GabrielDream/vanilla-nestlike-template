@@ -1,9 +1,9 @@
 import express from "express";
 import request from "supertest";
 
-import AppError from "../middlewares/AppError.js";
-import errorHandler from "../middlewares/errorHandler.js";
-import { logError, logInfo } from "../terminalStylization/logger.js";
+import AppError from "../../middlewares/AppError.js";
+import errorHandler from "../../middlewares/errorHandler.js";
+import { logError, logInfo } from "../../terminalStylization/logger.js";
 
 //Silince logs
 //jest.spyOn(logError, "bind").mockReturnValue(() => {});

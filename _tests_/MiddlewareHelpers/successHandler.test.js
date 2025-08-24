@@ -1,6 +1,6 @@
 import express from 'express';
-import { logInfo, logSuccess } from '../terminalStylization/logger.js';
-import successHandler from '../middlewares/successHandler.js';
+import { logInfo, logSuccess } from '../../terminalStylization/logger.js';
+import successHandler from '../../middlewares/successHandler.js';
 
 const app = express();
 
