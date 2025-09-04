@@ -1,5 +1,5 @@
 import { Router } from "express";
-import prisma from "../../db/prisma.js"; // << importa o singleton
+import prisma from "./db/prisma.js"; // dentro de users/db
 
 import {
   logInfo,
@@ -9,8 +9,9 @@ import {
   logSuccess,
   logData,
   logTimeStamp,
-} from "../../terminalStylization/logger.js";
-import AppError from "../../middlewares/AppError.js";
+} from "../../terminalStylization/logger.js"; // sobe 2 níveis
+
+import AppError from "../../middlewares/AppError.js"; // sobe 2 níveis
 
 const router = Router();
 
