@@ -1,5 +1,6 @@
+//Route use by everyone
 import { Router } from "express";
-import prisma from "./db/prisma.js"; // dentro de users/db
+import { prisma } from "./db/prisma.js"; // dentro de users/db
 
 import {
   logInfo,

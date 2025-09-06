@@ -37,7 +37,7 @@ describe("DB Tests", () => {
 
 		test("U - Update user", async () => {
 			const user = await prisma.user.create({
-				data: { name: "Old Name", email: "old@example.com", passwordHash: "hashOld" },
+				data: { name: "Old Name", email: "old@example.com", passwordHash: "hashOld", age: 28 },
 			});
 			const updated = await prisma.user.update({
 				where: { id: user.id },
@@ -48,7 +48,7 @@ describe("DB Tests", () => {
 
 		test("D - Delete user", async () => {
 			const user = await prisma.user.create({
-				data: { name: "Delete Me", email: "delete@example.com", passwordHash: "hashDel" },
+				data: { name: "Delete Me", email: "delete@example.com", passwordHash: "hashDel", age: 27 },
 			});
 			await prisma.user.delete({ where: { id: user.id } });
 			const gone = await prisma.user.findUnique({ where: { id: user.id } });
@@ -59,12 +59,12 @@ describe("DB Tests", () => {
 	describe("Native DB errors", () => {
 		test("Constraint - unique email [P2002]", async () => {
 			await prisma.user.create({
-				data: { name: "First", email: "unique@example.com", passwordHash: "hashFirst" },
+				data: { name: "First", email: "unique@example.com", passwordHash: "hashFirst", age: 26 },
 			});
 
 			await expect(
 				prisma.user.create({
-					data: { name: "Second", email: "unique@example.com", passwordHash: "hashSecond" },
+					data: { name: "Second", email: "unique@example.com", passwordHash: "hashSecond", age: 31 },
 				})
 			).rejects.toMatchObject({ code: "P2002" });
 		});

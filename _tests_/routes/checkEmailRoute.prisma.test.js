@@ -5,8 +5,8 @@ import request from "supertest";
 // ⬇️ usa tua rota de checkEmail (a versão Prisma/ESM que importa o singleton)
 import userRoutes from "../../src/users/emailCheckRoute.js";
 
-// ⬇️ singleton do Prisma (aquele src/db/prisma.js que fizemos)
-import prisma from "../../src/users/db/prisma.js"
+// ⬇️ singleton do Prisma (aquele src/users/db/prisma.js que você mencionou)
+import { prisma } from "../../src/users/db/prisma.js"
 
 // ⬇️ teus middlewares (mantidos)
 import successHandler from "../../middlewares/successHandler.js";
@@ -53,6 +53,7 @@ describe("User Route to check Email (Prisma/Postgres)", () => {
 						name: "Existing User",
 						email: "exist@example.com",
 						passwordHash: "Test@1234",
+						age: 25
 					},
 				});
 
@@ -69,6 +70,7 @@ describe("User Route to check Email (Prisma/Postgres)", () => {
 						name: "John",
 						email: "john@example.com",
 						passwordHash: "hash",
+						age: 30
 					},
 				});
 
