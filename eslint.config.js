@@ -1,39 +1,44 @@
-import js from "@eslint/js";
-import pluginImport from "eslint-plugin-import";
-import eslintPluginPrettier from "eslint-plugin-prettier";
-import eslintConfigPrettier from "eslint-config-prettier";
+import js from '@eslint/js';
+import pluginImport from 'eslint-plugin-import';
+import pluginPrettier from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
 	{
-		ignores: ["node_modules/**", "generated/**", "prisma/**"],
+		ignores: ['node_modules/**', 'generated/**', 'prisma/**'],
 	},
 	js.configs.recommended,
 	{
 		plugins: {
 			import: pluginImport,
-			prettier: eslintPluginPrettier
+			prettier: pluginPrettier,
 		},
 		languageOptions: {
 			ecmaVersion: 2021,
-			sourceType: "module",
+			sourceType: 'module',
 			globals: {
-				node: true,
+				...globals.node,
+				...globals.jest,
 			},
 		},
-		env: {
-			node: true,
-			jest: true,
-		},
 		rules: {
-			"no-console": "off", // permite console.log
-			"comma-dangle": "off", // não obriga vírgula no fim de arrays/objetos
-			"no-underscore-dangle": "off", // libera variáveis tipo _id
-			indent: ["error", "tab"], // indentação com tab
-			"no-tabs": "off", // permite usar tab
-			"max-len": ["error", { code: 120 }], // máximo 120 chars por linha
-			"operator-linebreak": "off", // não força quebra de linha em operadores
-			"function-paren-newline": "off", // não obriga quebra de linha em funções longas
+			'no-console': 'off',
+			'comma-dangle': 'off',
+			'no-underscore-dangle': 'off',
+			indent: ['error', 'tab'],
+			'no-tabs': 'off',
+			'max-len': ['error', { code: 120 }],
+			'operator-linebreak': 'off',
+			'function-paren-newline': 'off',
+			'prettier/prettier': 'error',
+			'no-unused-vars': ['error', {
+				argsIgnorePattern: '^_',
+				varsIgnorePattern: '^_',
+				caughtErrorsIgnorePattern: '^_',
+			}],
 		},
 	},
+	// desativa conflitos com o Prettier
 	eslintConfigPrettier,
 ];

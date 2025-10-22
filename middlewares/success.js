@@ -1,5 +1,5 @@
 // A helper function of success=
-import { logSuccess, logData, logTimeStamp } from "../terminalStylization/logger.js";
+import { logSuccess, logData, logTimeStamp } from '../terminalStylization/logger.js';
 
 export default ({ res, statusCode = 200, message = 'Success', data = {}, meta = {} }) => {
 	const response = {
@@ -8,7 +8,7 @@ export default ({ res, statusCode = 200, message = 'Success', data = {}, meta = 
 		message,
 		data,
 		meta,
-		timeStamp: new Date().toISOString()
+		timeStamp: new Date().toISOString(),
 	};
 
 	logSuccess(`${message} (StatusCode: ${statusCode})`);
@@ -17,4 +17,4 @@ export default ({ res, statusCode = 200, message = 'Success', data = {}, meta = 
 
 	//RESPONSE TO JSON:
 	return res.status(statusCode).json(response);
-}
+};

@@ -9,9 +9,9 @@ app.use(successHandler);
 //Route:
 app.get('/success', (req, res, next) => {
 	res.success({
-		message: "Test worked!",
+		message: 'Test worked!',
 	});
-})
+});
 
 //Running supertest:
 import supertest from 'supertest';
@@ -27,5 +27,4 @@ describe('Testing middleware success function', () =>
 		expect(response.body.status).toBe('Success');
 		expect(response.body.message).toBe('Test worked!');
 		logSuccess('ALL WORKED!');
-	})
-)
+	}));

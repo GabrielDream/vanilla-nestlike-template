@@ -17,11 +17,13 @@ npm init -y
 ## 📦 Dependências
 
 ### Principais
+
 ```bash
 npm install bcrypt chalk cors dotenv express
 ```
 
 ### Desenvolvimento
+
 ```bash
 npm install --save-dev @types/express nodemon jest supertest eslint
 ```
@@ -39,14 +41,19 @@ npm run lint:fix
 ```
 
 # 1️⃣ Instala o commitlint
+
 npm i -D @commitlint/config-conventional @commitlint/cli
 bash
 Copiar código
+
 # 2️⃣ Cria o arquivo de configuração
+
 echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 bash
 Copiar código
+
 # 3️⃣ Adiciona o hook commit-msg no Husky
+
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit $1'
 
 ---
@@ -105,6 +112,7 @@ git log --oneline --graph --decorate
 ```
 
 Exemplo de histórico:
+
 ```
 * f1ae606 (HEAD -> master) DB WITH MIDDLEWARE TESTS DONE NOW
 * d0488bb db tests with helpers done
@@ -163,15 +171,15 @@ src/
 
 ## 🔑 Rotas principais (API)
 
-| Método | Rota | Proteção | Descrição |
-|:--|:--|:--|:--|
-| `POST` | `/auth/register` | pública | Cria novo usuário |
-| `POST` | `/auth/login` | pública | Gera token JWT |
-| `POST` | `/auth/logout` | autenticado | Revoga token ativo |
-| `GET` | `/me` | autenticado | Retorna usuário logado |
-| `GET` | `/users` | ADMIN | Lista usuários |
-| `DELETE` | `/users/:id` | ADMIN ou Self | Remove usuário |
-| `GET` | `/check-email` | pública | Verifica disponibilidade de email |
+| Método   | Rota             | Proteção      | Descrição                         |
+| :------- | :--------------- | :------------ | :-------------------------------- |
+| `POST`   | `/auth/register` | pública       | Cria novo usuário                 |
+| `POST`   | `/auth/login`    | pública       | Gera token JWT                    |
+| `POST`   | `/auth/logout`   | autenticado   | Revoga token ativo                |
+| `GET`    | `/me`            | autenticado   | Retorna usuário logado            |
+| `GET`    | `/users`         | ADMIN         | Lista usuários                    |
+| `DELETE` | `/users/:id`     | ADMIN ou Self | Remove usuário                    |
+| `GET`    | `/check-email`   | pública       | Verifica disponibilidade de email |
 
 ---
 
@@ -197,10 +205,10 @@ Arquivo `prisma/seed.js` cria usuários iniciais (ADMIN e STAFF):
 
 ```js
 await prisma.user.createMany({
-  data: [
-    { name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
-    { name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' }
-  ]
+	data: [
+		{ name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
+		{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' },
+	],
 });
 ```
 
@@ -217,6 +225,7 @@ await prisma.user.createMany({
 ## 🧱 Testes automatizados
 
 Pasta `_tests_` cobre:
+
 - Autenticação (`login`, `logout`, `register`, `me`)
 - Guards (`authRequired`, `allowRoles`, `isSelfOrRoles`)
 - Tokens (`signJwt`, `tokenDenylist.memory`)
@@ -232,6 +241,7 @@ Este projeto é parte da **Operation Warpath / NeuroCoding Project** (Mission 5)
 Foco: demonstrar domínio de backend com autenticação JWT, Prisma ORM e testes automatizados.
 
 Para rodar localmente:
+
 ```bash
 cp .env.example .env
 npm install

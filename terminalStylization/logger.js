@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 
 const label = {
 	info: chalk.greenBright('⚪  INFO: '),
@@ -9,8 +9,8 @@ const label = {
 	// Logs for sucess:
 	sucess: chalk.greenBright('🟢  SUCCESS: '),
 	data: chalk.blueBright('📦  DATA: '),
-	timestamp: chalk.gray('🕒  Timestamp: ')
-}
+	timestamp: chalk.gray('🕒  Timestamp: '),
+};
 
 const logInfo = (msg) => console.log(`${label.info} - ${msg}`);
 const logDebug = (msg) => console.log(`${label.debug} - ${msg}`);
@@ -21,10 +21,8 @@ const logData = (data) => console.log(`${label.data} -`, data);
 const logTimeStamp = (timestamp) => console.log(`${label.timestamp} -`, timestamp);
 
 const logBanner = (msg, style = chalk.bgGreenBright.bold) => {
-	const line = "=".repeat(msg.lenght + 10);
-	console.log((`\n${line}\n ${msg.toUpperCase()}\n${line}\n`));
-}
+	const line = '='.repeat(msg.lenght + 10);
+	console.log(`\n${line}\n ${msg.toUpperCase()}\n${line}\n`);
+};
 
-export {
-	logInfo, logDebug, logWarn, logError, logSuccess, logData, logTimeStamp, logBanner
-}
+export { logInfo, logDebug, logWarn, logError, logSuccess, logData, logTimeStamp, logBanner };

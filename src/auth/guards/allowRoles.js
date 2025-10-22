@@ -1,5 +1,5 @@
 // src/auth/guards/allowRoles.js
-import AppError from "../../../middlewares/AppError.js";
+import AppError from '../../../middlewares/AppError.js';
 
 /**
  * Allows access only if req.user.role is included in allowed roles.
@@ -7,23 +7,23 @@ import AppError from "../../../middlewares/AppError.js";
  */
 
 export default function allowRoles(...roles) {
-  if (!roles || roles.length === 0) {
-    throw new Error("allowRoles requires at least one role");
-  }
+	if (!roles || roles.length === 0) {
+		throw new Error('allowRoles requires at least one role');
+	}
 
-  return function (req, res, next) {
-    const role = req?.user?.role;
+	return function (req, res, next) {
+		const role = req?.user?.role;
 
-    if (!role) {
-      // keep 403 to match your test assertion
-      throw new AppError("Missing user role", 403, "auth", "ROLE_MISSING");
-    }
+		if (!role) {
+			// keep 403 to match your test assertion
+			throw new AppError('Missing user role', 403, 'auth', 'ROLE_MISSING');
+		}
 
-    if (!roles.includes(role)) {
-      // keep 403 to match your test assertion
-      throw new AppError("Forbidden", 403, "auth", "ROLE_FORBIDDEN");
-    }
+		if (!roles.includes(role)) {
+			// keep 403 to match your test assertion
+			throw new AppError('Forbidden', 403, 'auth', 'ROLE_FORBIDDEN');
+		}
 
-    return next();
-  };
+		return next();
+	};
 }

@@ -1,6 +1,6 @@
 //Route use by everyone
-import { Router } from "express";
-import { prisma } from "./db/prisma.js"; // dentro de users/db
+import { Router } from 'express';
+import { prisma } from './db/prisma.js'; // dentro de users/db
 
 import {
 	logInfo,
@@ -10,26 +10,26 @@ import {
 	logSuccess,
 	logData,
 	logTimeStamp,
-} from "../../terminalStylization/logger.js"; // sobe 2 níveis
+} from '../../terminalStylization/logger.js'; // sobe 2 níveis
 
-import AppError from "../../middlewares/AppError.js"; // sobe 2 níveis
+import AppError from '../../middlewares/AppError.js'; // sobe 2 níveis
 
 const router = Router();
 
 // -------------------------
 // CHECK EMAIL (UX helper)
 // -------------------------
-router.get("/checkEmail/:email", async (req, res, next) => {
+router.get('/checkEmail/:email', async (req, res, next) => {
 	try {
-		const raw = req.params.email || "";
+		const raw = req.params.email || '';
 		const email = String(raw).trim().toLowerCase();
 
 		logDebug(`🔍--CHECKING EMAIL ${email}`);
 
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!email || !emailRegex.test(email)) {
-			logError("❌ EMAIL IS INVALID!");
-			throw new AppError("EMAIL IS INVALID!", 400, "email", "ERR_INVALID_EMAIL");
+			logError('❌ EMAIL IS INVALID!');
+			throw new AppError('EMAIL IS INVALID!', 400, 'email', 'ERR_INVALID_EMAIL');
 		}
 
 		const exists = await prisma.user.findUnique({
@@ -46,20 +46,12 @@ router.get("/checkEmail/:email", async (req, res, next) => {
 			data: { exists: Boolean(exists) },
 		});
 	} catch (err) {
-		logWarn("❌ Error to check Email!");
+		logWarn('❌ Error to check Email!');
 		logError(err);
 
 		if (err instanceof AppError) return next(err);
 
-		return next(
-			new AppError(
-				"ERROR TO CHECK EMAIL!",
-				500,
-				"EMAIL",
-				"ERR_EMAIL_CHECK_FAILED",
-				err
-			)
-		);
+		return next(new AppError('ERROR TO CHECK EMAIL!', 500, 'EMAIL', 'ERR_EMAIL_CHECK_FAILED', err));
 	}
 });
 

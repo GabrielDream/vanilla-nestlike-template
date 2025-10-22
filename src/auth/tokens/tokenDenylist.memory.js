@@ -3,7 +3,6 @@
 
 const store = new Map();
 
-
 export const tokenDenylist = {
 	// Returns true if the given jti is currently revoked
 	async isRevoked(jti) {
@@ -13,7 +12,7 @@ export const tokenDenylist = {
 	// Marks a jti as revoked for ttlSec seconds (usually: token.exp - nowInSeconds)
 	async revoke(jti, ttlSec) {
 		let seconds = 1; // safety floor
-		if (typeof ttlSec === "number" && Number.isFinite(ttlSec)) {
+		if (typeof ttlSec === 'number' && Number.isFinite(ttlSec)) {
 			const s = Math.floor(ttlSec);
 			if (s > 0) seconds = s;
 		}
@@ -24,7 +23,7 @@ export const tokenDenylist = {
 		}, seconds * 1000);
 
 		// Allow process to exit even if this timer is pending (fixes Jest warning)
-		if (typeof t?.unref === "function") t.unref();
+		if (typeof t?.unref === 'function') t.unref();
 	},
 
 	// Test helper: clears the in-memory store
@@ -32,5 +31,3 @@ export const tokenDenylist = {
 		store.clear();
 	},
 };
-
-

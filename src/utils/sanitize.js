@@ -1,4 +1,4 @@
-import AppError from "../../middlewares/AppError";
+import AppError from '../../middlewares/AppError';
 
 export function sanitizeUserInput(input) {
 	const allowedFields = ['name', 'age', 'email', 'password'];
@@ -16,12 +16,7 @@ export function sanitizeUserInput(input) {
 	});
 
 	if (extraFields.length > 0) {
-		throw new AppError(
-			`EXTRA FIELDS ARE NOT ALLOWED: ${extraFields.join(', ')}`,
-			400,
-			'body',
-			'ERR_EXTRA_FIELDS'
-		);
+		throw new AppError(`EXTRA FIELDS ARE NOT ALLOWED: ${extraFields.join(', ')}`, 400, 'body', 'ERR_EXTRA_FIELDS');
 	}
 
 	return sanitized;

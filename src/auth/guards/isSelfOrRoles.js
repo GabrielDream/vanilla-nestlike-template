@@ -1,4 +1,4 @@
-import AppError from "../../../middlewares/AppError.js";
+import AppError from '../../../middlewares/AppError.js';
 
 /**
  * Allows access if the current user is the target user (req.params.id)
@@ -13,17 +13,17 @@ export default function isSelfOrRoles(...roles) {
 		const targetId = req?.params?.id;
 
 		if (!userId) {
-			throw new AppError("Missing user id", 403, "auth", "SELF_OR_ROLE_MISSING_USER");
+			throw new AppError('Missing user id', 403, 'auth', 'SELF_OR_ROLE_MISSING_USER');
 		}
-		if (typeof targetId !== "string" || targetId.trim().length === 0) {
-			throw new AppError("Missing target id param", 403, "auth", "SELF_OR_ROLE_MISSING_TARGET");
+		if (typeof targetId !== 'string' || targetId.trim().length === 0) {
+			throw new AppError('Missing target id param', 403, 'auth', 'SELF_OR_ROLE_MISSING_TARGET');
 		}
 
 		const isSelf = userId === targetId;
 		const roleAllowed = roles.length > 0 && roles.includes(userRole);
 
 		if (!isSelf && !roleAllowed) {
-			throw new AppError("Forbidden", 403, "auth", "SELF_OR_ROLE_FORBIDDEN");
+			throw new AppError('Forbidden', 403, 'auth', 'SELF_OR_ROLE_FORBIDDEN');
 		}
 
 		return next();

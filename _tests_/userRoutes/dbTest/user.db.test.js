@@ -1,5 +1,5 @@
 // _tests_/user.db.test.js
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 let prisma;
 
@@ -16,39 +16,39 @@ beforeEach(async () => {
 	await prisma.user.deleteMany();
 });
 
-describe("DB Tests", () => {
-	describe("User CRUD", () => {
-		test("C - Create user", async () => {
+describe('DB Tests', () => {
+	describe('User CRUD', () => {
+		test('C - Create user', async () => {
 			const user = await prisma.user.create({
-				data: { name: "John Doe", email: "john@example.com", passwordHash: "hash123", age: 25 },
+				data: { name: 'John Doe', email: 'john@example.com', passwordHash: 'hash123', age: 25 },
 			});
-			expect(user).toHaveProperty("id");
-			expect(user.email).toBe("john@example.com");
+			expect(user).toHaveProperty('id');
+			expect(user.email).toBe('john@example.com');
 		});
 
-		test("R - Read user", async () => {
+		test('R - Read user', async () => {
 			await prisma.user.create({
-				data: { name: "Jane", email: "jane@example.com", passwordHash: "hashJane", age: 30 },
+				data: { name: 'Jane', email: 'jane@example.com', passwordHash: 'hashJane', age: 30 },
 			});
-			const found = await prisma.user.findUnique({ where: { email: "jane@example.com" } });
+			const found = await prisma.user.findUnique({ where: { email: 'jane@example.com' } });
 			expect(found).not.toBeNull();
-			expect(found.name).toBe("Jane");
+			expect(found.name).toBe('Jane');
 		});
 
-		test("U - Update user", async () => {
+		test('U - Update user', async () => {
 			const user = await prisma.user.create({
-				data: { name: "Old Name", email: "old@example.com", passwordHash: "hashOld", age: 28 },
+				data: { name: 'Old Name', email: 'old@example.com', passwordHash: 'hashOld', age: 28 },
 			});
 			const updated = await prisma.user.update({
 				where: { id: user.id },
-				data: { name: "New Name" },
+				data: { name: 'New Name' },
 			});
-			expect(updated.name).toBe("New Name");
+			expect(updated.name).toBe('New Name');
 		});
 
-		test("D - Delete user", async () => {
+		test('D - Delete user', async () => {
 			const user = await prisma.user.create({
-				data: { name: "Delete Me", email: "delete@example.com", passwordHash: "hashDel", age: 27 },
+				data: { name: 'Delete Me', email: 'delete@example.com', passwordHash: 'hashDel', age: 27 },
 			});
 			await prisma.user.delete({ where: { id: user.id } });
 			const gone = await prisma.user.findUnique({ where: { id: user.id } });
@@ -56,26 +56,26 @@ describe("DB Tests", () => {
 		});
 	});
 
-	describe("Native DB errors", () => {
-		test("Constraint - unique email [P2002]", async () => {
+	describe('Native DB errors', () => {
+		test('Constraint - unique email [P2002]', async () => {
 			await prisma.user.create({
-				data: { name: "First", email: "unique@example.com", passwordHash: "hashFirst", age: 26 },
+				data: { name: 'First', email: 'unique@example.com', passwordHash: 'hashFirst', age: 26 },
 			});
 
 			await expect(
 				prisma.user.create({
-					data: { name: "Second", email: "unique@example.com", passwordHash: "hashSecond", age: 31 },
-				})
-			).rejects.toMatchObject({ code: "P2002" });
+					data: { name: 'Second', email: 'unique@example.com', passwordHash: 'hashSecond', age: 31 },
+				}),
+			).rejects.toMatchObject({ code: 'P2002' });
 		});
 
-		test("Update non-existent user [P2025]", async () => {
+		test('Update non-existent user [P2025]', async () => {
 			await expect(
 				prisma.user.update({
-					where: { email: "ghost@example.com" }, // precisa ser @unique no schema
-					data: { name: "Ghost" },
-				})
-			).rejects.toHaveProperty("code", "P2025");
+					where: { email: 'ghost@example.com' }, // precisa ser @unique no schema
+					data: { name: 'Ghost' },
+				}),
+			).rejects.toHaveProperty('code', 'P2025');
 		});
 	});
 });

@@ -1,19 +1,14 @@
 // src/auth/routes/loginRoute.js
-import { Router } from "express";
-import { prisma } from "../../users/db/prisma.js";
-import bcrypt from "bcrypt";
+import { Router } from 'express';
+import { prisma } from '../../users/db/prisma.js';
+import bcrypt from 'bcrypt';
 
-import AppError from "../../../middlewares/AppError.js";
+import AppError from '../../../middlewares/AppError.js';
 
-import {
-	logWarn,
-	logError,
-	logDebug,
-	logSuccess,
-} from "../../../terminalStylization/logger.js";
+import { logWarn, logError, logDebug, logSuccess } from '../../../terminalStylization/logger.js';
 
-import { sanitizeUserInput } from "../../utils/sanitize.js";
-import { signJwt } from "../tokens/signJwt.js";
+import { sanitizeUserInput } from '../../utils/sanitize.js';
+import { signJwt } from '../tokens/signJwt.js';
 
 export const router = Router();
 
@@ -22,36 +17,28 @@ export const router = Router();
  * Public — Authenticate a user and return JWT
  * Fields: email (string), password (string)
  */
-router.post("/login", async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 	try {
 		const sanitizedBody = sanitizeUserInput(req.body);
 
 		let { email, password } = sanitizedBody;
-		email = String(email || "").trim().toLowerCase();
+		email = String(email || '')
+			.trim()
+			.toLowerCase();
 
-		logDebug("📥 LOGIN REQUEST BODY:", { email });
+		logDebug('📥 LOGIN REQUEST BODY:', { email });
 
 		// -------------------------
 		// VALIDATIONS
 		// -------------------------
 		if (!email || !password) {
-			logWarn("EMAIL AND PASSWORD ARE REQUIRED!");
-			throw new AppError(
-				"EMAIL AND PASSWORD ARE REQUIRED!",
-				400,
-				"all",
-				"ERR_MISSING_FIELDS"
-			);
+			logWarn('EMAIL AND PASSWORD ARE REQUIRED!');
+			throw new AppError('EMAIL AND PASSWORD ARE REQUIRED!', 400, 'all', 'ERR_MISSING_FIELDS');
 		}
 
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
-			throw new AppError(
-				"INVALID EMAIL FORMAT!",
-				400,
-				"EMAIL",
-				"ERR_INVALID_EMAIL"
-			);
+			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
 		}
 
 		// -------------------------
@@ -70,13 +57,8 @@ router.post("/login", async (req, res, next) => {
 		});
 
 		if (!user) {
-			logWarn("INVALID CREDENTIALS! (user not found)");
-			throw new AppError(
-				"INVALID CREDENTIALS!",
-				401,
-				"AUTH",
-				"ERR_INVALID_CREDENTIALS"
-			);
+			logWarn('INVALID CREDENTIALS! (user not found)');
+			throw new AppError('INVALID CREDENTIALS!', 401, 'AUTH', 'ERR_INVALID_CREDENTIALS');
 		}
 
 		// -------------------------
@@ -84,13 +66,8 @@ router.post("/login", async (req, res, next) => {
 		// -------------------------
 		const isValid = await bcrypt.compare(password, user.passwordHash);
 		if (!isValid) {
-			logWarn("INVALID CREDENTIALS! (wrong password)");
-			throw new AppError(
-				"INVALID CREDENTIALS!",
-				401,
-				"AUTH",
-				"ERR_INVALID_CREDENTIALS"
-			);
+			logWarn('INVALID CREDENTIALS! (wrong password)');
+			throw new AppError('INVALID CREDENTIALS!', 401, 'AUTH', 'ERR_INVALID_CREDENTIALS');
 		}
 
 		// -------------------------
@@ -102,7 +79,7 @@ router.post("/login", async (req, res, next) => {
 
 		return res.success({
 			statusCode: 200,
-			message: "LOGIN SUCCESSFUL!",
+			message: 'LOGIN SUCCESSFUL!',
 			data: {
 				token,
 				user: {
@@ -115,19 +92,11 @@ router.post("/login", async (req, res, next) => {
 			},
 		});
 	} catch (err) {
-		logError("❌ ERROR IN LOGIN FUNCTION!");
+		logError('❌ ERROR IN LOGIN FUNCTION!');
 		logError(err);
 
 		if (err instanceof AppError) return next(err);
 
-		return next(
-			new AppError(
-				"UNEXPECTED ERROR IN LOGIN FUNCTION!",
-				500,
-				"LOGIN",
-				"ERR_LOGIN_FAILED"
-			)
-		);
+		return next(new AppError('UNEXPECTED ERROR IN LOGIN FUNCTION!', 500, 'LOGIN', 'ERR_LOGIN_FAILED'));
 	}
 });
-

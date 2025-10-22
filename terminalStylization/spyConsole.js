@@ -1,6 +1,6 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 
-import { logWarn, logError, } from "./logger.js";
+import { logWarn, logError } from './logger.js';
 
 const delay = (milliseconds) => new Promise((finish) => setTimeout(finish, milliseconds));
 
@@ -18,5 +18,4 @@ export const animateBox = async (text, lineDelay = 200, style = chalk.cyanBright
 		console.log(style(line));
 		await delay(lineDelay);
 	}
-}
-
+};
