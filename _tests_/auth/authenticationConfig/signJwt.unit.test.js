@@ -1,7 +1,7 @@
 // _tests_/auth/signJwt.unit.test.js
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import { signJwt } from "../../src/auth/tokens/signJwt.js";
+import { signJwt } from "../../../src/auth/tokens/signJwt.js";
 
 describe("signJwt (TTL + jti core)", () => {
 	const originalEnv = { ...process.env };

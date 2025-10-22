@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
-import allowRoles from "../../src/auth/guards/allowRoles.js";
-import AppError from "../../middlewares/AppError.js";
+import allowRoles from "../../../src/auth/guards/allowRoles.js";
+import AppError from "../../../middlewares/AppError.js";
 
 describe("allowRoles", () => {
 	test("calls next when role is allowed", () => {

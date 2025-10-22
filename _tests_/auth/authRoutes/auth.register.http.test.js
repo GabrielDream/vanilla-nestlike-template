@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { prisma } from "../../../src/users/db/prisma.js";
 
-import { router } from "../../../src/auth/routes/authRoutes.js";
+import { router } from "../../../src/auth/routes/registerRoute.js"
 import successHandler from "../../../middlewares/successHandler.js";
 import errorHandler from "../../../middlewares/errorHandler.js";
 

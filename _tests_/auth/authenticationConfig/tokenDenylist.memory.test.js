@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { tokenDenylist } from "../../src/auth/tokens/tokenDenylist.memory.js";
+import { tokenDenylist } from "../../../src/auth/tokens/tokenDenylist.memory.js";
 
 describe("tokenDenylist (unit)", () => {
 	beforeAll(() => {

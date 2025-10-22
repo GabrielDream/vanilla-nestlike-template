@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
-import isSelfOrRoles from "../../src/auth/guards/isSelfOrRoles.js";
-import AppError from "../../middlewares/AppError.js";
+import isSelfOrRoles from "../../../src/auth/guards/isSelfOrRoles.js";
+import AppError from "../../../middlewares/AppError.js";
 
 describe("isSelfOrRoles", () => {
 	test("passes when user is self (matches req.params.id)", () => {

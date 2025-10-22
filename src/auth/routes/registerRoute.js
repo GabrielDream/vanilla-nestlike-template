@@ -18,7 +18,7 @@ import {
 
 import { sanitizeUserInput } from "../../utils/sanitize.js"
 
-import authRequired from "../guards/authRequired.js";
+//import authRequired from "./guards/authRequired.js";
 
 export const router = Router();
 

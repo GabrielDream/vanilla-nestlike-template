@@ -1,24 +1,29 @@
+// src/auth/guards/allowRoles.js
 import AppError from "../../../middlewares/AppError.js";
 
 /**
- * Allows access only if req.user.role is in the allowed list.
- * Usage: app.get("/admin", authRequired, allowRoles("admin"), handler)
+ * Allows access only if req.user.role is included in allowed roles.
+ * Throws AppError on missing/forbidden role (sync), so unit tests can expect .toThrow(AppError).
  */
+
 export default function allowRoles(...roles) {
-	if (!roles || roles.length === 0) {
-		throw new Error("allowRoles requires at least one role");
-	}
+  if (!roles || roles.length === 0) {
+    throw new Error("allowRoles requires at least one role");
+  }
 
-	return function (req, res, next) {
-		const role = req?.user?.role;
+  return function (req, res, next) {
+    const role = req?.user?.role;
 
-		if (!role) {
-			throw new AppError("Missing user role", 403, "auth", "ROLE_MISSING");
-		}
-		if (!roles.includes(role)) {
-			throw new AppError("Forbidden", 403, "auth", "ROLE_FORBIDDEN");
-		}
+    if (!role) {
+      // keep 403 to match your test assertion
+      throw new AppError("Missing user role", 403, "auth", "ROLE_MISSING");
+    }
 
-		return next();
-	};
+    if (!roles.includes(role)) {
+      // keep 403 to match your test assertion
+      throw new AppError("Forbidden", 403, "auth", "ROLE_FORBIDDEN");
+    }
+
+    return next();
+  };
 }

@@ -2,10 +2,10 @@ import request from "supertest";
 import express from "express";
 import jwt from "jsonwebtoken";
 
-import authRequired from "../../src/auth/guards/authRequired.js";
-import { signJwt } from "../../src/auth/tokens/signJwt.js";
-import { tokenDenylist } from "../../src/auth/tokens/tokenDenylist.memory.js";
-import AppError from "../../middlewares/AppError.js";
+import authRequired from "../../../src/auth/guards/authRequired.js";
+import { signJwt } from "../../../src/auth/tokens/signJwt.js";
+import { tokenDenylist } from "../../../src/auth/tokens/tokenDenylist.memory.js";
+import AppError from "../../../middlewares/AppError.js";
 
 describe("authRequired (integration smoke)", () => {
 	beforeAll(() => {

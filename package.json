@@ -6,9 +6,12 @@
 	"scripts": {
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+		"format": "prettier . --write",
+		"format:check": "prettier . --check",
 		"dev": "nodemon src/server.js",
-		"start": "node src/server.js"
+		"start": "node src/server.js",
+		"prepare": "husky install"
 	},
 	"keywords": [],
 	"author": "",
@@ -24,11 +27,17 @@
 		"jsonwebtoken": "^9.0.2"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^20.1.0",
+		"@commitlint/config-conventional": "^20.0.0",
 		"cross-env": "^10.0.0",
 		"eslint": "^8.57.1",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-prettier": "^5.5.4",
+		"husky": "^9.1.7",
 		"jest": "^30.0.5",
 		"nodemon": "^3.1.10",
+		"prettier": "^3.6.2",
 		"prisma": "^6.14.0",
 		"supertest": "^7.1.4"
 	}

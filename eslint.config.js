@@ -1,5 +1,7 @@
 import js from "@eslint/js";
 import pluginImport from "eslint-plugin-import";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
 	{
@@ -9,6 +11,7 @@ export default [
 	{
 		plugins: {
 			import: pluginImport,
+			prettier: eslintPluginPrettier
 		},
 		languageOptions: {
 			ecmaVersion: 2021,
@@ -16,6 +19,10 @@ export default [
 			globals: {
 				node: true,
 			},
+		},
+		env: {
+			node: true,
+			jest: true,
 		},
 		rules: {
 			"no-console": "off", // permite console.log
@@ -28,4 +35,5 @@ export default [
 			"function-paren-newline": "off", // não obriga quebra de linha em funções longas
 		},
 	},
+	eslintConfigPrettier,
 ];
