@@ -6,7 +6,7 @@ import globals from 'globals';
 
 export default [
 	{
-		ignores: ['node_modules/**', 'generated/**', 'prisma/**'],
+		ignores: ['node_modules', 'dist', 'coverage', 'generated', 'prisma', '_tests_'],
 	},
 	js.configs.recommended,
 	{
@@ -32,11 +32,14 @@ export default [
 			'operator-linebreak': 'off',
 			'function-paren-newline': 'off',
 			'prettier/prettier': 'error',
-			'no-unused-vars': ['error', {
-				argsIgnorePattern: '^_',
-				varsIgnorePattern: '^_',
-				caughtErrorsIgnorePattern: '^_',
-			}],
+			'no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_',
+				},
+			],
 		},
 	},
 	// desativa conflitos com o Prettier

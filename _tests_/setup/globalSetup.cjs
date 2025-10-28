@@ -20,10 +20,19 @@ module.exports = async () => {
 	// carrega .env.test AQUI também, pq o globalSetup roda antes do setupFiles
 	dotenv.config({ path: '.env.test' });
 
+	//Valida se NODE_ENV realmente é "test" (proteção contra apagar banco errado):
 	if (process.env.NODE_ENV !== 'test') {
 		throw new Error('Abort: refusing to reset DB outside NODE_ENV=test');
 	}
 
+	//CLI:
 	execSync('npx prisma generate', { stdio: 'inherit' }); //generate prisma client
 	execSync('npx prisma db push --force-reset --skip-generate', { stdio: 'inherit' }); //delete and recriate db's schema
 };
+
+/*Roda antes de todos os testes, e:=
+Recarrega o .env.test (porque é executado antes dos setupFiles).
+Valida se NODE_ENV realmente é "test" (proteção contra apagar banco errado).
+Executa npx prisma generate → garante que o client Prisma está atualizado.
+Executa npx prisma db push --force-reset --skip-generate → apaga e recria o schema do banco de testes.
+👉 É o “resetador” que limpa e sincroniza o banco a cada rodada.*/

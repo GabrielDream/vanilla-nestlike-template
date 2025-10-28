@@ -1,21 +1,23 @@
 // prisma/seed.js
 // Script to declarete a DEFAULT ADMIN USER
 
-import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import AppError from '../middlewares/AppError';
+//import AppError from '../middlewares/AppError';
 
 const prisma = new PrismaClient();
 
 async function main() {
-	const email = process.env.ADMIN_SEED_EMAIL;
+	//✅ Verifica se credenciais existem
+	const email = (process.env.ADMIN_SEED_EMAIL || '').toLowerCase();
 	const rawPassword = process.env.ADMIN_SEED_PASSWORD;
 
+	//✅ Verifica se credenciais existem:
 	if (!email || !rawPassword) {
-		throw new AppError('ADMIN_SEED_EMAIL/ADMIN_SEED_PASSWORD ausentes no .env');
+		throw new Error('ADMIN_SEED_EMAIL/ADMIN_SEED_PASSWORD absent in .env file');
 	}
 
+	//✅ Define salt rounds seguros
 	const rounds = Number(process.env.BCRYPT_SALT_ROUNDS ?? 12);
 	const passwordHash = await bcrypt.hash(rawPassword, rounds);
 
@@ -31,10 +33,11 @@ async function main() {
 			passwordHash,
 			role: 'ADMIN',
 			name: 'Admin',
+			age: 50,
 		},
 	});
 
-	console.log(`✅ Admin seed pronto: ${email}`);
+	console.log(`✅ Admin seed created: ${email}`);
 }
 
 main()

@@ -37,6 +37,7 @@ describe("errorHandlerr middleware's test", () => {
 		expect(res.body).toEqual({
 			success: false,
 			status: 'Error',
+			statusCode: 403,
 			message: 'Custom AppError triggered',
 			field: 'email',
 			code: 'ERR_CUSTOM_APP',

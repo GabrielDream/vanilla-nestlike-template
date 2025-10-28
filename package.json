@@ -3,12 +3,17 @@
 	"version": "1.0.0",
 	"type": "module",
 	"main": "index.js",
+	"prisma": {
+		"seed": "node --env-file=.env prisma/seed.js"
+	},
 	"scripts": {
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
 		"format": "prettier . --write",
 		"format:check": "prettier . --check",
+		"postinstall": "prisma generate",
+		"db:seed": "prisma db seed",
 		"dev": "nodemon src/server.js",
 		"start": "node src/server.js",
 		"prepare": "husky"

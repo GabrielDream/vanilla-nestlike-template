@@ -6,7 +6,7 @@ export default class AppError extends Error {
 
 		// Validate and normalize the HTTP status code for error responses.
 		// Only 4xx and 5xx codes are considered valid here. If an invalid
-		// value is provided, default to 500 to guarantee a proper error status.
+		// value is provided, default to 500 to guarantee a proper error status:
 		let sc = Number(statusCode);
 		if (!Number.isInteger(sc) || sc < 400 || sc > 599) {
 			sc = 500;
@@ -16,19 +16,28 @@ export default class AppError extends Error {
 		this.field = field;
 		this.code = code;
 		this.errors = errors;
+
+		//Compactness between Node and browsers.:
 		if (typeof Error.captureStackTrace === 'function') {
 			Error.captureStackTrace(this, this.constructor);
 		}
 	}
-
+	/**
+	 * Using a method instead of a pre-built response object for:
+	 * - Single Source of Truth (data stored once)
+	 * - Lazy evaluation (create JSON only when needed)
+	 * - Future flexibility (multiple formatters if required)
+	 * - Memory efficiency (no duplicate data storage)
+	 */
 	jsonResponseFormatter() {
 		return {
-			success: false,
-			status: 'Error',
+			success: false, //fixed value
+			status: 'Error', //fixed value
+			statusCode: this.statusCode,
 			message: this.message,
 			field: this.field,
 			code: this.code,
-			errors: this.errors ?? [],
+			errors: this.errors ?? [], //using an empty array if errors is null
 		};
 	}
 }

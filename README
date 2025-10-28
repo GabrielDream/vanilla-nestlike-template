@@ -97,6 +97,10 @@ Adicione estes scripts ao `package.json` (caso ainda não estejam):
 
 ```bash
 npm test
+
+Teste especifico:
+npm test -- -t "success function"
+npm test -- _tests_/middlewares/successHandler.test.js
 ```
 
 Framework: **Jest + Supertest**
