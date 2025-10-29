@@ -5,13 +5,14 @@
 // Contract: signJwt(payload, expiresIn?) -> string JWT
 import { logWarn } from '../../../../AdvancedCrud/utils/logger';
 import crypto from 'node:crypto'; // Import Node's native module to generate UUID (jti).
-import jwt from 'jsonwebtoken';   // Library for signing/verifying JSON Web Tokens.
+import jwt from 'jsonwebtoken'; // Library for signing/verifying JSON Web Tokens.
 
 // signJwt(payload, expiresIn?) → returns a signed JWT; adds jti and uses JWT_EXPIRES_IN || "1d"
 export function signJwt(payload, expiresIn) {
 	// 'payload' is an object from the DB (e.g., { id, role }).
-	const secret = process.env.JWT_SECRET;   // Read the secret from .env (key used to sign the token).
-	if (!secret) {                           // If no secret is configured...
+	const secret = process.env.JWT_SECRET; // Read the secret from .env (key used to sign the token).
+	if (!secret) {
+		// If no secret is configured...
 		throw new Error('JWT_SECRET missing in .env'); // ...stop: it's not safe to sign without a secret.
 	}
 
@@ -44,11 +45,10 @@ export function signJwt(payload, expiresIn) {
 		}
 	}
 
-
 	// Configuration object passed to jwt.sign:
 	const signingConfig = {
 		jwtid: crypto.randomUUID(), // Generate a unique token identifier (jti) — useful for revocation/logout.
-		expiresIn: ttl,             // Tells the library the TTL; it will internally calculate 'exp' (epoch seconds).
+		expiresIn: ttl, // Tells the library the TTL; it will internally calculate 'exp' (epoch seconds).
 	};
 
 	// Create (sign) the token:
