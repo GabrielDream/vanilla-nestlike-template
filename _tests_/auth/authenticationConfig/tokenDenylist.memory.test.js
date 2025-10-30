@@ -1,19 +1,19 @@
 import { jest } from '@jest/globals';
 import { tokenDenylist } from '../../../src/auth/tokens/tokenDenylist.memory.js';
 
+beforeAll(() => {
+	jest.useFakeTimers();
+});
+
+afterAll(() => {
+	jest.useRealTimers();
+});
+
+afterEach(async () => {
+	await tokenDenylist._clear();
+});
+
 describe('tokenDenylist (unit)', () => {
-	beforeAll(() => {
-		jest.useFakeTimers();
-	});
-
-	afterAll(() => {
-		jest.useRealTimers();
-	});
-
-	afterEach(async () => {
-		await tokenDenylist._clear();
-	});
-
 	test('revoke marks jti and auto-expires after TTL', async () => {
 		const jti = 'JTI_A';
 		await tokenDenylist.revoke(jti, 1);
