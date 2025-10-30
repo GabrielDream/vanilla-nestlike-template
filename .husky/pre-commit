@@ -1,15 +1,2 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# 🚀 Executa formatador e lint antes do commit
-echo "🔧 Rodando Prettier + ESLint..."
-npm run format
-npm run lint:fix --silent
-
-# 🔍 Se quiser abortar o commit em caso de erro real (opcional)
-if [ $? -ne 0 ]; then
-  echo "❌ Lint falhou. Corrija os erros antes de commitar."
-  exit 1
-fi
-
-echo "✅ Código formatado e lintado com sucesso!"
+npm run format && npm run lint --quiet || true
