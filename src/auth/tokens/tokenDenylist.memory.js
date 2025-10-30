@@ -56,10 +56,7 @@ export const tokenDenylist = {
 			!Number.isFinite(remainingLifetimeSec) ||
 			remainingLifetimeSec <= 0
 		) {
-			throw new Error(
-				'remainingLifetimeSec must be a positive number (seconds). Received: ' +
-					remainingLifetimeSec
-			);
+			throw new Error('remainingLifetimeSec must be a positive number (seconds). Received: ' + remainingLifetimeSec);
 		}
 
 		// ⏱️ NORMALIZAÇÃO DO TEMPO
