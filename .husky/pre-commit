@@ -1,2 +1,5 @@
 #!/usr/bin/env sh
-npm run format && npm run lint --quiet || true
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🧼 Formatting (non-blocking)..."
+npm run format --silent || true
