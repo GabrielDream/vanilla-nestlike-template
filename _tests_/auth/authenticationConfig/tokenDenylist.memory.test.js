@@ -1,3 +1,7 @@
+// ✅ NÃO PRECISA alterar ENV porque:
+// - tokenDenylist é IN-MEMORY (Map())
+// - Não depende de variáveis de ambiente
+// - Só testa lógica interna (timers, estado)
 import { jest } from '@jest/globals';
 import { tokenDenylist } from '../../../src/auth/tokens/tokenDenylist.memory.js';
 
@@ -23,7 +27,9 @@ describe('tokenDenylist (unit)', () => {
 		expect(await tokenDenylist.isRevoked(jti)).toBe(false);
 	});
 
-	test('TTL <= 0 throws', async () => {
+	test('TTL <= 1 throws', async () => {
+		await expect(tokenDenylist.revoke('JTI_DEC', 0.5)).rejects.toThrow();
+		await expect(tokenDenylist.revoke('JTI_DEC2', 1.5)).rejects.toThrow();
 		await expect(tokenDenylist.revoke('JTI_B0', 0)).rejects.toThrow();
 		await expect(tokenDenylist.revoke('JTI_BN', -5)).rejects.toThrow();
 		await expect(tokenDenylist.revoke('JTI_BNaN', NaN)).rejects.toThrow();

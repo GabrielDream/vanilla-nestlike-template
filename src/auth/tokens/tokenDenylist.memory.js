@@ -50,27 +50,37 @@ export const tokenDenylist = {
 	// 4. Agenda remoção automática (quando expirar)
 	// 5. Libera timer para não travar shutdown
 	revoke: async function (jti, remainingLifetimeSec) {
-		// 🚨 VALIDAÇÃO CRÍTICA
-		if (
-			typeof remainingLifetimeSec !== 'number' ||
-			!Number.isFinite(remainingLifetimeSec) ||
-			remainingLifetimeSec <= 0
-		) {
-			throw new Error('remainingLifetimeSec must be a positive number (seconds). Received: ' + remainingLifetimeSec);
+		// 🚨 VALIDAÇÃO CRÍTICA - SÓ INTEIROS ≥ 1 SEGUNDO
+		if (typeof remainingLifetimeSec !== 'number' || !Number.isFinite(remainingLifetimeSec) || !Number.isInteger(remainingLifetimeSec) ||
+			remainingLifetimeSec < 1) {
+			throw new Error('remainingLifetimeSec must be an INTEGER of at least 1 second. ' +
+				'Examples: 60 (1 minute), 3600 (1 hour). ' + 'Received: ' + remainingLifetimeSec);
 		}
-
-		// ⏱️ NORMALIZAÇÃO DO TEMPO
-		const seconds = Math.max(1, Math.floor(remainingLifetimeSec));
-
-		// ✅ REVOGAÇÃO IMEDIATA
+		// 🎯 PRIORIDADE 1: SEGURANÇA DO USUÁRIO
+		// ✅ REVOGAÇÃO IMEDIATA -- IMPORTANTISSIMO VIR PRIMEIRO
 		store.set(jti, true);
 
+		// 🎯 PRIORIDADE 2: HEALTH DO SISTEMA
 		// 🔄 CANCELA TIMER ANTIGO (se existir)
+		// ==================================================
+		// 🐛 PROTEÇÃO CONTRA BUGS DE UI (90% DOS CASOS):
+		// - Usuário clica múltiplas vezes em "Sair" (impatiência/bug)
+		// - App mobile envia múltiplos requests (bug de rede)
+		// - Múltiplas abas fazendo logout simultâneo
+		//
+		// ⚠️ SEM ESTA PROTEÇÃO:
+		// Cada clique criaria um novo timer, e o PRIMEIRO timer
+		// removeria o token da denylist ANTES da hora!
+		//
+		// ✅ COM ESTA PROTEÇÃO:
+		// Só o timer MAIS RECENTE permanece ativo
+		// Token fica revogado pelo tempo EXATO que falta
+		// ==================================================
 		const oldTimer = timers.get(jti);
 		if (oldTimer) clearTimeout(oldTimer);
 
 		// 🗑️ AGENDAMENTO DE LIMPEZA (expiração natural)
-		let delay = seconds * 1000;
+		let delay = remainingLifetimeSec * 1000;
 		if (delay > MAX_DELAY_MS) delay = MAX_DELAY_MS;
 
 		const t = setTimeout(function () {
@@ -84,6 +94,13 @@ export const tokenDenylist = {
 		}
 
 		// 💾 ARMAZENA TIMER PARA GERENCIAMENTO FUTURO
+		// ==================================================
+		// 📝 REGISTRO PARA PRÓXIMAS CHAMADAS:
+		// Salva o timer atual no Map para que a PRÓXIMA vez
+		// que esta função for chamada com o MESMO jti
+		// (seja por bug de UI ou qualquer motivo),
+		// possamos cancelá-lo e criar um novo timer atualizado
+		// ==================================================
 		timers.set(jti, t);
 	},
 
@@ -92,8 +109,12 @@ export const tokenDenylist = {
 	// ==================================================
 	// USO: afterEach(async () => await tokenDenylist._clear())
 	// IMPORTANTE: método interno (não usar em produção)
+	/* ✅ ISSO FUNCIONA:
+	afterEach(async () => {
+			await tokenDenylist._clear(); // ← Chama o método INTERNO
+	});*/
 	_clear: async function () {
-		// 1. 🧹 CANCELA TODOS OS TIMERS
+		// 1. 🧹 CANCELA TODOS OS TIMERS ATIVOS
 		for (const t of timers.values()) clearTimeout(t);
 		timers.clear();
 

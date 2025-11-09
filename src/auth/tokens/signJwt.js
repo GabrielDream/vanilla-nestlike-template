@@ -1,4 +1,4 @@
-// src/auth/tokens/signJwt.js
+// src/auth/tokens/signJwt.js     ---FÁBRICA DE TOKENS
 
 // This script GENERATES (signs) a JWT for a user.
 // It reads secrets from .env, sets expiration time, and includes a unique jti.
@@ -57,3 +57,12 @@ export function signJwt(payload, expiresIn) {
 	// - 'signingConfig': includes jti and expiration.
 	return jwt.sign(payload, secret, signingConfig);
 }
+/*// RESPONSABILIDADE: CRIAR tokens novos
+// INPUT: dados do usuário + configurações
+// OUTPUT: string do token (pronto para enviar ao cliente)
+
+// Exemplo de USO:
+const token = signJwt(
+  { id: user.id, role: user.role }, // ← PAYLOAD = dados do usuário
+  '7d' // ← expiresIn personalizado
+);*/

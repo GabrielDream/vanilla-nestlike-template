@@ -1,4 +1,5 @@
 // src/auth/guards/allowRoles.js
+//A MIDDLEWARE FACTORY!
 import AppError from '../../../middlewares/AppError.js';
 
 /**
@@ -6,12 +7,12 @@ import AppError from '../../../middlewares/AppError.js';
  * Throws AppError on missing/forbidden role (sync), so unit tests can expect .toThrow(AppError).
  */
 
-export default function allowRoles(...roles) {
+export default function allowRoles(...roles) { //Rest spread params (...roles) ou Array (roles)
 	if (!roles || roles.length === 0) {
 		throw new Error('allowRoles requires at least one role');
 	}
 
-	return function (req, res, next) {
+	return function (req, _res, next) {
 		const role = req?.user?.role;
 
 		if (!role) {
@@ -20,7 +21,7 @@ export default function allowRoles(...roles) {
 		}
 
 		if (!roles.includes(role)) {
-			// keep 403 to match your test assertion
+			// keep 403 to match test assertion
 			throw new AppError('Forbidden', 403, 'auth', 'ROLE_FORBIDDEN');
 		}
 

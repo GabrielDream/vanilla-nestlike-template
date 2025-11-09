@@ -33,8 +33,8 @@ export default class AppError extends Error {
 		return {
 			success: false, //fixed value
 			status: 'Error', //fixed value
-			statusCode: this.statusCode,
 			message: this.message,
+			statusCode: this.statusCode,
 			field: this.field,
 			code: this.code,
 			errors: this.errors ?? [], //using an empty array if errors is null

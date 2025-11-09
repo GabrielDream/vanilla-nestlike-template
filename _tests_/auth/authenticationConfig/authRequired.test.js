@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import authRequired from '../../../src/auth/guards/authRequired.js';
 import { signJwt } from '../../../src/auth/tokens/signJwt.js';
 import { tokenDenylist } from '../../../src/auth/tokens/tokenDenylist.memory.js';
+import successHandler from '../../../middlewares/successHandler.js';
 import AppError from '../../../middlewares/AppError.js';
 
 describe('authRequired (integration smoke)', () => {
@@ -20,9 +21,14 @@ describe('authRequired (integration smoke)', () => {
 	function makeApp() {
 		const app = express();
 
+		app.use(successHandler);
+
 		// Route protected by the guard
 		app.get('/me', authRequired, (req, res) => {
-			return res.status(200).json({ ok: true, user: req.user });
+			return res.success({
+				message: 'AuthRequired middleware is intercepting!',
+				data: req.user
+			})
 		});
 
 		// Minimal error handler mapping AppError -> 4xx; unknown -> 500
@@ -53,10 +59,24 @@ describe('authRequired (integration smoke)', () => {
 		const res = await request(app).get('/me').set('Authorization', `Bearer ${token}`).send();
 
 		expect(res.status).toBe(200);
-		expect(res.body.ok).toBe(true);
+		expect(res.body).toEqual({// ✅ TESTA A ESTRUTURA COMPLETA DO res.success()
+			success: true,
+			status: 'Success',
+			message: 'AuthRequired middleware is intercepting!',
+			data: expect.objectContaining({
+				id: 'u1',
+				role: 'user',
+				jti: expect.any(String),
+				iat: expect.any(Number),
+				exp: expect.any(Number)
+			}),
+			meta: {},
+			timeStamp: expect.any(String)
+		});
 
+		// ✅ VERIFICA O JTI ESPECÍFICO
 		const dec = jwt.verify(token, process.env.JWT_SECRET);
-		expect(res.body.user).toEqual(expect.objectContaining({ id: 'u1', role: 'user', jti: dec.jti }));
+		expect(res.body.data.jti).toBe(dec.jti); // ← data.jti
 	});
 
 	test('401 when Authorization header is missing', async () => {
@@ -70,20 +90,33 @@ describe('authRequired (integration smoke)', () => {
 
 	test('401 when token is denylisted (revoked)', async () => {
 		const app = makeApp();
+
+		// 1. Cria um token válido
 		const token = signJwt({ id: 'u2', role: 'user' }, '10m');
 
+		// 2. Decodifica para pegar o jti
 		const dec = jwt.verify(token, process.env.JWT_SECRET);
-		const now = Math.floor(Date.now() / 1000);
-		const ttlSec = Math.max(1, dec.exp - now);
+		// dec = { id: 'u2', role: 'user', jti: 'abc123', exp: 123456, iat: 123455 }
+
+		// 3. Calcula quanto tempo falta para expirar
+		const now = Math.floor(Date.now() / 1000); // timestamp atual em segundos
+		const ttlSec = Math.max(1, dec.exp - now); // tempo restante em segundos
+		// Exemplo: se expira em 10min, ttlSec = 600
+
+		// 4. REVOGA o token (coloca na denylist)
 		await tokenDenylist.revoke(dec.jti, ttlSec);
+		// ↑ "Token abc123 está revogado pelos próximos 600 segundos"
 
 		const res = await request(app).get('/me').set('Authorization', `Bearer ${token}`).send();
 
 		expect(res.status).toBe(401);
-		expect(res.body).toMatchObject({ success: false, code: 'TOKEN_REVOKED' });
+		expect(res.body).toEqual({
+			success: false,
+			code: 'TOKEN_REVOKED',
+			message: 'Token has been revoked' // ← MENSAGEM ESPECÍFICA!
+		});
 	});
 
-	// ✅ Extra test you asked for
 	test('401 when Authorization scheme is invalid (Basic)', async () => {
 		const app = makeApp();
 

@@ -5,5 +5,5 @@ export default (req, res, next) => {
 	res.success = (options = {}) => {
 		return success({ res, ...options });
 	};
-	next();
+	return next();
 };
