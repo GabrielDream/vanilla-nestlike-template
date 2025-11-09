@@ -27,8 +27,8 @@ describe('authRequired (integration smoke)', () => {
 		app.get('/me', authRequired, (req, res) => {
 			return res.success({
 				message: 'AuthRequired middleware is intercepting!',
-				data: req.user
-			})
+				data: req.user,
+			});
 		});
 
 		// Minimal error handler mapping AppError -> 4xx; unknown -> 500
@@ -59,7 +59,8 @@ describe('authRequired (integration smoke)', () => {
 		const res = await request(app).get('/me').set('Authorization', `Bearer ${token}`).send();
 
 		expect(res.status).toBe(200);
-		expect(res.body).toEqual({// ✅ TESTA A ESTRUTURA COMPLETA DO res.success()
+		expect(res.body).toEqual({
+			// ✅ TESTA A ESTRUTURA COMPLETA DO res.success()
 			success: true,
 			status: 'Success',
 			message: 'AuthRequired middleware is intercepting!',
@@ -68,10 +69,10 @@ describe('authRequired (integration smoke)', () => {
 				role: 'user',
 				jti: expect.any(String),
 				iat: expect.any(Number),
-				exp: expect.any(Number)
+				exp: expect.any(Number),
 			}),
 			meta: {},
-			timeStamp: expect.any(String)
+			timeStamp: expect.any(String),
 		});
 
 		// ✅ VERIFICA O JTI ESPECÍFICO
@@ -113,7 +114,7 @@ describe('authRequired (integration smoke)', () => {
 		expect(res.body).toEqual({
 			success: false,
 			code: 'TOKEN_REVOKED',
-			message: 'Token has been revoked' // ← MENSAGEM ESPECÍFICA!
+			message: 'Token has been revoked', // ← MENSAGEM ESPECÍFICA!
 		});
 	});
 

@@ -7,7 +7,8 @@ import AppError from '../../../middlewares/AppError.js';
  * Throws AppError on missing/forbidden role (sync), so unit tests can expect .toThrow(AppError).
  */
 
-export default function allowRoles(...roles) { //Rest spread params (...roles) ou Array (roles)
+export default function allowRoles(...roles) {
+	//Rest spread params (...roles) ou Array (roles)
 	if (!roles || roles.length === 0) {
 		throw new Error('allowRoles requires at least one role');
 	}

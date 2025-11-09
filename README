@@ -1,403 +1,403 @@
-	# 🧠 Mission 5 — Backend Node.js + Prisma + JWT Auth
+    # 🧠 Mission 5 — Backend Node.js + Prisma + JWT Auth
 
-	Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e **Jest**, integrando autenticação, middlewares, testes e estrutura de banco relacional.
-	Objetivo: demonstrar domínio completo de backend moderno com boas práticas, testes e documentação.
+    Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e **Jest**, integrando autenticação, middlewares, testes e estrutura de banco relacional.
+    Objetivo: demonstrar domínio completo de backend moderno com boas práticas, testes e documentação.
 
-	---
+    ---
 
-	## 🚀 Início rápido
-	```bash
-	# 1. Inicializar projeto (caso ainda não exista)
-	npm init -y
-	```
+    ## 🚀 Início rápido
+    ```bash
+    # 1. Inicializar projeto (caso ainda não exista)
+    npm init -y
+    ```
 
-	---
-
-	## 📦 Dependências
+    ---
+
+    ## 📦 Dependências
 
-	### Principais
+    ### Principais
 
-	```bash
-	npm install bcrypt chalk cors dotenv express
-	```
+    ```bash
+    npm install bcrypt chalk cors dotenv express
+    ```
 
-	### Desenvolvimento
-	```bash
-	npm install --save-dev @types/express nodemon jest supertest eslint
-	```
+    ### Desenvolvimento
+    ```bash
+    npm install --save-dev @types/express nodemon jest supertest eslint
+    ```
 
-	---
+    ---
 
-	## 🧹 Lint e formatação
-	```bash
-	# Verificar erros de lint
-	npm run lint
-	# Corrigir automaticamente
-	npm run lint:fix
-	```
+    ## 🧹 Lint e formatação
+    ```bash
+    # Verificar erros de lint
+    npm run lint
+    # Corrigir automaticamente
+    npm run lint:fix
+    ```
 
-	# 1️⃣ Instala o commitlint
-	npm i -D @commitlint/config-conventional @commitlint/cli
-	bash
-	Copiar código
+    # 1️⃣ Instala o commitlint
+    npm i -D @commitlint/config-conventional @commitlint/cli
+    bash
+    Copiar código
 
-	# 2️⃣ Cria o arquivo de configuração
-	echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
-	bash
-	Copiar código
+    # 2️⃣ Cria o arquivo de configuração
+    echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
+    bash
+    Copiar código
 
-	# 3️⃣ Adiciona o hook commit-msg no Husky
-	npx husky add .husky/commit-msg 'npx --no-install commitlint --edit $1'
+    # 3️⃣ Adiciona o hook commit-msg no Husky
+    npx husky add .husky/commit-msg 'npx --no-install commitlint --edit $1'
 
-	---
+    ---
 
-	## 🗄️ Banco de Dados (Prisma + PostgreSQL)
-	```bash
-	# Instalar Prisma
-	npm install @prisma/client
-	npm install --save-dev prisma
+    ## 🗄️ Banco de Dados (Prisma + PostgreSQL)
+    ```bash
+    # Instalar Prisma
+    npm install @prisma/client
+    npm install --save-dev prisma
 
-	# Inicializar Prisma
-	npx prisma init
+    # Inicializar Prisma
+    npx prisma init
 
-	# Rodar migração inicial
-	npx prisma migrate dev --name init
-	```
+    # Rodar migração inicial
+    npx prisma migrate dev --name init
+    ```
 
-	---
+    ---
 
-	## ⚙️ Scripts úteis
-	Adicione estes scripts ao `package.json` (caso ainda não estejam):
+    ## ⚙️ Scripts úteis
+    Adicione estes scripts ao `package.json` (caso ainda não estejam):
 
-	```json
-	"scripts": {
-		"dev": "nodemon src/server.js",
-		"test": "jest",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"db:push": "prisma db push",
-		"db:migrate": "prisma migrate deploy",
-		"db:seed": "node prisma/seed.js",
-		"start": "node src/server.js"
-	}
-	```
+    ```json
+    "scripts": {
+    	"dev": "nodemon src/server.js",
+    	"test": "jest",
+    	"lint": "eslint .",
+    	"lint:fix": "eslint . --fix",
+    	"db:push": "prisma db push",
+    	"db:migrate": "prisma migrate deploy",
+    	"db:seed": "node prisma/seed.js",
+    	"start": "node src/server.js"
+    }
+    ```
 
-	---
+    ---
 
-	## 🧪 Testes
-	```bash
-	npm test
+    ## 🧪 Testes
+    ```bash
+    npm test
 
-	Teste especifico:
-	npm test -- -t "success function"
-	npm test -- _tests_/middlewares/successHandler.test.js
-	```
+    Teste especifico:
+    npm test -- -t "success function"
+    npm test -- _tests_/middlewares/successHandler.test.js
+    ```
 
-	Framework: **Jest + Supertest**
-	Inclui testes de integração (`/auth/login`, `/auth/logout`, `/auth/register`, `/me`) e unitários (`signJwt`, `allowRoles`, `tokenDenylist.memory`, etc).
+    Framework: **Jest + Supertest**
+    Inclui testes de integração (`/auth/login`, `/auth/logout`, `/auth/register`, `/me`) e unitários (`signJwt`, `allowRoles`, `tokenDenylist.memory`, etc).
 
-	---
+    ---
 
-	## 🔐 Commits e histórico
-	```bash
-	# Ver commits resumidos
-	git log --oneline --graph --decorate
-	```
-
-	Exemplo de histórico:
-
-	```
-	* f1ae606 (HEAD -> master) DB WITH MIDDLEWARE TESTS DONE NOW
-	* d0488bb db tests with helpers done
-	* 6e7128a helpers middlewares and its tests done
-	* fee4bc2 db structure done
-	* fb66780 skeleton done
-	```
-
-	---
-
-	## ⚙️ Arquivo `.env.example`
-
-	```bash
-	DATABASE_URL="postgresql://user:password@localhost:5432/mission5?schema=public"
-	JWT_SECRET="dev-secret"
-	JWT_EXPIRES_IN="1d"
-	PORT=3000
-	```
-
-	---
-
-	## 🛡️ Authorization Guards
-	**`isSelfOrRoles`** - Primary guard for resource-based permissions (95% of use cases)
-	**`allowRoles`** - Situational guard for global role-based access (5% of use cases)
-
-	**Usage:** `app.get('/users/:id', authRequired, isSelfOrRoles('ADMIN'), handler)`
-	**Covers:** User accesses own data OR has specific roles - perfect for user profiles and owned resources
-
-	## ESTRUTURA DO PROJETO
-	1️⃣ Fundação do Projeto
-	 README · package.json · .gitignore
-
-	2️⃣ Ambiente e Config Sensíveis
-	 .env · .env.test
-
-	3️⃣ Pipeline de Qualidade e Semântica
-	 .editorconfig · eslint.config · .eslintignore · .prettierrc · pre-commit · commit-msg · husky.sh · commitlint.config.js · logger.js · spyConsole.js
-
-	4️⃣ Banco de Dados (Prisma)
-	 schema.prisma · migrations/ · seed.js · prisma.js
-
-	5️⃣ Middleware Helpers
-	 success.js · successHandler.js · AppError.js · errorHandler.js (+ tests)
-
-	6️⃣ Configuração Global e Testes
-	 jest.config.cjs · jest.setup.env.cjs · globalSetup.cjs
-
-	7️⃣ Testes de Integridade de Banco
-	 user.db.test.js · app.bridge.userToDb.js · bridge.http.test.js
-
-	8️⃣ JWT Core
-	 signJwt.js · verifyJwt.js (+ tests)
-
-	9️⃣ JWT Denylist (Revogação)
-	 tokenDenylist.memory.js (+ tests)
-
-	🔟 JWT Guards
-	 authRequired.js · allowRoles.js · isSelfOrRoles.js (+ tests)
-
-	1️⃣1️⃣ Rotas de Auth
-	 register · login · logout · me (+ tests HTTP)
-
-	1️⃣2️⃣ Rotas de Usuário com RBAC
-	 list · checkEmail · meDelete · adminDeleteStaff (+ tests), sanitized
-
-	1️⃣3️⃣ Servidor Final
-	 app.js · server.js (+ config de listen / shutdown / Postman) ✅
-
-
-
-	## 🧭 Estrutura do projeto 	```
-		|-- .COMMANDS
-		|-- .editorconfig
-		|-- .env
-		|-- .env.test
-		|-- .eslintignore
-		|-- .gitignore
-		|-- .husky
-		|   |-- _
-		|   |   |-- .gitignore
-		|   |   |-- applypatch-msg
-		|   |   |-- commit-msg
-		|   |   |-- h
-		|   |   |-- husky.sh
-		|   |   |-- post-applypatch
-		|   |   |-- post-checkout
-		|   |   |-- post-commit
-		|   |   |-- post-merge
-		|   |   |-- post-rewrite
-		|   |   |-- pre-applypatch
-		|   |   |-- pre-auto-gc
-		|   |   |-- pre-commit
-		|   |   |-- pre-merge-commit
-		|   |   |-- pre-push
-		|   |   |-- pre-rebase
-		|   |   `-- prepare-commit-msg
-		|   |-- commit-msg
-		|   `-- pre-commit
-		|-- .prettierrc
-		|-- README
-		|-- _tests_
-		|   |-- MiddlewareHelpers
-		|   |   |-- errorHandler.test.js
-		|   |   `-- successHandler.test.js
-		|   |-- auth
-		|   |   |-- authRoutes
-		|   |   |   |-- auth.login.http.test.js
-		|   |   |   |-- auth.logout.http.test.js
-		|   |   |   `-- auth.register.http.test.js
-		|   |   `-- authenticationConfig
-		|   |       |-- allowRoles.unit.test.js
-		|   |       |-- auth.SMOKE.test.js
-		|   |       |-- authRequired.test.js
-		|   |       |-- isSelforRoles.unit.test.js
-		|   |       |-- signJwt.test.js
-		|   |       |-- tokenDenylist.memory.test.js
-		|   |       `-- verifyJwt.test.js
-		|   |-- bridgeUserRouteTest
-		|   |   |-- app.bridge.userToDb.js
-		|   |   `-- bridge.http.test.js
-		|   |-- setup
-		|   |   `-- globalSetup.cjs
-		|   `-- userRoutes
-		|       |-- adminDeleteRoute.prisma.test.js
-		|       |-- checkEmailRoute.prisma.test.js
-		|       |-- dbTest
-		|       |   `-- user.db.test.js
-		|       |-- listUserRoute.prisma.test.js
-		|       `-- meDeleteRoute.prisma.test.js
-		|-- commitlint.config.js
-		|-- eslint.config.js
-		|-- generated
-		|   `-- prisma
-		|       |-- client.d.ts
-		|       |-- client.js
-		|       |-- default.d.ts
-		|       |-- default.js
-		|       |-- edge.d.ts
-		|       |-- edge.js
-		|       |-- index-browser.js
-		|       |-- index.d.ts
-		|       |-- index.js
-		|       |-- package.json
-		|       |-- query_engine-windows.dll.node
-		|       |-- runtime
-		|       |   |-- edge-esm.js
-		|       |   |-- edge.js
-		|       |   |-- index-browser.d.ts
-		|       |   |-- index-browser.js
-		|       |   |-- library.d.ts
-		|       |   |-- library.js
-		|       |   |-- react-native.js
-		|       |   |-- wasm-compiler-edge.js
-		|       |   `-- wasm-engine-edge.js
-		|       |-- schema.prisma
-		|       |-- wasm.d.ts
-		|       `-- wasm.js
-		|-- jest.config.cjs
-		|-- jest.setup.env.cjs
-		|-- middlewares
-		|   |-- AppError.js
-		|   |-- errorHandler.js
-		|   |-- success.js
-		|   `-- successHandler.js
-		|-- package-lock.json
-		|-- package.json
-		|-- prisma
-		|   |-- migrations
-		|   |   |-- 20250905174117_init
-		|   |   |   `-- migration.sql
-		|   |   |-- 20250905174316_email_ci_rules
-		|   |   |   `-- migration.sql
-		|   |   |-- 20250905175224_email_lowercase_ci
-		|   |   |   `-- migration.sql
-		|   |   `-- migration_lock.toml
-		|   |-- schema.prisma
-		|   `-- seed.js
-		|-- src
-		|   |-- auth
-		|   |   |-- guards
-		|   |   |   |-- allowRoles.js
-		|   |   |   |-- authRequired.js
-		|   |   |   `-- isSelfOrRoles.js
-		|   |   |-- routes
-		|   |   |   |-- loginRoute.js
-		|   |   |   |-- logoutRoute.js
-		|   |   |   `-- registerRoute.js
-		|   |   `-- tokens
-		|   |       |-- signJwt.js
-		|   |       |-- tokenDenylist.memory.js
-		|   |       `-- verifyJwt.js
-		|   |-- users
-		|   |   |-- adminDeleteStaffRoute.js
-		|   |   |-- db
-		|   |   |   `-- prisma.js
-		|   |   |-- emailCheckRoute.js
-		|   |   |-- listUsersRoute.js
-		|   |   `-- meDeleteRoute.js
-		|   `-- utils
-		|       `-- sanitize.js
-		`-- terminalStylization
-				|-- logger.js
-				`-- spyConsole.js
-		```
-	---
-
-	## COMANDO TREE:
-	tree -I 'node_modules|.git|dist|build' -a
-
-	## 🔑 Rotas principais (API)
-
-	| Método   | Rota             | Proteção      | Descrição                         |
-	| :------- | :--------------- | :------------ | :-------------------------------- |
-	| `POST`   | `/auth/register` | pública       | Cria novo usuário                 |
-	| `POST`   | `/auth/login`    | pública       | Gera token JWT                    |
-	| `POST`   | `/auth/logout`   | autenticado   | Revoga token ativo                |
-	| `GET`    | `/me`            | autenticado   | Retorna usuário logado            |
-	| `GET`    | `/users`         | ADMIN         | Lista usuários                    |
-	| `DELETE` | `/users/:id`     | ADMIN ou Self | Remove usuário                    |
-	| `GET`    | `/check-email`   | pública       | Verifica disponibilidade de email |
-
-	---
-
-	## 🧰 Stack principal
-	- Node.js (ESM)
-	- Express 5
-	- Prisma ORM (PostgreSQL)
-	- JWT Auth
-	- Jest + Supertest
-	- ESLint
-	- Dotenv
-	- Bcrypt
-	- CORS
-	- Chalk (para logs)
-	- Nodemon
-
-	---
-
-	## 🧱 Seeds
-	Arquivo `prisma/seed.js` cria usuários iniciais (ADMIN e STAFF):
-
-	```js
-	await prisma.user.createMany({
-		data: [
-			{ name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
-			{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' },
-		],
-	});
-	```
-
-	---
-
-	## 🧩 Middlewares
-	- `successHandler.js`: injeta `res.success(status, data)`
-	- `errorHandler.js`: captura `AppError` e erros Prisma (P2002 → 409, P2025 → 404)
-	- `AppError.js`: classe base de erro customizado
-
-	---
-
-	## 🧱 Testes automatizados
-
-	Pasta `_tests_` cobre:
-
-	- Autenticação (`login`, `logout`, `register`, `me`)
-	- Guards (`authRequired`, `allowRoles`, `isSelfOrRoles`)
-	- Tokens (`signJwt`, `tokenDenylist.memory`)
-	- Middlewares (`successHandler`, `errorHandler`)
-	- Rotas de usuário (`list`, `delete`, `check-email`)
-	- Banco (`user.db.test.js`)
-
-	---
-
-	## 💡 Observações finais
-
-	Este projeto é parte da **Operation Warpath / NeuroCoding Project** (Mission 5).
-	Foco: demonstrar domínio de backend com autenticação JWT, Prisma ORM e testes automatizados.
-
-	Para rodar localmente:
-
-	```bash
-	cp .env.example .env
-	npm install
-	npm run db:push
-	npm run db:seed
-	npm run dev
-	```
-
-	Servidor iniciará em: **http://localhost:3000**
-
-	---
-
-	**Autor:** Gabriel Bussab (Jibrail)
-	**Contato:** [linkedin.com/in/gabriel-bussab](https://www.linkedin.com/in/gabriel-bussab)
-	**Propósito:** Demonstração técnica para freelas e provas práticas.
-	**Status:** 🧩 Quase pronto (falta `/me` e ajustes menores antes do deploy final)
+    ## 🔐 Commits e histórico
+    ```bash
+    # Ver commits resumidos
+    git log --oneline --graph --decorate
+    ```
+
+    Exemplo de histórico:
+
+    ```
+    * f1ae606 (HEAD -> master) DB WITH MIDDLEWARE TESTS DONE NOW
+    * d0488bb db tests with helpers done
+    * 6e7128a helpers middlewares and its tests done
+    * fee4bc2 db structure done
+    * fb66780 skeleton done
+    ```
+
+    ---
+
+    ## ⚙️ Arquivo `.env.example`
+
+    ```bash
+    DATABASE_URL="postgresql://user:password@localhost:5432/mission5?schema=public"
+    JWT_SECRET="dev-secret"
+    JWT_EXPIRES_IN="1d"
+    PORT=3000
+    ```
+
+    ---
+
+    ## 🛡️ Authorization Guards
+    **`isSelfOrRoles`** - Primary guard for resource-based permissions (95% of use cases)
+    **`allowRoles`** - Situational guard for global role-based access (5% of use cases)
+
+    **Usage:** `app.get('/users/:id', authRequired, isSelfOrRoles('ADMIN'), handler)`
+    **Covers:** User accesses own data OR has specific roles - perfect for user profiles and owned resources
+
+    ## ESTRUTURA DO PROJETO
+    1️⃣ Fundação do Projeto
+     README · package.json · .gitignore
+
+    2️⃣ Ambiente e Config Sensíveis
+     .env · .env.test
+
+    3️⃣ Pipeline de Qualidade e Semântica
+     .editorconfig · eslint.config · .eslintignore · .prettierrc · pre-commit · commit-msg · husky.sh · commitlint.config.js · logger.js · spyConsole.js
+
+    4️⃣ Banco de Dados (Prisma)
+     schema.prisma · migrations/ · seed.js · prisma.js
+
+    5️⃣ Middleware Helpers
+     success.js · successHandler.js · AppError.js · errorHandler.js (+ tests)
+
+    6️⃣ Configuração Global e Testes
+     jest.config.cjs · jest.setup.env.cjs · globalSetup.cjs
+
+    7️⃣ Testes de Integridade de Banco
+     user.db.test.js · app.bridge.userToDb.js · bridge.http.test.js
+
+    8️⃣ JWT Core
+     signJwt.js · verifyJwt.js (+ tests)
+
+    9️⃣ JWT Denylist (Revogação)
+     tokenDenylist.memory.js (+ tests)
+
+    🔟 JWT Guards
+     authRequired.js · allowRoles.js · isSelfOrRoles.js (+ tests)
+
+    1️⃣1️⃣ Rotas de Auth
+     register · login · logout · me (+ tests HTTP)
+
+    1️⃣2️⃣ Rotas de Usuário com RBAC
+     list · checkEmail · meDelete · adminDeleteStaff (+ tests), sanitized
+
+    1️⃣3️⃣ Servidor Final
+     app.js · server.js (+ config de listen / shutdown / Postman) ✅
+
+
+
+    ## 🧭 Estrutura do projeto 	```
+    	|-- .COMMANDS
+    	|-- .editorconfig
+    	|-- .env
+    	|-- .env.test
+    	|-- .eslintignore
+    	|-- .gitignore
+    	|-- .husky
+    	|   |-- _
+    	|   |   |-- .gitignore
+    	|   |   |-- applypatch-msg
+    	|   |   |-- commit-msg
+    	|   |   |-- h
+    	|   |   |-- husky.sh
+    	|   |   |-- post-applypatch
+    	|   |   |-- post-checkout
+    	|   |   |-- post-commit
+    	|   |   |-- post-merge
+    	|   |   |-- post-rewrite
+    	|   |   |-- pre-applypatch
+    	|   |   |-- pre-auto-gc
+    	|   |   |-- pre-commit
+    	|   |   |-- pre-merge-commit
+    	|   |   |-- pre-push
+    	|   |   |-- pre-rebase
+    	|   |   `-- prepare-commit-msg
+    	|   |-- commit-msg
+    	|   `-- pre-commit
+    	|-- .prettierrc
+    	|-- README
+    	|-- _tests_
+    	|   |-- MiddlewareHelpers
+    	|   |   |-- errorHandler.test.js
+    	|   |   `-- successHandler.test.js
+    	|   |-- auth
+    	|   |   |-- authRoutes
+    	|   |   |   |-- auth.login.http.test.js
+    	|   |   |   |-- auth.logout.http.test.js
+    	|   |   |   `-- auth.register.http.test.js
+    	|   |   `-- authenticationConfig
+    	|   |       |-- allowRoles.unit.test.js
+    	|   |       |-- auth.SMOKE.test.js
+    	|   |       |-- authRequired.test.js
+    	|   |       |-- isSelforRoles.unit.test.js
+    	|   |       |-- signJwt.test.js
+    	|   |       |-- tokenDenylist.memory.test.js
+    	|   |       `-- verifyJwt.test.js
+    	|   |-- bridgeUserRouteTest
+    	|   |   |-- app.bridge.userToDb.js
+    	|   |   `-- bridge.http.test.js
+    	|   |-- setup
+    	|   |   `-- globalSetup.cjs
+    	|   `-- userRoutes
+    	|       |-- adminDeleteRoute.prisma.test.js
+    	|       |-- checkEmailRoute.prisma.test.js
+    	|       |-- dbTest
+    	|       |   `-- user.db.test.js
+    	|       |-- listUserRoute.prisma.test.js
+    	|       `-- meDeleteRoute.prisma.test.js
+    	|-- commitlint.config.js
+    	|-- eslint.config.js
+    	|-- generated
+    	|   `-- prisma
+    	|       |-- client.d.ts
+    	|       |-- client.js
+    	|       |-- default.d.ts
+    	|       |-- default.js
+    	|       |-- edge.d.ts
+    	|       |-- edge.js
+    	|       |-- index-browser.js
+    	|       |-- index.d.ts
+    	|       |-- index.js
+    	|       |-- package.json
+    	|       |-- query_engine-windows.dll.node
+    	|       |-- runtime
+    	|       |   |-- edge-esm.js
+    	|       |   |-- edge.js
+    	|       |   |-- index-browser.d.ts
+    	|       |   |-- index-browser.js
+    	|       |   |-- library.d.ts
+    	|       |   |-- library.js
+    	|       |   |-- react-native.js
+    	|       |   |-- wasm-compiler-edge.js
+    	|       |   `-- wasm-engine-edge.js
+    	|       |-- schema.prisma
+    	|       |-- wasm.d.ts
+    	|       `-- wasm.js
+    	|-- jest.config.cjs
+    	|-- jest.setup.env.cjs
+    	|-- middlewares
+    	|   |-- AppError.js
+    	|   |-- errorHandler.js
+    	|   |-- success.js
+    	|   `-- successHandler.js
+    	|-- package-lock.json
+    	|-- package.json
+    	|-- prisma
+    	|   |-- migrations
+    	|   |   |-- 20250905174117_init
+    	|   |   |   `-- migration.sql
+    	|   |   |-- 20250905174316_email_ci_rules
+    	|   |   |   `-- migration.sql
+    	|   |   |-- 20250905175224_email_lowercase_ci
+    	|   |   |   `-- migration.sql
+    	|   |   `-- migration_lock.toml
+    	|   |-- schema.prisma
+    	|   `-- seed.js
+    	|-- src
+    	|   |-- auth
+    	|   |   |-- guards
+    	|   |   |   |-- allowRoles.js
+    	|   |   |   |-- authRequired.js
+    	|   |   |   `-- isSelfOrRoles.js
+    	|   |   |-- routes
+    	|   |   |   |-- loginRoute.js
+    	|   |   |   |-- logoutRoute.js
+    	|   |   |   `-- registerRoute.js
+    	|   |   `-- tokens
+    	|   |       |-- signJwt.js
+    	|   |       |-- tokenDenylist.memory.js
+    	|   |       `-- verifyJwt.js
+    	|   |-- users
+    	|   |   |-- adminDeleteStaffRoute.js
+    	|   |   |-- db
+    	|   |   |   `-- prisma.js
+    	|   |   |-- emailCheckRoute.js
+    	|   |   |-- listUsersRoute.js
+    	|   |   `-- meDeleteRoute.js
+    	|   `-- utils
+    	|       `-- sanitize.js
+    	`-- terminalStylization
+    			|-- logger.js
+    			`-- spyConsole.js
+    	```
+    ---
+
+    ## COMANDO TREE:
+    tree -I 'node_modules|.git|dist|build' -a
+
+    ## 🔑 Rotas principais (API)
+
+    | Método   | Rota             | Proteção      | Descrição                         |
+    | :------- | :--------------- | :------------ | :-------------------------------- |
+    | `POST`   | `/auth/register` | pública       | Cria novo usuário                 |
+    | `POST`   | `/auth/login`    | pública       | Gera token JWT                    |
+    | `POST`   | `/auth/logout`   | autenticado   | Revoga token ativo                |
+    | `GET`    | `/me`            | autenticado   | Retorna usuário logado            |
+    | `GET`    | `/users`         | ADMIN         | Lista usuários                    |
+    | `DELETE` | `/users/:id`     | ADMIN ou Self | Remove usuário                    |
+    | `GET`    | `/check-email`   | pública       | Verifica disponibilidade de email |
+
+    ---
+
+    ## 🧰 Stack principal
+    - Node.js (ESM)
+    - Express 5
+    - Prisma ORM (PostgreSQL)
+    - JWT Auth
+    - Jest + Supertest
+    - ESLint
+    - Dotenv
+    - Bcrypt
+    - CORS
+    - Chalk (para logs)
+    - Nodemon
+
+    ---
+
+    ## 🧱 Seeds
+    Arquivo `prisma/seed.js` cria usuários iniciais (ADMIN e STAFF):
+
+    ```js
+    await prisma.user.createMany({
+    	data: [
+    		{ name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
+    		{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' },
+    	],
+    });
+    ```
+
+    ---
+
+    ## 🧩 Middlewares
+    - `successHandler.js`: injeta `res.success(status, data)`
+    - `errorHandler.js`: captura `AppError` e erros Prisma (P2002 → 409, P2025 → 404)
+    - `AppError.js`: classe base de erro customizado
+
+    ---
+
+    ## 🧱 Testes automatizados
+
+    Pasta `_tests_` cobre:
+
+    - Autenticação (`login`, `logout`, `register`, `me`)
+    - Guards (`authRequired`, `allowRoles`, `isSelfOrRoles`)
+    - Tokens (`signJwt`, `tokenDenylist.memory`)
+    - Middlewares (`successHandler`, `errorHandler`)
+    - Rotas de usuário (`list`, `delete`, `check-email`)
+    - Banco (`user.db.test.js`)
+
+    ---
+
+    ## 💡 Observações finais
+
+    Este projeto é parte da **Operation Warpath / NeuroCoding Project** (Mission 5).
+    Foco: demonstrar domínio de backend com autenticação JWT, Prisma ORM e testes automatizados.
+
+    Para rodar localmente:
+
+    ```bash
+    cp .env.example .env
+    npm install
+    npm run db:push
+    npm run db:seed
+    npm run dev
+    ```
+
+    Servidor iniciará em: **http://localhost:3000**
+
+    ---
+
+    **Autor:** Gabriel Bussab (Jibrail)
+    **Contato:** [linkedin.com/in/gabriel-bussab](https://www.linkedin.com/in/gabriel-bussab)
+    **Propósito:** Demonstração técnica para freelas e provas práticas.
+    **Status:** 🧩 Quase pronto (falta `/me` e ajustes menores antes do deploy final)

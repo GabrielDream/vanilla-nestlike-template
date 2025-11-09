@@ -63,7 +63,8 @@ export default async function authRequired(req, _res, next) {
 			role: String(payload.role),
 			jti: String(meta.jti),
 			iat: meta.iat,
-			exp: meta.exp };
+			exp: meta.exp,
+		};
 		req.token = token;
 
 		return next();

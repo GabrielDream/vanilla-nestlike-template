@@ -23,7 +23,8 @@ export function verifyJwt(token) {
 	}
 
 	// Verification settings: reject expired tokens to match signJwt policy
-	const options = { // Lib expects this exact name
+	const options = {
+		// Lib expects this exact name
 		ignoreExpiration: false, //Native parameter
 	};
 
@@ -99,5 +100,3 @@ Não sabe nada sobre criação
 Só verifica tokens existentes
 Confia no padrão JWT, não no signJwt
 	*/
-
-

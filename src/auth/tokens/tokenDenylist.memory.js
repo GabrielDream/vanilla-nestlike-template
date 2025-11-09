@@ -51,10 +51,18 @@ export const tokenDenylist = {
 	// 5. Libera timer para não travar shutdown
 	revoke: async function (jti, remainingLifetimeSec) {
 		// 🚨 VALIDAÇÃO CRÍTICA - SÓ INTEIROS ≥ 1 SEGUNDO
-		if (typeof remainingLifetimeSec !== 'number' || !Number.isFinite(remainingLifetimeSec) || !Number.isInteger(remainingLifetimeSec) ||
-			remainingLifetimeSec < 1) {
-			throw new Error('remainingLifetimeSec must be an INTEGER of at least 1 second. ' +
-				'Examples: 60 (1 minute), 3600 (1 hour). ' + 'Received: ' + remainingLifetimeSec);
+		if (
+			typeof remainingLifetimeSec !== 'number' ||
+			!Number.isFinite(remainingLifetimeSec) ||
+			!Number.isInteger(remainingLifetimeSec) ||
+			remainingLifetimeSec < 1
+		) {
+			throw new Error(
+				'remainingLifetimeSec must be an INTEGER of at least 1 second. ' +
+					'Examples: 60 (1 minute), 3600 (1 hour). ' +
+					'Received: ' +
+					remainingLifetimeSec,
+			);
 		}
 		// 🎯 PRIORIDADE 1: SEGURANÇA DO USUÁRIO
 		// ✅ REVOGAÇÃO IMEDIATA -- IMPORTANTISSIMO VIR PRIMEIRO
