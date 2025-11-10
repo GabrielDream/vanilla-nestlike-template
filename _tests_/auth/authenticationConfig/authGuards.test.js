@@ -31,7 +31,8 @@ beforeAll(() => {
 	process.env.JWT_SECRET = process.env.JWT_SECRET || 'test_secret';
 });
 
-afterEach(async () => { //Isolation
+afterEach(async () => {
+	//Isolation
 	await tokenDenylist._clear();
 });
 
@@ -40,7 +41,8 @@ afterEach(async () => { //Isolation
 // - Evita vazamento de estado entre middlewares (tokenDenylist, etc)
 // - Permite customizações específicas por teste se necessário
 // - Mais seguro que app global com estado compartilhado
-function makeApp() { //App's factory
+function makeApp() {
+	//App's factory
 	const app = express();
 
 	//Routes with middlewares that don't have "next". Its the "end of the line"
@@ -69,7 +71,7 @@ function makeApp() { //App's factory
 			await tokenDenylist.revoke(req.user.jti, ttlSec);
 			return res.status(204).send(); // No Content
 		} catch (err) {
-			return next(err);  // ✅ Express captura AUTOMATICAMENTE e chama error handler em rotas sincronas. Neste caso sendo assincrona, precisa do next.
+			return next(err); // ✅ Express captura AUTOMATICAMENTE e chama error handler em rotas sincronas. Neste caso sendo assincrona, precisa do next.
 		}
 	});
 

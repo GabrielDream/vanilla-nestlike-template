@@ -6,7 +6,8 @@ import allowRoles from '../../../src/auth/guards/allowRoles.js';
 // Rápido e focado
 
 describe('allowRoles', () => {
-	test('calls next when role is allowed', () => { //MIDDLEWARE SIMULATION!
+	test('calls next when role is allowed', () => {
+		//MIDDLEWARE SIMULATION!
 		const guard = allowRoles('admin', 'manager'); //Accept admin OR maneger
 		const req = { user: { role: 'admin' } }; // ← "Usuário fictício"
 		const res = {}; // ← "Usuário fictício"
@@ -19,8 +20,10 @@ describe('allowRoles', () => {
 	test('throws when no roles provided', () => {
 		expect(() => allowRoles()).toThrow(
 			expect.objectContaining({
-				"code": "ROLES_REQUIRED", "message": "allowRoles requires at least one role", "statusCode": 500
-			})
+				code: 'ROLES_REQUIRED',
+				message: 'allowRoles requires at least one role',
+				statusCode: 500,
+			}),
 		);
 	});
 
@@ -34,8 +37,8 @@ describe('allowRoles', () => {
 		expect(() => guard(req, res, next)).toThrow(
 			expect.objectContaining({
 				statusCode: 403,
-				code: 'ROLE_MISSING'
-			})
+				code: 'ROLE_MISSING',
+			}),
 		);
 
 		expect(next).not.toHaveBeenCalled();
@@ -51,8 +54,8 @@ describe('allowRoles', () => {
 			expect.objectContaining({
 				message: 'Forbidden',
 				statusCode: 403,
-				code: 'ROLE_FORBIDDEN'
-			})
+				code: 'ROLE_FORBIDDEN',
+			}),
 		);
 		expect(next).not.toHaveBeenCalled();
 	});
