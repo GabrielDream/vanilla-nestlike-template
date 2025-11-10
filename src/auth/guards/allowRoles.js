@@ -10,7 +10,12 @@ import AppError from '../../../middlewares/AppError.js';
 export default function allowRoles(...roles) {
 	//Rest spread params (...roles) ou Array (roles)
 	if (!roles || roles.length === 0) {
-		throw new Error('allowRoles requires at least one role');
+		throw new AppError(
+			'allowRoles requires at least one role',
+			500, // Internal error - bug do desenvolvedor
+			'auth',
+			'ROLES_REQUIRED'
+		);
 	}
 
 	return function (req, _res, next) {
@@ -18,12 +23,20 @@ export default function allowRoles(...roles) {
 
 		if (!role) {
 			// keep 403 to match your test assertion
-			throw new AppError('Missing user role', 403, 'auth', 'ROLE_MISSING');
+			throw new AppError(
+				'Missing user role',
+				403,
+				'auth',
+				'ROLE_MISSING');
 		}
 
 		if (!roles.includes(role)) {
 			// keep 403 to match test assertion
-			throw new AppError('Forbidden', 403, 'auth', 'ROLE_FORBIDDEN');
+			throw new AppError(
+				'Forbidden',
+				403,
+				'auth',
+				'ROLE_FORBIDDEN');
 		}
 
 		return next();

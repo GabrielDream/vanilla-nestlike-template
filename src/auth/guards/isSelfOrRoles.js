@@ -9,11 +9,11 @@ export default function isSelfOrRoles(...roles) {
 	// roles can be empty → "self only" mode.
 	// allowRoles need it, cause theres no sense to allow "nothing"
 	return function (req, _res, next) {
-		// 🆔 FLUXO: Dados vêm de fontes DIFERENTAS:
+		// 🆔 FLUXO: Dados vêm de fontes DIFERENTES:
 		// - userId: do token JWT (quem ESTÁ autenticado)
 		// - userRole: do token JWT (permissão do usuário)
 		// - targetId: do parâmetro :id na URL (recurso sendo acessado)
-		const userId = req?.user?.id;
+		const userId = req?.user?.id; //SEMPRE OBRIGATÓRIO
 		const userRole = req?.user?.role;
 		const targetId = req?.params?.id;
 
@@ -21,7 +21,8 @@ export default function isSelfOrRoles(...roles) {
 		if (!userId) {
 			throw new AppError('Missing user id', 403, 'auth', 'SELF_OR_ROLE_MISSING_USER');
 		}
-		// ⚠️ FLUXO: targetId DEVE vir da URL (ex: /users/123)
+
+		// ⚠️ FLUXO: targetId DEVE vir da URL CASO isSelfOrRoles for chamado vazio!(ex: /users/123)
 		// Se a rota não tem :id, isso FALHA!
 		if (typeof targetId !== 'string' || targetId.trim().length === 0) {
 			throw new AppError('Missing target id param', 403, 'auth', 'SELF_OR_ROLE_MISSING_TARGET');

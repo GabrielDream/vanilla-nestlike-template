@@ -1,6 +1,5 @@
-import { jest } from '@jest/globals';
+import { expect, jest } from '@jest/globals';
 import isSelfOrRoles from '../../../src/auth/guards/isSelfOrRoles.js';
-import AppError from '../../../middlewares/AppError.js';
 
 describe('isSelfOrRoles', () => {
 	test('passes when user is self (matches req.params.id)', () => {
@@ -23,18 +22,35 @@ describe('isSelfOrRoles', () => {
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 
+	test('throws when user id is missing', () => {
+		const guard = isSelfOrRoles('admin');
+		const req = { user: { role: 'admin' }, params: { id: 'u1' } };
+		const res = {};
+		const next = jest.fn();
+
+		expect(() => guard(req, res, next).toThrow(
+			expect.objectContaining({
+				message: 'Missing user id',
+				statusCode: 403,
+				field: 'auth',
+				code: 'SELF_OR_ROLE_MISSING_USER'
+			})
+		));
+		expect(next).not.toHaveBeenCalled();
+	})
+
 	test('throws when neither self nor allowed role', () => {
 		const guard = isSelfOrRoles('admin', 'manager');
 		const req = { user: { id: 'u2', role: 'user' }, params: { id: 'u1' } };
 		const res = {};
 		const next = jest.fn();
 
-		expect(() => guard(req, res, next)).toThrow(AppError);
-		try {
-			guard(req, res, next);
-		} catch (e) {
-			expect(e).toMatchObject({ statusCode: 403, code: 'SELF_OR_ROLE_FORBIDDEN' });
-		}
+		expect(() => guard(req, res, next)).toThrow(
+			expect.objectContaining({
+				statusCode: 403,
+				code: 'SELF_OR_ROLE_FORBIDDEN'
+			})
+		);
 		expect(next).not.toHaveBeenCalled();
 	});
 
@@ -44,12 +60,12 @@ describe('isSelfOrRoles', () => {
 		const res = {};
 		const next = jest.fn();
 
-		expect(() => guard(req, res, next)).toThrow(AppError);
-		try {
-			guard(req, res, next);
-		} catch (e) {
-			expect(e).toMatchObject({ statusCode: 403, code: 'SELF_OR_ROLE_MISSING_TARGET' });
-		}
+		expect(() => guard(req, res, next)).toThrow(
+			expect.objectContaining({
+				statusCode: 403,
+				code: 'SELF_OR_ROLE_MISSING_TARGET'
+			})
+		);
 		expect(next).not.toHaveBeenCalled();
 	});
 });
