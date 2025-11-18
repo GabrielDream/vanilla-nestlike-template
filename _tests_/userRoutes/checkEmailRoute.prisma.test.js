@@ -3,7 +3,7 @@ import express from 'express';
 import request from 'supertest';
 
 // ⬇️ usa tua rota de checkEmail (a versão Prisma/ESM que importa o singleton)
-import {router} from '../../src/users/emailCheckRoute.js';
+import { router } from '../../src/users/emailCheckRoute.js';
 
 // ⬇️ singleton do Prisma (aquele src/users/db/prisma.js que você mencionou)
 import { prisma } from '../../src/users/db/prisma.js';
