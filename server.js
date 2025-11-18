@@ -50,7 +50,7 @@ async function bootstrap() {
 ╚══════════════════════════════════════════════╝
         `;
 		await animateBox(banner, 150);
-		logBanner('NEUROCODING ONLINE — WISE QG ACTIVE');
+		logBanner('SYSTEM STATUS: ONLINE — READY TO HANDLE REQUESTS');
 
 		// Start Server
 		app.listen(PORT, () => {
