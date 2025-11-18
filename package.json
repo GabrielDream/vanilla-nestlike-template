@@ -14,8 +14,8 @@
 		"format:check": "prettier . --check",
 		"postinstall": "prisma generate",
 		"db:seed": "prisma db seed",
-		"dev": "nodemon src/server.js",
-		"start": "node src/server.js",
+		"dev": "nodemon server.js",
+		"start": "node server.js",
 		"prepare": "husky"
 	},
 	"keywords": [],

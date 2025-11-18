@@ -1,5 +1,5 @@
 ///register, /login, /logout
-
+//ROTA PUBLICA: TODOS PODEM SE REGISTRAR.
 import { Router } from 'express';
 import { prisma } from '../../users/db/prisma.js';
 import bcrypt from 'bcrypt';
@@ -13,13 +13,10 @@ import {
 	logDebug,
 	logSuccess,
 	logData,
-	logTimeStamp,
+	logTimeStamp
 } from '../../../terminalStylization/logger.js';
 
 import { sanitizeUserInput } from '../../utils/sanitize.js';
-
-//import authRequired from "./guards/authRequired.js";
-
 export const router = Router();
 
 /**
@@ -35,20 +32,32 @@ router.post('/register', async (req, res, next) => {
 		let { name, age, email, password } = sanitizedBody;
 		email = String(email || '')
 			.trim()
-			.toLowerCase();
+			.toLowerCase(); //GARANTE que todo email: Não tenha espaços acidentais, não quebre o codigo se vier vazio.
 		sanitizedBody.email = email;
 
-		logDebug('📥 REGISTER REQUEST BODY: ', sanitizedBody);
+		// ✅ Oculta senha no log (segurança extra)
+		const logSafeBody = {
+			name: sanitizedBody.name,
+			email: sanitizedBody.email,
+			age: sanitizedBody.age,
+			password: '***' // ← Sempre mascarado
+		};
+
+		logDebug('📥 REGISTER REQUEST BODY: ', logSafeBody);
 
 		// -------------------------
-		// VALIDATIONS
+		// BASIC VALIDATIONS
 		// -------------------------
 		if (!name || !age || !email || !password) {
 			logWarn('ALL FIELDS ARE REQUIRED!');
 			throw new AppError('ALL FIELDS NEED TO BE FILLED!', 400, 'all', 'ERR_MISSING_FIELDS');
 		}
 
-		if (typeof name !== 'string' || /\d/.test(name) || name.trim().length < 1) {
+		// ✅ Trim aplicado antes da validação
+		name = String(name ?? '').trim();
+
+		if (typeof name !== 'string' || /\d/.test(name) || name.length < 1) {
+			//Test if theres number in name
 			throw new AppError('ADD FUNCTION: INVALID NAME!', 400, 'NAME', 'ERR_INVALID_NAME');
 		}
 
@@ -67,21 +76,18 @@ router.post('/register', async (req, res, next) => {
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
 		}
-
-		const existingEmail = await prisma.user.findUnique({
-			where: { email },
-		});
+		const existingEmail = await prisma.user.findUnique({ where: { email } });
 		if (existingEmail) {
 			logWarn('EMAIL IN USE!');
 			throw new AppError('EMAIL ALREADY IN USE!', 400, 'EMAIL', 'ERR_EMAIL_IN_USE');
 		}
 
-		const rounds = Number(process.env.BCRYPT_SALT_ROUNDS || 12);
-		const passwordHash = await bcrypt.hash(password, rounds);
-		// password strength
-		if (typeof password !== 'string' || password.length < 8) {
+		// ✅ Verifica força da senha antes do hash (eficiência e segurança)
+		if (typeof password !== 'string' || password.length < 8 || password.length > 128) {
 			throw new AppError('PASSWORD TOO SHORT', 400, 'PASSWORD', 'ERR_WEAK_PASSWORD');
 		}
+		const rounds = Number(process.env.BCRYPT_SALT_ROUNDS || 12);
+		const passwordHash = await bcrypt.hash(password, rounds);
 
 		const newUser = await prisma.user.create({
 			data: {
@@ -89,7 +95,7 @@ router.post('/register', async (req, res, next) => {
 				age: convertedAgeNumber,
 				email,
 				passwordHash,
-				role: 'STAFF', // força sempre STAFF
+				role: 'STAFF' // força sempre STAFF
 			},
 			select: {
 				id: true,
@@ -97,8 +103,8 @@ router.post('/register', async (req, res, next) => {
 				age: true,
 				email: true,
 				role: true,
-				createdAt: true,
-			},
+				createdAt: true
+			}
 		});
 
 		logSuccess(`✅ NEW USER REGISTERED: Name: ${name}, Email: ${email}, Age: ${convertedAgeNumber}`);
@@ -107,8 +113,8 @@ router.post('/register', async (req, res, next) => {
 			statusCode: 201,
 			message: 'SUCCESSFULLY REGISTERED!',
 			data: {
-				newUser,
-			},
+				newUser
+			}
 		});
 	} catch (err) {
 		logError('❌ ERROR IN REGISTER FUNCTION!');

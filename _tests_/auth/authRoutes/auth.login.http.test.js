@@ -5,13 +5,12 @@ import bcrypt from 'bcrypt';
 
 import { prisma } from '../../../src/users/db/prisma.js';
 
-// ⚠️ Se no loginRoute.js você exportou como named { router }, use esta importação:
 import { router as loginRouter } from '../../../src/auth/routes/loginRoute.js';
-// ⚠️ Se tiver export default, troque a linha acima por:
-// import loginRouter from "../../../src/auth/routes/loginRoute.js";
 
 import successHandler from '../../../middlewares/successHandler.js';
 import errorHandler from '../../../middlewares/errorHandler.js';
+
+import { logDebug } from '../../../terminalStylization/logger.js';
 
 const app = express();
 app.use(express.json());
@@ -71,6 +70,8 @@ describe('POST /auth/login', () => {
 			});
 
 			const res = await request(app).post('/auth/login').send({ email: '   EXIST@EXAMPLE.COM   ', password });
+
+			logDebug(`${email} normilized to lowerCase.`);
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);

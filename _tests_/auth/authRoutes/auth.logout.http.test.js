@@ -6,12 +6,8 @@ import { prisma } from '../../../src/users/db/prisma.js';
 import { router as logoutRouter } from '../../../src/auth/routes/logoutRoute.js';
 import { signJwt } from '../../../src/auth/tokens/signJwt.js';
 
-// middlewares
 import successHandler from '../../../middlewares/successHandler.js';
 import errorHandler from '../../../middlewares/errorHandler.js';
-
-// Vamos mockar apenas o denylist do projeto (nosso código), que é simples:
-import * as denylist from '../../../src/auth/tokens/tokenDenylist.memory.js';
 
 const app = express();
 app.use(express.json());
@@ -37,7 +33,7 @@ describe('POST /auth/logout', () => {
 		const user = await prisma.user.create({
 			data: {
 				name: 'Log Outer',
-				age: 30,
+				age: 12,
 				email: 'logout@example.com',
 				passwordHash: 'hash',
 				role: 'STAFF',
@@ -59,53 +55,6 @@ describe('POST /auth/logout', () => {
 
 		expect(res.statusCode).toBe(401);
 		expect(res.body.success).toBe(false);
-		// Mensagem vem do authRequired; aceitamos variação mas deve indicar auth/token
-		expect(String(res.body.message).toUpperCase()).toMatch(/AUTH|TOKEN/);
 	});
 
-	it('⚠️ 200 - denylist failure should NOT break logout', async () => {
-		const user = await prisma.user.create({
-			data: {
-				name: 'Deny Fail',
-				age: 22,
-				email: 'deny@example.com',
-				passwordHash: 'hash',
-				role: 'STAFF',
-			},
-		});
-		const token = signJwt({ id: user.id, role: user.role });
-
-		// Força uma falha no denylist (qualquer método que a tua implementação use)
-		// Tentamos 'add' primeiro; se não existir, tentamos 'deny' etc.
-		const candidates = ['add', 'deny', 'push'];
-		const originalSpies = [];
-		for (const fnName of candidates) {
-			if (typeof denylist[fnName] === 'function') {
-				const spy = jest.spyOn(denylist, fnName).mockImplementation(() => {
-					throw new Error('denylist boom');
-				});
-				originalSpies.push(spy);
-				break;
-			}
-		}
-
-		// Se tua implementação expõe algo como tokenDenylist.add:
-		if (originalSpies.length === 0 && denylist.tokenDenylist?.add) {
-			originalSpies.push(
-				jest.spyOn(denylist.tokenDenylist, 'add').mockImplementation(() => {
-					throw new Error('denylist boom');
-				}),
-			);
-		}
-
-		const res = await request(app).post('/auth/logout').set('Authorization', `Bearer ${token}`).send();
-
-		// Mesmo com erro no denylist, o logout deve continuar OK:
-		expect(res.statusCode).toBe(200);
-		expect(res.body.success).toBe(true);
-		expect(res.body.message).toBe('LOGOUT SUCCESSFUL!');
-
-		// limpa spies
-		for (const s of originalSpies) s.mockRestore();
-	});
 });

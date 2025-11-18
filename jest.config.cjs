@@ -2,7 +2,7 @@
 module.exports = {
 	testEnvironment: 'node',
 	setupFiles: ['<rootDir>/jest.setup.env.cjs'],
-	globalSetup: '<rootDir>/_tests_/setup/globalSetup.cjs',
+	globalSetup: '<rootDir>/_tests_/setup/globalSetup.cjs'
 };
 
 /*⚙️ 1. jest.config.cjs

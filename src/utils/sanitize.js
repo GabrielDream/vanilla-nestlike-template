@@ -1,4 +1,4 @@
-import AppError from '../../middlewares/AppError';
+import AppError from '../../middlewares/AppError.js';
 
 export function sanitizeUserInput(input) {
 	const allowedFields = ['name', 'age', 'email', 'password'];

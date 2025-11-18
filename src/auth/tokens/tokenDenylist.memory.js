@@ -61,7 +61,7 @@ export const tokenDenylist = {
 				'remainingLifetimeSec must be an INTEGER of at least 1 second. ' +
 					'Examples: 60 (1 minute), 3600 (1 hour). ' +
 					'Received: ' +
-					remainingLifetimeSec,
+					remainingLifetimeSec
 			);
 		}
 		// 🎯 PRIORIDADE 1: SEGURANÇA DO USUÁRIO
@@ -128,5 +128,5 @@ export const tokenDenylist = {
 
 		// 2. 🗑️ LIMPA TOKENS REVOGADOS
 		store.clear();
-	},
+	}
 };

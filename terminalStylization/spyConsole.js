@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 import { logWarn, logError } from './logger.js';
 
-const delay = (milliseconds) => new Promise((finish) => setTimeout(finish, milliseconds));
+export const delay = (milliseconds) => new Promise((finish) => setTimeout(finish, milliseconds));
 
 // BEEP: ONLY A STILIZATION IN TERMINAL:
 export const beep = async (msg = '📢 BEEEP!') => logWarn(msg);

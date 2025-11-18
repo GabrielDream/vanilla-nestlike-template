@@ -25,7 +25,7 @@ export function verifyJwt(token) {
 	// Verification settings: reject expired tokens to match signJwt policy
 	const options = {
 		// Lib expects this exact name
-		ignoreExpiration: false, //Native parameter
+		ignoreExpiration: false //Native parameter
 	};
 
 	// Verify signature + expiration (will throw on failure)

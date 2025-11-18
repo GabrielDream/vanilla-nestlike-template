@@ -37,7 +37,7 @@ export default class AppError extends Error {
 			statusCode: this.statusCode,
 			field: this.field,
 			code: this.code,
-			errors: this.errors ?? [], //using an empty array if errors is null
+			errors: this.errors ?? [] //using an empty array if errors is null
 		};
 	}
 }

@@ -1,3 +1,4 @@
+//Global Route
 import { Router } from 'express';
 import { prisma } from '../users/db/prisma.js';
 import AppError from '../../middlewares/AppError.js';
@@ -19,7 +20,7 @@ router.get('/users', authRequired, async (req, res, next) => {
 
 		let users;
 
-		if (req.user.role === 'ADMIN') {
+		if (req?.user?.role === 'ADMIN') {
 			users = await prisma.user.findMany({
 				select: {
 					id: true,
@@ -27,16 +28,16 @@ router.get('/users', authRequired, async (req, res, next) => {
 					email: true,
 					age: true,
 					role: true,
-					createdAt: true,
-				},
+					createdAt: true
+				}
 			});
-		} else if (req.user.role === 'STAFF') {
+		} else if (req?.user?.role === 'STAFF') {
 			users = await prisma.user.findMany({
 				select: {
 					id: true,
 					name: true,
-					email: true,
-				},
+					email: true
+				}
 			});
 		} else {
 			throw new AppError('INVALID ROLE DETECTED!', 403, 'LIST_USERS', 'ERR_INVALID_ROLE');
@@ -47,7 +48,7 @@ router.get('/users', authRequired, async (req, res, next) => {
 			return res.success({
 				statusCode: 200,
 				message: 'LISTUSERS FUNCTION: NO USERS TO SHOW',
-				data: [],
+				data: []
 			});
 		}
 
@@ -57,7 +58,7 @@ router.get('/users', authRequired, async (req, res, next) => {
 		return res.success({
 			statusCode: 200,
 			message: 'LISTUSERS FUNCTION: SUCCESSFULLY SHOWN!',
-			data: users,
+			data: users
 		});
 	} catch (err) {
 		logError('❌ ERROR LISTING USERS:', err);

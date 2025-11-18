@@ -3,7 +3,7 @@
 // This script GENERATES (signs) a JWT for a user.
 // It reads secrets from .env, sets expiration time, and includes a unique jti.
 // Contract: signJwt(payload, expiresIn?) -> string JWT
-import { logWarn } from '../../../../AdvancedCrud/utils/logger';
+import { logWarn } from '../../../terminalStylization/logger.js';
 import crypto from 'node:crypto'; // Import Node's native module to generate UUID (jti).
 import jwt from 'jsonwebtoken'; // Library for signing/verifying JSON Web Tokens.
 
@@ -48,7 +48,7 @@ export function signJwt(payload, expiresIn) {
 	// Configuration object passed to jwt.sign:
 	const signingConfig = {
 		jwtid: crypto.randomUUID(), // Generate a unique token identifier (jti) — useful for revocation/logout.
-		expiresIn: ttl, // Tells the library the TTL; it will internally calculate 'exp' (epoch seconds).
+		expiresIn: ttl // Tells the library the TTL; it will internally calculate 'exp' (epoch seconds).
 	};
 
 	// Create (sign) the token:

@@ -6,21 +6,21 @@ import globals from 'globals';
 
 export default [
 	{
-		ignores: ['node_modules', 'dist', 'coverage', 'generated', 'prisma', '_tests_'],
+		ignores: ['node_modules', 'dist', 'coverage', 'generated', 'prisma', '_tests_']
 	},
 	js.configs.recommended,
 	{
 		plugins: {
 			import: pluginImport,
-			prettier: pluginPrettier,
+			prettier: pluginPrettier
 		},
 		languageOptions: {
 			ecmaVersion: 2021,
 			sourceType: 'module',
 			globals: {
 				...globals.node,
-				...globals.jest,
-			},
+				...globals.jest
+			}
 		},
 		rules: {
 			'no-console': 'off',
@@ -31,17 +31,18 @@ export default [
 			'max-len': ['error', { code: 120 }],
 			'operator-linebreak': 'off',
 			'function-paren-newline': 'off',
+			semi: ['error', 'always'],
 			'prettier/prettier': 'error',
 			'no-unused-vars': [
 				'error',
 				{
 					argsIgnorePattern: '^_',
 					varsIgnorePattern: '^_',
-					caughtErrorsIgnorePattern: '^_',
-				},
-			],
-		},
+					caughtErrorsIgnorePattern: '^_'
+				}
+			]
+		}
 	},
 	// desativa conflitos com o Prettier
-	eslintConfigPrettier,
+	eslintConfigPrettier
 ];

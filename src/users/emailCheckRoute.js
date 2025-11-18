@@ -1,6 +1,6 @@
 //Route use by everyone
 import { Router } from 'express';
-import { prisma } from './db/prisma.js'; // dentro de users/db
+import { prisma } from './db/prisma.js';
 
 import {
 	logInfo,
@@ -9,12 +9,12 @@ import {
 	logDebug,
 	logSuccess,
 	logData,
-	logTimeStamp,
-} from '../../terminalStylization/logger.js'; // sobe 2 níveis
+	logTimeStamp
+} from '../../terminalStylization/logger.js';
 
-import AppError from '../../middlewares/AppError.js'; // sobe 2 níveis
+import AppError from '../../middlewares/AppError.js';
 
-const router = Router();
+export const router = Router();
 
 // -------------------------
 // CHECK EMAIL (UX helper)
@@ -34,7 +34,7 @@ router.get('/checkEmail/:email', async (req, res, next) => {
 
 		const exists = await prisma.user.findUnique({
 			where: { email },
-			select: { id: true },
+			select: { id: true }
 		});
 
 		if (exists) logWarn(`🚫 IN USE: ${email}`);
@@ -43,7 +43,7 @@ router.get('/checkEmail/:email', async (req, res, next) => {
 		return res.success({
 			success: true,
 			message: `${email} checked successfully.`,
-			data: { exists: Boolean(exists) },
+			data: { exists: Boolean(exists) }
 		});
 	} catch (err) {
 		logWarn('❌ Error to check Email!');
@@ -54,5 +54,3 @@ router.get('/checkEmail/:email', async (req, res, next) => {
 		return next(new AppError('ERROR TO CHECK EMAIL!', 500, 'EMAIL', 'ERR_EMAIL_CHECK_FAILED', err));
 	}
 });
-
-export default router;

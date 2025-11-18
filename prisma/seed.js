@@ -1,5 +1,6 @@
 // prisma/seed.js
 // Script to declarete a DEFAULT ADMIN USER
+// RODAR npx prisma db seed
 
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';

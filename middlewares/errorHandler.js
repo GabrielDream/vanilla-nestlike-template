@@ -20,6 +20,6 @@ export default function errorHandler(err, req, res, next) {
 		success: false,
 		status: 'Unknown error',
 		message: 'INTERNAL SERVER ERROR!',
-		error: err.message,
+		error: err.message
 	});
 }

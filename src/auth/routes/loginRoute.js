@@ -1,4 +1,5 @@
 // src/auth/routes/loginRoute.js
+// Rota publica também!
 import { Router } from 'express';
 import { prisma } from '../../users/db/prisma.js';
 import bcrypt from 'bcrypt';
@@ -29,7 +30,7 @@ router.post('/login', async (req, res, next) => {
 		logDebug('📥 LOGIN REQUEST BODY:', { email });
 
 		// -------------------------
-		// VALIDATIONS
+		// BASIC VALIDATIONS
 		// -------------------------
 		if (!email || !password) {
 			logWarn('EMAIL AND PASSWORD ARE REQUIRED!');
@@ -39,6 +40,11 @@ router.post('/login', async (req, res, next) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
+		}
+
+		// ✅ Checagem de força/tamanho ANTES do DB
+		if (typeof password !== 'string' || password.length < 8 || password.length > 128) {
+			throw new AppError('INVALID CREDENTIALS!', 401, 'AUTH', 'ERR_INVALID_CREDENTIALS');
 		}
 
 		// -------------------------
@@ -52,18 +58,29 @@ router.post('/login', async (req, res, next) => {
 				age: true,
 				email: true,
 				role: true,
-				passwordHash: true,
-			},
+				passwordHash: true
+			}
 		});
 
+		// -------------------------
+		// AFTER LOGIN CHECK VALIDATIONS
+		// -------------------------
 		if (!user) {
+			// ✅ Timing Attack Protection (Completo)
+			const dummyHash = process.env.DUMMY_BCRYPT_HASH || '$2b$12$NhS8e9J7OVQZyUVf6QPRd.DD8W5J2..eVvJyv6WllP6sZJY5QY5Qa';
+
+			try {
+				logDebug('🛡️ Executing timing attack protection for non-existent user');
+				await bcrypt.compare(password, dummyHash); // ⏱️ Equaliza tempo de resposta
+			} catch (bcryptError) {
+				logDebug('🛡️ Timing attack protection completed (with bcrypt error):', bcryptError.message);
+			}
+
+			// 🎯 Rejeita login independente do resultado do timing attack
 			logWarn('INVALID CREDENTIALS! (user not found)');
 			throw new AppError('INVALID CREDENTIALS!', 401, 'AUTH', 'ERR_INVALID_CREDENTIALS');
 		}
 
-		// -------------------------
-		// CHECK PASSWORD
-		// -------------------------
 		const isValid = await bcrypt.compare(password, user.passwordHash);
 		if (!isValid) {
 			logWarn('INVALID CREDENTIALS! (wrong password)');
@@ -87,9 +104,9 @@ router.post('/login', async (req, res, next) => {
 					name: user.name,
 					age: user.age,
 					email: user.email,
-					role: user.role,
-				},
-			},
+					role: user.role
+				}
+			}
 		});
 	} catch (err) {
 		logError('❌ ERROR IN LOGIN FUNCTION!');

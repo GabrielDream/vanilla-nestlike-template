@@ -52,19 +52,23 @@
     ---
 
     ## 🗄️ Banco de Dados (Prisma + PostgreSQL)
-    ```bash
-    # Instalar Prisma
-    npm install @prisma/client
-    npm install --save-dev prisma
+			```bash
+			npm install @prisma/client
+			npm install --save-dev prisma
 
-    # Inicializar Prisma
-    npx prisma init
+			# 1️⃣ Inicializar Prisma
+			npx prisma init
 
-    # Rodar migração inicial
-    npx prisma migrate dev --name init
-    ```
+			# 2️⃣ Cria/edita schema.prisma
 
-    ---
+			# 3️⃣ Gera e EXECUTA primeira migration:
+			npx prisma migrate dev --name init'
+
+			# 4️⃣  Verificar status:
+			npx prisma migrate status
+			```
+
+		---
 
     ## ⚙️ Scripts úteis
     Adicione estes scripts ao `package.json` (caso ainda não estejam):
@@ -166,10 +170,10 @@
      authRequired.js · allowRoles.js · isSelfOrRoles.js (+ tests)
 
     1️⃣1️⃣ Rotas de Auth
-     register · login · logout · me (+ tests HTTP)
+     sanitize · register · login · logout · me (+ tests HTTP)
 
     1️⃣2️⃣ Rotas de Usuário com RBAC
-     list · checkEmail · meDelete · adminDeleteStaff (+ tests), sanitized
+     list · checkEmail · meDelete · adminDeleteStaff (+ tests)
 
     1️⃣3️⃣ Servidor Final
      app.js · server.js (+ config de listen / shutdown / Postman) ✅

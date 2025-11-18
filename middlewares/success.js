@@ -8,7 +8,7 @@ export default ({ res, statusCode = 200, message = 'Success', data = {}, meta = 
 		message,
 		data,
 		meta,
-		timeStamp: new Date().toISOString(),
+		timeStamp: new Date().toISOString()
 	};
 
 	logSuccess(`${message} (StatusCode: ${statusCode})`);

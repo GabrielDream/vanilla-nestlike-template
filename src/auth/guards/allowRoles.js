@@ -14,7 +14,7 @@ export default function allowRoles(...roles) {
 			'allowRoles requires at least one role',
 			500, // Internal error - bug do desenvolvedor
 			'auth',
-			'ROLES_REQUIRED',
+			'ROLES_REQUIRED'
 		);
 	}
 

@@ -55,6 +55,30 @@ describe('User Routes', () => {
 				expect(res.body.success).toBe(true);
 				expect(res.body.message).toBe('SUCCESSFULLY REGISTERED!');
 			});
+
+			it('✅ should create user with STAFF role by default', async () => {
+				const res = await request(app).post('/auth/register').send({
+					name: 'Test User',
+					age: 25,
+					email: 'staff@example.com',
+					password: 'Valid@123',
+				});
+
+				expect(res.statusCode).toBe(201);
+				expect(res.body.data.newUser.role).toBe('STAFF');
+			});
+
+			it('✅ should sanitize input with extra spaces', async () => {
+				const res = await request(app).post('/auth/register').send({
+					name: '  Test User  ',
+					age: 25,
+					email: '  TEST@EXAMPLE.COM  ',
+					password: 'Valid@123',
+				});
+
+				expect(res.statusCode).toBe(201);
+				expect(res.body.data.newUser.email).toBe('test@example.com');
+			});
 		});
 
 		describe('❌ ERROR CASES: ', () => {
@@ -76,7 +100,7 @@ describe('User Routes', () => {
 					name: 'name',
 					age: 3,
 					email: 'valid@email.com',
-					password: '123', // senha inválida
+					password: '123',
 				});
 
 				expect(res.statusCode).toBe(400);
@@ -116,6 +140,28 @@ describe('User Routes', () => {
 				expect(res.body.message).toBe('UNEXPECTED ERROR IN REGISTER FUNCTION!');
 			});
 
+			it('❌ should block duplicate email with different case', async () => {
+				await prisma.user.create({
+					data: {
+						name: 'First User',
+						age: 25,
+						email: 'user@example.com',
+						passwordHash: 'hash',
+						role: 'STAFF',
+					},
+				});
+
+				const res = await request(app).post('/auth/register').send({
+					name: 'Second User',
+					age: 30,
+					email: 'USER@EXAMPLE.COM',
+					password: 'Valid@123',
+				});
+
+				expect(res.statusCode).toBe(400);
+				expect(res.body.message).toBe('EMAIL ALREADY IN USE!');
+			});
+
 			describe('NAME FIELD:', () => {
 				it('❌ should return 400 if name is not a String', async () => {
 					const res = await request(app).post('/auth/register').send({
@@ -148,7 +194,7 @@ describe('User Routes', () => {
 				it('❌ Should return 400 if age is not a valid number', async () => {
 					const res = await request(app).post('/auth/register').send({
 						name: 'Invalid name',
-						age: 'abc', // Invalid data type for age
+						age: 'abc',
 						email: 'only@anexemple.com',
 						password: 'Valid@123',
 					});
@@ -162,7 +208,7 @@ describe('User Routes', () => {
 				it('❌ Should return 400 if age is less than 1', async () => {
 					const res = await request(app).post('/auth/register').send({
 						name: 'Too Young',
-						age: -5, // Invalid age
+						age: -5,
 						email: 'young@example.com',
 						password: 'Valid@123',
 					});
@@ -176,7 +222,7 @@ describe('User Routes', () => {
 				it('❌ Should return 400 if age is higher than 100', async () => {
 					const res = await request(app).post('/auth/register').send({
 						name: 'Too Young',
-						age: 300, // Invalid age
+						age: 300,
 						email: 'young@example.com',
 						password: 'Valid@123',
 					});

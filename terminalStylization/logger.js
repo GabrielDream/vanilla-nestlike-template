@@ -9,7 +9,7 @@ const label = {
 	// Logs for sucess:
 	sucess: chalk.greenBright('🟢  SUCCESS: '),
 	data: chalk.blueBright('📦  DATA: '),
-	timestamp: chalk.gray('🕒  Timestamp: '),
+	timestamp: chalk.gray('🕒  Timestamp: ')
 };
 
 const logInfo = (msg) => console.log(`${label.info} - ${msg}`);
