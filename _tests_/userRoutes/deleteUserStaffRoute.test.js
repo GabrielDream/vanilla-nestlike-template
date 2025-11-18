@@ -4,7 +4,7 @@ import request from 'supertest';
 import bcrypt from 'bcrypt';
 
 import { prisma } from '../../src/users/db/prisma.js';
-import { router as deleteUserStaff } from '../../src/users/staffRoutes/deleteUserStaff.js'
+import { router as deleteUserStaff } from '../../src/users/staffRoutes/deleteUserStaff.js';
 
 import successHandler from '../../middlewares/successHandler.js';
 import errorHandler from '../../middlewares/errorHandler.js';
@@ -43,8 +43,8 @@ describe('DELETE /users/me - Staff Self Delete', () => {
 					age: 23,
 					email: 'staff.self@ex.com',
 					passwordHash: await bcrypt.hash('Valid@123', 10),
-					role: 'STAFF',
-				},
+					role: 'STAFF'
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
@@ -75,8 +75,8 @@ describe('DELETE /users/me - Staff Self Delete', () => {
 					age: 23,
 					email: 'staff.self@ex.com',
 					passwordHash: await bcrypt.hash('Valid@123', 10),
-					role: 'STAFF',
-				},
+					role: 'STAFF'
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
@@ -99,8 +99,8 @@ describe('DELETE /users/me - Staff Self Delete', () => {
 					age: 23,
 					email: 'staff.self@ex.com',
 					passwordHash: await bcrypt.hash('Valid@123', 10),
-					role: 'STAFF',
-				},
+					role: 'STAFF'
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });

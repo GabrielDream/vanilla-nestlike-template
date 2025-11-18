@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../../src/users/db/prisma.js';
 
 // ROUTES
-import { router as adminDeleteRouter } from '../../src/users/adminRoutes/adminDeleteAllStaffRoute.js'
+import { router as adminDeleteRouter } from '../../src/users/adminRoutes/adminDeleteAllStaffRoute.js';
 
 // MIDDLEWARES
 import successHandler from '../../middlewares/successHandler.js';
@@ -51,8 +51,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -61,8 +61,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'staff_update_name@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
@@ -89,8 +89,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'staff_update_name@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const res = await request(app).delete(`/admin/users/${admin.id}`);
@@ -105,8 +105,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'staff_update_name@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: staff.id, role: staff.role });
@@ -127,8 +127,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
@@ -151,8 +151,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
@@ -160,7 +160,6 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 			const fakeUuid = '123e4567-e89b-12d3-a456-426614174000';
 
 			const res = await request(app).delete(`/admin/users/${fakeUuid}`).set('Authorization', `Bearer ${token}`);
-
 
 			expect(res.statusCode).toBe(404);
 			expect(res.body.success).toBe(false);
@@ -175,8 +174,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
@@ -197,8 +196,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 			const token = signJwt({ id: admin.id, role: admin.role });
 
@@ -208,8 +207,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'adminanother@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const res = await request(app).delete(`/admin/users/${anotherAdmin.id}`).set('Authorization', `Bearer ${token}`);
@@ -227,8 +226,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'staff_update_name@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const admin = await prisma.user.create({
@@ -237,8 +236,8 @@ describe('User Routes — DELETE /users/:id (ADMIN only)', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });

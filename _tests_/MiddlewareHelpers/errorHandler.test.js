@@ -41,7 +41,7 @@ describe("errorHandlerr middleware's test", () => {
 			statusCode: 403,
 			field: 'email',
 			code: 'ERR_CUSTOM_APP',
-			errors: [],
+			errors: []
 		});
 	});
 
@@ -55,7 +55,7 @@ describe("errorHandlerr middleware's test", () => {
 			success: false,
 			status: 'Unknown error',
 			message: 'INTERNAL SERVER ERROR!',
-			error: 'Unexpected!',
+			error: 'Unexpected!'
 		});
 	});
 });

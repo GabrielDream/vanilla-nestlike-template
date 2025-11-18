@@ -45,8 +45,8 @@ describe('POST /auth/login', () => {
 					age: 25,
 					email,
 					passwordHash,
-					role: 'STAFF',
-				},
+					role: 'STAFF'
+				}
 			});
 
 			const res = await request(app).post('/auth/login').send({ email, password });
@@ -66,7 +66,7 @@ describe('POST /auth/login', () => {
 			const passwordHash = await bcrypt.hash(password, 12);
 
 			await prisma.user.create({
-				data: { name: 'Existing', age: 30, email, passwordHash, role: 'STAFF' },
+				data: { name: 'Existing', age: 30, email, passwordHash, role: 'STAFF' }
 			});
 
 			const res = await request(app).post('/auth/login').send({ email: '   EXIST@EXAMPLE.COM   ', password });
@@ -113,7 +113,7 @@ describe('POST /auth/login', () => {
 			const hash = await bcrypt.hash(rightPassword, 12);
 
 			await prisma.user.create({
-				data: { name: 'User', age: 22, email, passwordHash: hash, role: 'STAFF' },
+				data: { name: 'User', age: 22, email, passwordHash: hash, role: 'STAFF' }
 			});
 
 			const res = await request(app).post('/auth/login').send({ email, password: 'Wrong@123' });

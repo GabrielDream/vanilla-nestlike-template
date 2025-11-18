@@ -6,7 +6,7 @@ import request from 'supertest';
 import bcrypt from 'bcrypt';
 
 import { prisma } from '../../src/users/db/prisma.js';
-import { router as adminUpdateRouter} from '../../src/users/adminRoutes/adminUpdateAllStaffRoute.js';
+import { router as adminUpdateRouter } from '../../src/users/adminRoutes/adminUpdateAllStaffRoute.js';
 
 import successHandler from '../../middlewares/successHandler.js';
 import errorHandler from '../../middlewares/errorHandler.js';
@@ -41,8 +41,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'admin@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -51,13 +51,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'staff_update_name@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
 
-			const res = await request(app).put(`/admin/users/${staff.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'Staff Updated By Admin' });
+			const res = await request(app)
+				.put(`/admin/users/${staff.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ name: 'Staff Updated By Admin' });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -72,8 +75,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'admin_email@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -82,13 +85,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'staff_update_email@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
 
-			const res = await request(app).put(`/admin/users/${staff.id}`).set('Authorization', `Bearer ${token}`).send({ email: 'new_staff_email@test.com' });
+			const res = await request(app)
+				.put(`/admin/users/${staff.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ email: 'new_staff_email@test.com' });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -104,8 +110,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'admin_age@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -114,13 +120,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'staff_update_age@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
 
-			const res = await request(app).put(`/admin/users/${staff.id}`).set('Authorization', `Bearer ${token}`).send({ age: 35 });
+			const res = await request(app)
+				.put(`/admin/users/${staff.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ age: 35 });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -139,8 +148,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'admin_pass@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -149,13 +158,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'staff_reset_password@test.com',
 					passwordHash: await bcrypt.hash(oldPassword, 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
 
-			const res = await request(app).put(`/admin/users/${staff.id}`).set('Authorization', `Bearer ${token}`).send({ password: newPassword });
+			const res = await request(app)
+				.put(`/admin/users/${staff.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ password: newPassword });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -165,7 +177,7 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 			// Verifica no banco se o hash foi realmente atualizado
 			const updatedUser = await prisma.user.findUnique({
 				where: { id: staff.id },
-				select: { passwordHash: true },
+				select: { passwordHash: true }
 			});
 
 			const isNewPasswordValid = await bcrypt.compare(newPassword, updatedUser.passwordHash);
@@ -182,15 +194,18 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_invalid_id@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
 
 				const invalidId = 'not-a-uuid';
 
-				const res = await request(app).put(`/admin/users/${invalidId}`).set('Authorization', `Bearer ${token}`).send({ name: 'Should Not Work' });
+				const res = await request(app)
+					.put(`/admin/users/${invalidId}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'Should Not Work' });
 
 				expect(res.statusCode).toBe(400);
 				expect(res.body.message).toBe('Invalid user staff id format');
@@ -205,8 +220,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_notfound@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -214,7 +229,10 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 				// UUID válido, mas não existe no banco
 				const nonExistingId = '123e4567-e89b-12d3-a456-426614174000';
 
-				const res = await request(app).put(`/admin/users/${nonExistingId}`).set('Authorization', `Bearer ${token}`).send({ name: 'Ghost Staff' });
+				const res = await request(app)
+					.put(`/admin/users/${nonExistingId}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'Ghost Staff' });
 
 				expect(res.statusCode).toBe(404);
 				expect(res.body.message).toBe('User not found');
@@ -229,8 +247,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_nofields@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -239,8 +257,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_nofields@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -262,8 +280,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_invalid_body_email@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -272,8 +290,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_invalid_email_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -296,8 +314,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_invalid_body_age@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -306,8 +324,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_invalid_age_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -330,8 +348,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_invalid_body_name@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -340,8 +358,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_invalid_name_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -364,8 +382,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_invalid_body_pass@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -374,8 +392,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_invalid_pass_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -398,8 +416,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_p2002@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -408,15 +426,13 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_p2002@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
 
-				const updateSpy = jest
-					.spyOn(prisma.user, 'update')
-					.mockRejectedValueOnce({ code: 'P2002' });
+				const updateSpy = jest.spyOn(prisma.user, 'update').mockRejectedValueOnce({ code: 'P2002' });
 
 				const res = await request(app)
 					.put(`/admin/users/${staff.id}`)
@@ -436,8 +452,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_nochange@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -446,8 +462,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_nochange_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
@@ -465,15 +481,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 		});
 
 		describe('GUARD VALIDATIONS', () => {
-			it('should NOT allow STAFF to access /admin/users/:id', async () => { //VTesting the integration of this route with middleware allowRoles.
+			it('should NOT allow STAFF to access /admin/users/:id', async () => {
+				//VTesting the integration of this route with middleware allowRoles.
 				const admin = await prisma.user.create({
 					data: {
 						name: 'Root Admin',
 						email: 'admin_guard@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -482,13 +499,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_guard_try_admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const staffToken = signJwt({ id: staff.id, role: staff.role });
 
-				const res = await request(app).put(`/admin/users/${admin.id}`).set('Authorization', `Bearer ${staffToken}`).send({ name: 'Hacked Admin' });
+				const res = await request(app)
+					.put(`/admin/users/${admin.id}`)
+					.set('Authorization', `Bearer ${staffToken}`)
+					.send({ name: 'Hacked Admin' });
 
 				expect(res.statusCode).toBe(403);
 				expect(res.body.message).toBe('Forbidden');
@@ -504,13 +524,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_self_update@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const token = signJwt({ id: admin.id, role: admin.role });
 
-				const res = await request(app).put(`/admin/users/${admin.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'New Admin Name' });
+				const res = await request(app)
+					.put(`/admin/users/${admin.id}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'New Admin Name' });
 
 				expect(res.statusCode).toBe(403);
 				expect(res.body.message).toBe('Admin cannot update own profile');
@@ -525,8 +548,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_one@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const admin2 = await prisma.user.create({
@@ -535,13 +558,16 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'admin_two@test.com',
 						passwordHash: await bcrypt.hash('Admin@123', 10),
 						role: 'ADMIN',
-						age: 45,
-					},
+						age: 45
+					}
 				});
 
 				const token = signJwt({ id: admin1.id, role: admin1.role });
 
-				const res = await request(app).put(`/admin/users/${admin2.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'Hacked Admin Two' });
+				const res = await request(app)
+					.put(`/admin/users/${admin2.id}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'Hacked Admin Two' });
 
 				expect(res.statusCode).toBe(403);
 				expect(res.body.message).toBe('Cannot update another admin');
@@ -556,8 +582,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 						email: 'staff_notoken_adminroute@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const res = await request(app).put(`/admin/users/${staff.id}`).send({ name: 'Should Not Work' });
@@ -577,8 +603,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'admin_internal_error@test.com',
 					passwordHash: await bcrypt.hash('Admin@123', 10),
 					role: 'ADMIN',
-					age: 40,
-				},
+					age: 40
+				}
 			});
 
 			const staff = await prisma.user.create({
@@ -587,8 +613,8 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 					email: 'staff_internal_error@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: admin.id, role: admin.role });
@@ -609,5 +635,3 @@ describe('PUT /admin/users/:id - Admin Update Staff', () => {
 		});
 	});
 });
-
-

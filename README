@@ -52,23 +52,23 @@
     ---
 
     ## 🗄️ Banco de Dados (Prisma + PostgreSQL)
-			```bash
-			npm install @prisma/client
-			npm install --save-dev prisma
+    		```bash
+    		npm install @prisma/client
+    		npm install --save-dev prisma
 
-			# 1️⃣ Inicializar Prisma
-			npx prisma init
+    		# 1️⃣ Inicializar Prisma
+    		npx prisma init
 
-			# 2️⃣ Cria/edita schema.prisma
+    		# 2️⃣ Cria/edita schema.prisma
 
-			# 3️⃣ Gera e EXECUTA primeira migration:
-			npx prisma migrate dev --name init'
+    		# 3️⃣ Gera e EXECUTA primeira migration:
+    		npx prisma migrate dev --name init'
 
-			# 4️⃣  Verificar status:
-			npx prisma migrate status
-			```
+    		# 4️⃣  Verificar status:
+    		npx prisma migrate status
+    		```
 
-		---
+    	---
 
     ## ⚙️ Scripts úteis
     Adicione estes scripts ao `package.json` (caso ainda não estejam):

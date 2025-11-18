@@ -34,9 +34,9 @@ describe('isSelfOrRoles', () => {
 					message: 'Missing user id',
 					statusCode: 403,
 					field: 'auth',
-					code: 'SELF_OR_ROLE_MISSING_USER',
-				}),
-			),
+					code: 'SELF_OR_ROLE_MISSING_USER'
+				})
+			)
 		);
 		expect(next).not.toHaveBeenCalled();
 	});
@@ -50,8 +50,8 @@ describe('isSelfOrRoles', () => {
 		expect(() => guard(req, res, next)).toThrow(
 			expect.objectContaining({
 				statusCode: 403,
-				code: 'SELF_OR_ROLE_FORBIDDEN',
-			}),
+				code: 'SELF_OR_ROLE_FORBIDDEN'
+			})
 		);
 		expect(next).not.toHaveBeenCalled();
 	});
@@ -65,8 +65,8 @@ describe('isSelfOrRoles', () => {
 		expect(() => guard(req, res, next)).toThrow(
 			expect.objectContaining({
 				statusCode: 403,
-				code: 'SELF_OR_ROLE_MISSING_TARGET',
-			}),
+				code: 'SELF_OR_ROLE_MISSING_TARGET'
+			})
 		);
 		expect(next).not.toHaveBeenCalled();
 	});

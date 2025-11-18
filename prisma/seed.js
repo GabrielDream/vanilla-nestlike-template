@@ -27,15 +27,15 @@ async function main() {
 		update: {
 			passwordHash,
 			role: 'ADMIN',
-			name: 'Admin',
+			name: 'Admin'
 		},
 		create: {
 			email,
 			passwordHash,
 			role: 'ADMIN',
 			name: 'Admin',
-			age: 50,
-		},
+			age: 50
+		}
 	});
 
 	console.log(`✅ Admin seed created: ${email}`);

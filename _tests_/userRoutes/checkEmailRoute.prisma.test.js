@@ -53,8 +53,8 @@ describe('User Route to check Email (Prisma/Postgres)', () => {
 						name: 'Existing User',
 						email: 'exist@example.com',
 						passwordHash: 'Test@1234',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const res = await request(app).get('/api/checkEmail/exist@example.com');
@@ -70,8 +70,8 @@ describe('User Route to check Email (Prisma/Postgres)', () => {
 						name: 'John',
 						email: 'john@example.com',
 						passwordHash: 'hash',
-						age: 30,
-					},
+						age: 30
+					}
 				});
 
 				const res = await request(app).get('/api/checkEmail/   JOHN@EXAMPLE.COM   ');

@@ -20,7 +20,7 @@ describe('Bridge HTTP — success + DB error mapping', () => {
 			name: 'Jane',
 			email: 'jane@example.com',
 			passwordHash: 'hashJane',
-			age: 22,
+			age: 22
 		};
 		const res = await request(app).post('/users').send(payload);
 
@@ -28,7 +28,7 @@ describe('Bridge HTTP — success + DB error mapping', () => {
 		expect(res.body).toMatchObject({
 			success: true,
 			status: 'Success',
-			message: 'USER CREATED',
+			message: 'USER CREATED'
 		});
 	});
 
@@ -48,7 +48,7 @@ describe('Bridge HTTP — success + DB error mapping', () => {
 			status: 'Error',
 			message: 'Email already registered',
 			code: 'P2002_DUPLICATE',
-			field: 'email',
+			field: 'email'
 		});
 	});
 });

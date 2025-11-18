@@ -22,8 +22,8 @@ describe('DB Tests', () => {
 					name: 'John Doe',
 					email: 'john@example.com',
 					passwordHash: 'hash123',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 			expect(user).toHaveProperty('id');
 			expect(user.email).toBe('john@example.com');
@@ -35,8 +35,8 @@ describe('DB Tests', () => {
 					name: 'Jane',
 					email: 'jane@example.com',
 					passwordHash: 'hashJane',
-					age: 30,
-				},
+					age: 30
+				}
 			});
 			const found = await prisma.user.findUnique({ where: { email: 'jane@example.com' } });
 			expect(found).not.toBeNull();
@@ -49,12 +49,12 @@ describe('DB Tests', () => {
 					name: 'Old Name',
 					email: 'old@example.com',
 					passwordHash: 'hashOld',
-					age: 28,
-				},
+					age: 28
+				}
 			});
 			const updated = await prisma.user.update({
 				where: { id: user.id },
-				data: { name: 'New Name' },
+				data: { name: 'New Name' }
 			});
 			expect(updated.name).toBe('New Name');
 		});
@@ -65,8 +65,8 @@ describe('DB Tests', () => {
 					name: 'Delete Me',
 					email: 'delete@example.com',
 					passwordHash: 'hashDel',
-					age: 27,
-				},
+					age: 27
+				}
 			});
 			await prisma.user.delete({ where: { id: user.id } });
 			const gone = await prisma.user.findUnique({ where: { id: user.id } });
@@ -81,8 +81,8 @@ describe('DB Tests', () => {
 					name: 'First',
 					email: 'unique@example.com',
 					passwordHash: 'hashFirst',
-					age: 26,
-				},
+					age: 26
+				}
 			});
 
 			await expect(
@@ -91,9 +91,9 @@ describe('DB Tests', () => {
 						name: 'Second',
 						email: 'unique@example.com',
 						passwordHash: 'hashSecond',
-						age: 31,
-					},
-				}),
+						age: 31
+					}
+				})
 			).rejects.toMatchObject({ code: 'P2002' });
 		});
 
@@ -101,8 +101,8 @@ describe('DB Tests', () => {
 			await expect(
 				prisma.user.update({
 					where: { email: 'ghost@example.com' }, // precisa ser @unique no schema
-					data: { name: 'Ghost' },
-				}),
+					data: { name: 'Ghost' }
+				})
 			).rejects.toHaveProperty('code', 'P2025');
 		});
 	});

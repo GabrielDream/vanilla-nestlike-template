@@ -35,7 +35,7 @@ describe('User Routes', () => {
 					name: 'Test User',
 					age: 25,
 					email: 'test@example.com',
-					password: 'Valiadsfadfd@123!',
+					password: 'Valiadsfadfd@123!'
 				});
 
 				expect(res.statusCode).toBe(201);
@@ -48,7 +48,7 @@ describe('User Routes', () => {
 					name: 'Valid Name',
 					age: '25', // ← string numérica válida
 					email: 'only@anexemple.com',
-					password: 'Valid@123',
+					password: 'Valid@123'
 				});
 
 				expect(res.statusCode).toBe(201);
@@ -61,7 +61,7 @@ describe('User Routes', () => {
 					name: 'Test User',
 					age: 25,
 					email: 'staff@example.com',
-					password: 'Valid@123',
+					password: 'Valid@123'
 				});
 
 				expect(res.statusCode).toBe(201);
@@ -73,7 +73,7 @@ describe('User Routes', () => {
 					name: '  Test User  ',
 					age: 25,
 					email: '  TEST@EXAMPLE.COM  ',
-					password: 'Valid@123',
+					password: 'Valid@123'
 				});
 
 				expect(res.statusCode).toBe(201);
@@ -87,7 +87,7 @@ describe('User Routes', () => {
 					name: '',
 					age: '',
 					email: '',
-					password: '',
+					password: ''
 				});
 
 				expect(res.statusCode).toBe(400);
@@ -100,7 +100,7 @@ describe('User Routes', () => {
 					name: 'name',
 					age: 3,
 					email: 'valid@email.com',
-					password: '123',
+					password: '123'
 				});
 
 				expect(res.statusCode).toBe(400);
@@ -114,7 +114,7 @@ describe('User Routes', () => {
 					age: 30,
 					email: 'extra@example.com',
 					password: 'Valid@123',
-					extraParam: 'notAllowed',
+					extraParam: 'notAllowed'
 				});
 
 				expect(res.statusCode).toBe(400);
@@ -132,7 +132,7 @@ describe('User Routes', () => {
 					name: 'Test User',
 					age: 25,
 					email: 'test4@example.com',
-					password: 'Valid@123',
+					password: 'Valid@123'
 				});
 
 				expect(res.statusCode).toBe(500);
@@ -147,15 +147,15 @@ describe('User Routes', () => {
 						age: 25,
 						email: 'user@example.com',
 						passwordHash: 'hash',
-						role: 'STAFF',
-					},
+						role: 'STAFF'
+					}
 				});
 
 				const res = await request(app).post('/auth/register').send({
 					name: 'Second User',
 					age: 30,
 					email: 'USER@EXAMPLE.COM',
-					password: 'Valid@123',
+					password: 'Valid@123'
 				});
 
 				expect(res.statusCode).toBe(400);
@@ -168,7 +168,7 @@ describe('User Routes', () => {
 						name: 2,
 						age: 30,
 						email: 'only@anexemple.com',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -181,7 +181,7 @@ describe('User Routes', () => {
 						name: 5,
 						age: 3,
 						email: 'valid@email.com',
-						password: 'Password@123',
+						password: 'Password@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -196,7 +196,7 @@ describe('User Routes', () => {
 						name: 'Invalid name',
 						age: 'abc',
 						email: 'only@anexemple.com',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -210,7 +210,7 @@ describe('User Routes', () => {
 						name: 'Too Young',
 						age: -5,
 						email: 'young@example.com',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -224,7 +224,7 @@ describe('User Routes', () => {
 						name: 'Too Young',
 						age: 300,
 						email: 'young@example.com',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -242,15 +242,15 @@ describe('User Routes', () => {
 							age: 3,
 							email: 'only@anexemple.com',
 							passwordHash: 'hash',
-							role: 'STAFF',
-						},
+							role: 'STAFF'
+						}
 					});
 
 					const res = await request(app).post('/auth/register').send({
 						name: 'Invalid name',
 						age: 3,
 						email: 'only@anexemple.com',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);
@@ -263,7 +263,7 @@ describe('User Routes', () => {
 						name: 'name',
 						age: 3,
 						email: 'invalidEmailcom',
-						password: 'Valid@123',
+						password: 'Valid@123'
 					});
 
 					expect(res.statusCode).toBe(400);

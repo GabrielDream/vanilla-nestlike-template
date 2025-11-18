@@ -35,16 +35,13 @@ describe('GET /auth/me', () => {
 				age: 25,
 				email: 'me@tester.com',
 				passwordHash: 'hash',
-				role: 'STAFF',
-			},
+				role: 'STAFF'
+			}
 		});
 
 		const token = signJwt({ id: user.id, role: user.role });
 
-		const res = await request(app)
-			.get('/auth/me')
-			.set('Authorization', `Bearer ${token}`)
-			.send();
+		const res = await request(app).get('/auth/me').set('Authorization', `Bearer ${token}`).send();
 
 		expect(res.statusCode).toBe(200);
 		expect(res.body.success).toBe(true);
@@ -52,7 +49,7 @@ describe('GET /auth/me', () => {
 			id: user.id,
 			name: user.name,
 			email: user.email,
-			role: user.role,
+			role: user.role
 		});
 	});
 
@@ -66,10 +63,7 @@ describe('GET /auth/me', () => {
 	it('❌ 404 - should return 404 if user no longer exists', async () => {
 		const fakeToken = signJwt({ id: 'nonexistent-id', role: 'STAFF' });
 
-		const res = await request(app)
-			.get('/auth/me')
-			.set('Authorization', `Bearer ${fakeToken}`)
-			.send();
+		const res = await request(app).get('/auth/me').set('Authorization', `Bearer ${fakeToken}`).send();
 
 		expect(res.statusCode).toBe(404);
 		expect(res.body.success).toBe(false);

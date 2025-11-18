@@ -27,7 +27,7 @@ describe('authRequired (integration smoke)', () => {
 		app.get('/me', authRequired, (req, res) => {
 			return res.success({
 				message: 'AuthRequired middleware is intercepting!',
-				data: req.user,
+				data: req.user
 			});
 		});
 
@@ -39,13 +39,13 @@ describe('authRequired (integration smoke)', () => {
 				return res.status(err.statusCode).json({
 					success: false,
 					code: err.code,
-					message: err.message,
+					message: err.message
 				});
 			}
 			return res.status(500).json({
 				success: false,
 				code: 'ERR_INTERNAL',
-				message: 'INTERNAL SERVER ERROR',
+				message: 'INTERNAL SERVER ERROR'
 			});
 		});
 
@@ -69,10 +69,10 @@ describe('authRequired (integration smoke)', () => {
 				role: 'user',
 				jti: expect.any(String),
 				iat: expect.any(Number),
-				exp: expect.any(Number),
+				exp: expect.any(Number)
 			}),
 			meta: {},
-			timeStamp: expect.any(String),
+			timeStamp: expect.any(String)
 		});
 
 		// ✅ VERIFICA O JTI ESPECÍFICO
@@ -114,7 +114,7 @@ describe('authRequired (integration smoke)', () => {
 		expect(res.body).toEqual({
 			success: false,
 			code: 'TOKEN_REVOKED',
-			message: 'Token has been revoked', // ← MENSAGEM ESPECÍFICA!
+			message: 'Token has been revoked' // ← MENSAGEM ESPECÍFICA!
 		});
 	});
 

@@ -36,8 +36,8 @@ describe('POST /auth/logout', () => {
 				age: 12,
 				email: 'logout@example.com',
 				passwordHash: 'hash',
-				role: 'STAFF',
-			},
+				role: 'STAFF'
+			}
 		});
 
 		const token = signJwt({ id: user.id, role: user.role });
@@ -56,5 +56,4 @@ describe('POST /auth/logout', () => {
 		expect(res.statusCode).toBe(401);
 		expect(res.body.success).toBe(false);
 	});
-
 });

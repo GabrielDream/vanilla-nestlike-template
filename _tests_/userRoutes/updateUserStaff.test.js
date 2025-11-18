@@ -39,14 +39,16 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					email: 'staff@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
-
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
 
-			const res = await request(app).put(`/users/${user.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'Staff Updated' });
+			const res = await request(app)
+				.put(`/users/${user.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ name: 'Staff Updated' });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -61,12 +63,15 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					email: 'staffTOUPDATE@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 			const token = signJwt({ id: user.id, role: user.role });
 
-			const res = await request(app).put(`/users/${user.id}`).set('Authorization', `Bearer ${token}`).send({ email: 'newstaffemailupdated@test.com' });
+			const res = await request(app)
+				.put(`/users/${user.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ email: 'newstaffemailupdated@test.com' });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -81,8 +86,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					email: 'staffage@test.com',
 					passwordHash: await bcrypt.hash('Test@123', 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
@@ -105,13 +110,16 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					email: 'staffpass@test.com',
 					passwordHash: await bcrypt.hash(oldPassword, 10),
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
 
-			const res = await request(app).put(`/users/${user.id}`).set('Authorization', `Bearer ${token}`).send({ password: newPassword });
+			const res = await request(app)
+				.put(`/users/${user.id}`)
+				.set('Authorization', `Bearer ${token}`)
+				.send({ password: newPassword });
 
 			expect(res.statusCode).toBe(200);
 			expect(res.body.success).toBe(true);
@@ -120,7 +128,7 @@ describe('PUT /users/:id - Staff Self Update', () => {
 			// Verifica no banco se o hash foi realmente atualizado
 			const updatedUser = await prisma.user.findUnique({
 				where: { id: user.id },
-				select: { passwordHash: true },
+				select: { passwordHash: true }
 			});
 
 			const isNewPasswordValid = await bcrypt.compare(newPassword, updatedUser.passwordHash);
@@ -138,8 +146,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staffage@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 				const token = signJwt({ id: userWithInvalidId.id, role: userWithInvalidId.role });
 
@@ -158,8 +166,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staff@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 				const token = signJwt({ id: user.id, role: user.role });
 
@@ -181,8 +189,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staffage@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 				const token = signJwt({ id: user.id, role: user.role });
 
@@ -193,7 +201,7 @@ describe('PUT /users/:id - Staff Self Update', () => {
 				expect(res.body.field).toBe('users');
 				expect(res.body.code).toBe('NO_FIELDS_TO_UPDATE');
 			});
-		})
+		});
 
 		describe('BODY VALIDATIONS', () => {
 			describe('BODY VALIDATIONS', () => {
@@ -204,8 +212,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_invalid_email@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
@@ -228,8 +236,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_invalid_age@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
@@ -252,8 +260,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_invalid_name@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
@@ -276,8 +284,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_invalid_password@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
@@ -301,8 +309,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_inuse@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					// outro user com o email que será "duplicado"
@@ -312,16 +320,14 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'other_inuse@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 30,
-						},
+							age: 30
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
 
 					// aqui a gente mocka o update pra simular P2002 do Prisma
-					const updateSpy = jest
-						.spyOn(prisma.user, 'update')
-						.mockRejectedValueOnce({ code: 'P2002' });
+					const updateSpy = jest.spyOn(prisma.user, 'update').mockRejectedValueOnce({ code: 'P2002' });
 
 					const res = await request(app)
 						.put(`/users/${user.id}`)
@@ -341,8 +347,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 							email: 'staff_nochange@test.com',
 							passwordHash: await bcrypt.hash('Test@123', 10),
 							role: 'STAFF',
-							age: 25,
-						},
+							age: 25
+						}
 					});
 
 					const token = signJwt({ id: user.id, role: user.role });
@@ -359,7 +365,7 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					expect(res.body.code).toBe('NO_CHANGES');
 				});
 			});
-		})
+		});
 
 		describe('GUARD VALIDATIONS', () => {
 			it('should NOT allow STAFF to update another STAFF', async () => {
@@ -369,8 +375,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staff1@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const staff2 = await prisma.user.create({
@@ -379,13 +385,16 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staff2@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 30,
-					},
+						age: 30
+					}
 				});
 
 				const token = signJwt({ id: staff1.id, role: staff1.role });
 
-				const res = await request(app).put(`/users/${staff2.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'Hacked Name' });
+				const res = await request(app)
+					.put(`/users/${staff2.id}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'Hacked Name' });
 
 				expect(res.statusCode).toBe(403);
 				expect(res.body.message).toBe('Forbidden');
@@ -401,8 +410,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'admin@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'ADMIN',
-						age: 40,
-					},
+						age: 40
+					}
 				});
 
 				const staff = await prisma.user.create({
@@ -411,13 +420,16 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staff_guard@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const token = signJwt({ id: staff.id, role: staff.role });
 
-				const res = await request(app).put(`/users/${admin.id}`).set('Authorization', `Bearer ${token}`).send({ name: 'Hacked Admin' });
+				const res = await request(app)
+					.put(`/users/${admin.id}`)
+					.set('Authorization', `Bearer ${token}`)
+					.send({ name: 'Hacked Admin' });
 
 				expect(res.statusCode).toBe(403);
 				expect(res.body.message).toBe('Forbidden');
@@ -433,8 +445,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 						email: 'staff_notoken@test.com',
 						passwordHash: await bcrypt.hash('Test@123', 10),
 						role: 'STAFF',
-						age: 25,
-					},
+						age: 25
+					}
 				});
 
 				const res = await request(app).put(`/users/${user.id}`).send({ name: 'Should Not Work' });
@@ -455,8 +467,8 @@ describe('PUT /users/:id - Staff Self Update', () => {
 					age: 23,
 					email: 'staff.self@ex.com',
 					passwordHash: await bcrypt.hash('Valid@123', 10),
-					role: 'STAFF',
-				},
+					role: 'STAFF'
+				}
 			});
 
 			const token = signJwt({ id: user.id, role: user.role });
@@ -478,5 +490,5 @@ describe('PUT /users/:id - Staff Self Update', () => {
 			expect(res.body.message).toBe('Update failed'); // ✅ Mensagem da UPDATE route
 			expect(res.body.code).toBe('UPDATE_FAILED'); // ✅ Código da UPDATE route
 		});
-	})
+	});
 });

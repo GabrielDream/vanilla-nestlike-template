@@ -13,7 +13,7 @@ const request = supertest(app);
 //Route:
 app.get('/success', (req, res, next) => {
 	res.success({
-		message: 'Test worked!',
+		message: 'Test worked!'
 	});
 });
 

@@ -52,14 +52,14 @@ app.post('/users', async (req, res, next) => {
 		// Persistência
 		const created = await prisma.user.create({
 			data: { name: name.trim(), email, passwordHash, age },
-			select: { id: true, name: true, email: true, age: true },
+			select: { id: true, name: true, email: true, age: true }
 		});
 
 		// Success response (conforme teu handler)
 		return res.success({
 			statusCode: 200,
 			message: 'USER CREATED',
-			data: created,
+			data: created
 		});
 	} catch (err) {
 		if (err && err.code === 'P2002') {

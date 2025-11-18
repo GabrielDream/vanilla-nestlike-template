@@ -28,8 +28,8 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-	await prisma.user.deleteMany()
-	jest.restoreAllMocks()
+	await prisma.user.deleteMany();
+	jest.restoreAllMocks();
 });
 
 afterAll(async () => {
@@ -60,8 +60,8 @@ describe('User Routes — GET /users', () => {
 					email: 'admin@test.com',
 					passwordHash: 'hash',
 					role: 'ADMIN',
-					age: 35,
-				},
+					age: 35
+				}
 			});
 
 			await prisma.user.create({
@@ -70,8 +70,8 @@ describe('User Routes — GET /users', () => {
 					email: 'staff@test.com',
 					passwordHash: 'hash',
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: adminUser.id, role: adminUser.role });
@@ -105,8 +105,8 @@ describe('User Routes — GET /users', () => {
 					email: 'admin@test.com',
 					passwordHash: 'hash',
 					role: 'ADMIN',
-					age: 35,
-				},
+					age: 35
+				}
 			});
 
 			// Cria o STAFF logado
@@ -116,8 +116,8 @@ describe('User Routes — GET /users', () => {
 					email: 'staff@test.com',
 					passwordHash: 'hash',
 					role: 'STAFF',
-					age: 25,
-				},
+					age: 25
+				}
 			});
 
 			const token = signJwt({ id: staffUser.id, role: staffUser.role });
@@ -192,4 +192,3 @@ describe('User Routes — GET /users', () => {
 		});
 	});
 });
-
