@@ -1,8 +1,8 @@
 # 🧠 VANILLA NEST-LIKE BACKEND TEMPLATE
 
-	Backend template em **Node.js (ESM)** com **Express 5**, **Prisma (PostgreSQL)**, **JWT Auth**, **RBAC**, **ESLint + Prettier**, **Husky + Commitlint** e **Jest + Supertest** totalmente integrado.
+    Backend template em **Node.js (ESM)** com **Express 5**, **Prisma (PostgreSQL)**, **JWT Auth**, **RBAC**, **ESLint + Prettier**, **Husky + Commitlint** e **Jest + Supertest** totalmente integrado.
 
-	**Objetivo:** servir como base profissional Nest-like em JavaScript puro, pronto para freelas, provas técnicas e projetos reais.
+    **Objetivo:** servir como base profissional Nest-like em JavaScript puro, pronto para freelas, provas técnicas e projetos reais.
 
 ---
 
@@ -167,7 +167,8 @@ src/
 │   └── db/              # prisma.js
 ├── utils/               # sanitize.js
 └── middlewares/         # success/error handlers, AppError
-⚙️ Qualidade de Código
+
+##⚙️ Qualidade de Código
 ESLint + Prettier configurados
 
 Husky + Commitlint para commits semânticos
@@ -180,3 +181,4 @@ EditorConfig para consistência
 	**Autor:** Gabriel Bussab
 	**Contato:** https://www.linkedin.com/in/gabriel-bussab
   **Propósito:** Demonstração técnica para freelas e provas práticas.
+```
