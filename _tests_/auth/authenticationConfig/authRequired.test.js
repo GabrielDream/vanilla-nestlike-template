@@ -63,6 +63,7 @@ describe('authRequired (integration smoke)', () => {
 			// ✅ TESTA A ESTRUTURA COMPLETA DO res.success()
 			success: true,
 			status: 'Success',
+			statusCode: 200,
 			message: 'AuthRequired middleware is intercepting!',
 			data: expect.objectContaining({
 				id: 'u1',

@@ -5,6 +5,7 @@ export default ({ res, statusCode = 200, message = 'Success', data = {}, meta = 
 	const response = {
 		success: true,
 		status: 'Success',
+		statusCode,
 		message,
 		data,
 		meta,

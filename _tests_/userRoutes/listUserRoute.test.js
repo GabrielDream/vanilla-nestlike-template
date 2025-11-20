@@ -27,8 +27,11 @@ beforeAll(async () => {
 	await prisma.$connect();
 });
 
-afterEach(async () => {
+beforeEach(async () => {
 	await prisma.user.deleteMany();
+});
+
+afterEach(async () => {
 	jest.restoreAllMocks();
 });
 
