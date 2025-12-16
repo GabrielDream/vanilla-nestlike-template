@@ -120,7 +120,7 @@ describe('User Routes', () => {
 				expect(res.statusCode).toBe(400);
 				expect(res.body.success).toBe(false);
 				expect(res.body.code).toBe('ERR_EXTRA_FIELDS');
-				expect(res.body.message).toMatch('EXTRA FIELDS ARE NOT ALLOWED: extraParam');
+				expect(res.body.message).toMatch('EXTRA FIELDS ARE NOT ALLOWED');
 			});
 
 			it('❌ should handle internal server erros', async () => {

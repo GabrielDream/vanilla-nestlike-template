@@ -1,0 +1,287 @@
+# 🧠 Mission 5 — Backend Node.js + Prisma + JWT Auth
+
+Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e **Jest**, integrando autenticação, middlewares, testes e estrutura de banco relacional.
+Objetivo: demonstrar domínio completo de backend moderno com boas práticas, testes e documentação.
+
+---
+
+## 🚀 Início rápido
+```bash
+# 1. Inicializar projeto (caso ainda não exista)
+npm init -y
+```
+
+---
+
+## 📦 Dependências
+
+### Principais
+
+```bash
+npm install bcrypt chalk cors dotenv express
+```
+
+### Desenvolvimento
+```bash
+npm install --save-dev @types/express nodemon jest supertest eslint
+```
+
+---
+
+## 🧹 Lint e formatação
+```bash
+# Verificar erros de lint
+npm run lint
+# Corrigir automaticamente
+npm run lint:fix
+```
+
+# 1️⃣ Instala o commitlint
+npm i -D @commitlint/config-conventional @commitlint/cli
+bash
+Copiar código
+
+# 2️⃣ Cria o arquivo de configuração
+echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
+bash
+Copiar código
+
+# 3️⃣ Adiciona o hook commit-msg no Husky
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit $1'
+
+---
+
+## 🗄️ Banco de Dados (Prisma + PostgreSQL)
+```bash
+# Instalar Prisma
+npm install @prisma/client
+npm install --save-dev prisma
+
+# Inicializar Prisma
+npx prisma init
+
+# Rodar migração inicial
+npx prisma migrate dev --name init
+```
+
+---
+
+## ⚙️ Scripts úteis
+Adicione estes scripts ao `package.json` (caso ainda não estejam):
+
+```json
+"scripts": {
+  "dev": "nodemon src/server.js",
+  "test": "jest",
+  "lint": "eslint .",
+  "lint:fix": "eslint . --fix",
+  "db:push": "prisma db push",
+  "db:migrate": "prisma migrate deploy",
+  "db:seed": "node prisma/seed.js",
+  "start": "node src/server.js"
+}
+```
+
+---
+
+## 🧪 Testes
+```bash
+npm test
+
+Teste especifico:
+npm test -- -t "success function"
+npm test -- _tests_/middlewares/successHandler.test.js
+```
+
+Framework: **Jest + Supertest**
+Inclui testes de integração (`/auth/login`, `/auth/logout`, `/auth/register`, `/me`) e unitários (`signJwt`, `allowRoles`, `tokenDenylist.memory`, etc).
+
+---
+
+## 🔐 Commits e histórico
+```bash
+# Ver commits resumidos
+git log --oneline --graph --decorate
+```
+
+Exemplo de histórico:
+
+```
+* f1ae606 (HEAD -> master) DB WITH MIDDLEWARE TESTS DONE NOW
+* d0488bb db tests with helpers done
+* 6e7128a helpers middlewares and its tests done
+* fee4bc2 db structure done
+* fb66780 skeleton done
+```
+
+---
+
+## ⚙️ Arquivo `.env.example`
+
+```bash
+DATABASE_URL="postgresql://user:password@localhost:5432/mission5?schema=public"
+JWT_SECRET="dev-secret"
+JWT_EXPIRES_IN="1d"
+PORT=3000
+```
+
+---
+
+	## ESTRUTURA DO PROJETO
+	1️⃣ Fundação do Projeto
+			README - package.json - .gitignore
+	2️⃣ Ambiente e Config Sensíveis
+			.env - .env.test
+	3️⃣ Pipeline de Qualidade e Semântica
+			.editorconfig - estlint.config - .eslintignore - .pretter - pre-commit - commit-msg - husky.sh - commitlint.config.js - logger.js - spyConsole.js
+	4️⃣ Banco de Dados (Prisma)
+			schema.prisma - MIGRATIONS/init - seed.js - prisma.js
+	5️⃣ Middleware Helpers (success/error/AppError)
+			success.js - successHandler.js - success.Handler.test.js - AppError.js - errorHandler.js - errorHandler.test.js
+	6️⃣ Configuração Global e Testes
+			jest.config.cjs - jest.setup.env.cjs - globalSetup.cjs
+	7️⃣ Testes de Integridade de Banco
+			user.db.test.js - app.bridge.userToDb.js - bridge.http.test.js
+	8️⃣ JWT Core (signJwt / verifyJwt)
+			signJwt.js - signJtw.test.js - verifyJtw.js - verifyJtw.test.js
+	9️⃣ JWT Denylist (Revogação)
+			tokenDenyList.memory.js - tokenDenyList.memory.test.js
+	🔟 JWT Guards
+			authRequired.js - authRequired.test.js - allowRoles.js - allowRoles.test.js -  isSelfOrRoles.js - isSelforRoles.test.js
+  1️⃣1️⃣ JWT Auth Routes (register / login / logout / me)
+	1️⃣2️⃣ Rotas de auth: register, login, logout, me (+ testes HTTP) e RBAC nas Rotas de Usuário
+	13 - SERVIDOR/POSTMAN
+
+
+	13️⃣ Admin Seed & Invariantes
+	14️⃣ Segurança Aplicativa (Hardening)
+	15️⃣ Smoke E2E de Autenticação
+	16️⃣ DX & Pipeline de Qualidade (Husky, lint, commit)
+	17️⃣ Empacotamento & Execução (scripts, env.example, README)
+	18️⃣ Documentação de Rotas (README / Postman)
+	19️⃣ Observabilidade & Logs (logger / spyConsole)
+	20️⃣ Servidor (app.js + server.js, listen e shutdown)
+
+## 🧭 Estrutura do projeto (resumida)
+```
+middlewares/
+├── AppError.js
+├── errorHandler.js
+├── success.js
+└── successHandler.js
+
+src/
+├── auth/
+│   ├── guards/
+│   │   ├── allowRoles.js
+│   │   ├── authRequired.js
+│   │   └── isSelfOrRoles.js
+│   ├── routes/
+│   │   ├── registerRoute.js
+│   │   ├── loginRoute.js
+│   │   └── logoutRoute.js
+│   └── tokens/
+│       ├── signJwt.js
+│       └── tokenDenylist.memory.js
+├── users/
+│   ├── db/
+│   │   └── prisma.js
+│   ├── listUsersRoute.js
+│   ├── adminDeleteStaffRoute.js
+│   ├── emailCheckRoute.js
+│   └── meRoute.js
+└── utils/
+    └── sanitize.js
+```
+
+---
+
+## COMANDO TREE:
+tree -I 'node_modules|.git|dist|build' -a
+
+## 🔑 Rotas principais (API)
+
+| Método   | Rota             | Proteção      | Descrição                         |
+| :------- | :--------------- | :------------ | :-------------------------------- |
+| `POST`   | `/auth/register` | pública       | Cria novo usuário                 |
+| `POST`   | `/auth/login`    | pública       | Gera token JWT                    |
+| `POST`   | `/auth/logout`   | autenticado   | Revoga token ativo                |
+| `GET`    | `/me`            | autenticado   | Retorna usuário logado            |
+| `GET`    | `/users`         | ADMIN         | Lista usuários                    |
+| `DELETE` | `/users/:id`     | ADMIN ou Self | Remove usuário                    |
+| `GET`    | `/check-email`   | pública       | Verifica disponibilidade de email |
+
+---
+
+## 🧰 Stack principal
+- Node.js (ESM)
+- Express 5
+- Prisma ORM (PostgreSQL)
+- JWT Auth
+- Jest + Supertest
+- ESLint
+- Dotenv
+- Bcrypt
+- CORS
+- Chalk (para logs)
+- Nodemon
+
+---
+
+## 🧱 Seeds
+Arquivo `prisma/seed.js` cria usuários iniciais (ADMIN e STAFF):
+
+```js
+await prisma.user.createMany({
+	data: [
+		{ name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
+		{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' },
+	],
+});
+```
+
+---
+
+## 🧩 Middlewares
+- `successHandler.js`: injeta `res.success(status, data)`
+- `errorHandler.js`: captura `AppError` e erros Prisma (P2002 → 409, P2025 → 404)
+- `AppError.js`: classe base de erro customizado
+
+---
+
+## 🧱 Testes automatizados
+
+Pasta `_tests_` cobre:
+
+- Autenticação (`login`, `logout`, `register`, `me`)
+- Guards (`authRequired`, `allowRoles`, `isSelfOrRoles`)
+- Tokens (`signJwt`, `tokenDenylist.memory`)
+- Middlewares (`successHandler`, `errorHandler`)
+- Rotas de usuário (`list`, `delete`, `check-email`)
+- Banco (`user.db.test.js`)
+
+---
+
+## 💡 Observações finais
+
+Este projeto é parte da **Operation Warpath / NeuroCoding Project** (Mission 5).
+Foco: demonstrar domínio de backend com autenticação JWT, Prisma ORM e testes automatizados.
+
+Para rodar localmente:
+
+```bash
+cp .env.example .env
+npm install
+npm run db:push
+npm run db:seed
+npm run dev
+```
+
+Servidor iniciará em: **http://localhost:3000**
+
+---
+
+**Autor:** Gabriel Bussab (Jibrail)
+**Contato:** [linkedin.com/in/gabriel-bussab](https://www.linkedin.com/in/gabriel-bussab)
+**Propósito:** Demonstração técnica para freelas e provas práticas.
+**Status:** 🧩 Quase pronto (falta `/me` e ajustes menores antes do deploy final)

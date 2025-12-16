@@ -30,10 +30,6 @@ router.post('/register', async (req, res, next) => {
 		const sanitizedBody = sanitizeUserInput(req.body);
 
 		let { name, age, email, password } = sanitizedBody;
-		email = String(email || '')
-			.trim()
-			.toLowerCase(); //GARANTE que todo email: Não tenha espaços acidentais, não quebre o codigo se vier vazio.
-		sanitizedBody.email = email;
 
 		// ✅ Oculta senha no log (segurança extra)
 		const logSafeBody = {
@@ -48,30 +44,27 @@ router.post('/register', async (req, res, next) => {
 		// -------------------------
 		// BASIC VALIDATIONS
 		// -------------------------
-		if (!name || !age || !email || !password) {
+		if (!name || age === undefined || !email || !password) {
 			logWarn('ALL FIELDS ARE REQUIRED!');
 			throw new AppError('ALL FIELDS NEED TO BE FILLED!', 400, 'all', 'ERR_MISSING_FIELDS');
 		}
 
-		// ✅ Trim aplicado antes da validação
+		//Name validation: ✅ Trim aplicado antes da validação
 		name = String(name ?? '').trim();
-
-		if (typeof name !== 'string' || /\d/.test(name) || name.length < 1) {
+		if (/\d/.test(name) || name.length < 1) {
 			//Test if theres number in name
 			throw new AppError('ADD FUNCTION: INVALID NAME!', 400, 'NAME', 'ERR_INVALID_NAME');
 		}
 
+		//Age validation:
 		const convertedAgeNumber = Number(age);
-		if (
-			!Number.isInteger(convertedAgeNumber) ||
-			Number.isNaN(convertedAgeNumber) ||
-			convertedAgeNumber < 1 ||
-			convertedAgeNumber > 100
-		) {
+		if (!Number.isInteger(convertedAgeNumber) || Number.isNaN(convertedAgeNumber) || convertedAgeNumber < 1 || convertedAgeNumber > 100) {
 			logWarn('INVALID AGE!');
 			throw new AppError('ADD FUNCTION: INVALID AGE!', 400, 'age', 'ERR_INVALID_AGE');
 		}
 
+		//Email validation:
+		email = String(email ?? '').trim().toLowerCase();
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
@@ -82,8 +75,9 @@ router.post('/register', async (req, res, next) => {
 			throw new AppError('EMAIL ALREADY IN USE!', 400, 'EMAIL', 'ERR_EMAIL_IN_USE');
 		}
 
-		// ✅ Verifica força da senha antes do hash (eficiência e segurança)
-		if (typeof password !== 'string' || password.length < 8 || password.length > 128) {
+		//Password validation. IMPORTANT: need to be checked password strength before HASH.
+		password = String(password ?? '');
+		if (password.length < 8 || password.length > 128) {
 			throw new AppError('PASSWORD TOO SHORT', 400, 'PASSWORD', 'ERR_WEAK_PASSWORD');
 		}
 		const rounds = Number(process.env.BCRYPT_SALT_ROUNDS || 12);
