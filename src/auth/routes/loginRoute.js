@@ -23,9 +23,6 @@ router.post('/login', async (req, res, next) => {
 		const sanitizedBody = sanitizeUserInput(req.body);
 
 		let { email, password } = sanitizedBody;
-		email = String(email || '')
-			.trim()
-			.toLowerCase();
 
 		logDebug('📥 LOGIN REQUEST BODY:', { email });
 
@@ -37,13 +34,14 @@ router.post('/login', async (req, res, next) => {
 			throw new AppError('EMAIL AND PASSWORD ARE REQUIRED!', 400, 'all', 'ERR_MISSING_FIELDS');
 		}
 
+		email = String(email ?? '').trim().toLowerCase();
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
 		}
 
-		// ✅ Checagem de força/tamanho ANTES do DB
-		if (typeof password !== 'string' || password.length < 8 || password.length > 128) {
+		password = String(password ?? '');
+		if (password.length < 8 || password.length > 128) {
 			throw new AppError('INVALID CREDENTIALS!', 401, 'AUTH', 'ERR_INVALID_CREDENTIALS');
 		}
 
@@ -66,7 +64,7 @@ router.post('/login', async (req, res, next) => {
 		// AFTER LOGIN CHECK VALIDATIONS
 		// -------------------------
 		if (!user) {
-			// ✅ Timing Attack Protection (Completo)
+			// ✅ Timing Attack Protection
 			const dummyHash = process.env.DUMMY_BCRYPT_HASH || '$2b$12$NhS8e9J7OVQZyUVf6QPRd.DD8W5J2..eVvJyv6WllP6sZJY5QY5Qa';
 
 			try {
