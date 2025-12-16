@@ -58,13 +58,20 @@ router.post('/register', async (req, res, next) => {
 
 		//Age validation:
 		const convertedAgeNumber = Number(age);
-		if (!Number.isInteger(convertedAgeNumber) || Number.isNaN(convertedAgeNumber) || convertedAgeNumber < 1 || convertedAgeNumber > 100) {
+		if (
+			!Number.isInteger(convertedAgeNumber) ||
+			Number.isNaN(convertedAgeNumber) ||
+			convertedAgeNumber < 1 ||
+			convertedAgeNumber > 100
+		) {
 			logWarn('INVALID AGE!');
 			throw new AppError('ADD FUNCTION: INVALID AGE!', 400, 'age', 'ERR_INVALID_AGE');
 		}
 
 		//Email validation:
-		email = String(email ?? '').trim().toLowerCase();
+		email = String(email ?? '')
+			.trim()
+			.toLowerCase();
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');

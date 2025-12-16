@@ -6,6 +6,7 @@ Objetivo: demonstrar domínio completo de backend moderno com boas práticas, te
 ---
 
 ## 🚀 Início rápido
+
 ```bash
 # 1. Inicializar projeto (caso ainda não exista)
 npm init -y
@@ -22,6 +23,7 @@ npm install bcrypt chalk cors dotenv express
 ```
 
 ### Desenvolvimento
+
 ```bash
 npm install --save-dev @types/express nodemon jest supertest eslint
 ```
@@ -29,6 +31,7 @@ npm install --save-dev @types/express nodemon jest supertest eslint
 ---
 
 ## 🧹 Lint e formatação
+
 ```bash
 # Verificar erros de lint
 npm run lint
@@ -37,21 +40,25 @@ npm run lint:fix
 ```
 
 # 1️⃣ Instala o commitlint
+
 npm i -D @commitlint/config-conventional @commitlint/cli
 bash
 Copiar código
 
 # 2️⃣ Cria o arquivo de configuração
+
 echo "export default { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 bash
 Copiar código
 
 # 3️⃣ Adiciona o hook commit-msg no Husky
+
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit $1'
 
 ---
 
 ## 🗄️ Banco de Dados (Prisma + PostgreSQL)
+
 ```bash
 # Instalar Prisma
 npm install @prisma/client
@@ -67,6 +74,7 @@ npx prisma migrate dev --name init
 ---
 
 ## ⚙️ Scripts úteis
+
 Adicione estes scripts ao `package.json` (caso ainda não estejam):
 
 ```json
@@ -85,6 +93,7 @@ Adicione estes scripts ao `package.json` (caso ainda não estejam):
 ---
 
 ## 🧪 Testes
+
 ```bash
 npm test
 
@@ -99,6 +108,7 @@ Inclui testes de integração (`/auth/login`, `/auth/logout`, `/auth/register`, 
 ---
 
 ## 🔐 Commits e histórico
+
 ```bash
 # Ver commits resumidos
 git log --oneline --graph --decorate
@@ -127,42 +137,43 @@ PORT=3000
 
 ---
 
-	## ESTRUTURA DO PROJETO
-	1️⃣ Fundação do Projeto
-			README - package.json - .gitignore
-	2️⃣ Ambiente e Config Sensíveis
-			.env - .env.test
-	3️⃣ Pipeline de Qualidade e Semântica
-			.editorconfig - estlint.config - .eslintignore - .pretter - pre-commit - commit-msg - husky.sh - commitlint.config.js - logger.js - spyConsole.js
-	4️⃣ Banco de Dados (Prisma)
-			schema.prisma - MIGRATIONS/init - seed.js - prisma.js
-	5️⃣ Middleware Helpers (success/error/AppError)
-			success.js - successHandler.js - success.Handler.test.js - AppError.js - errorHandler.js - errorHandler.test.js
-	6️⃣ Configuração Global e Testes
-			jest.config.cjs - jest.setup.env.cjs - globalSetup.cjs
-	7️⃣ Testes de Integridade de Banco
-			user.db.test.js - app.bridge.userToDb.js - bridge.http.test.js
-	8️⃣ JWT Core (signJwt / verifyJwt)
-			signJwt.js - signJtw.test.js - verifyJtw.js - verifyJtw.test.js
-	9️⃣ JWT Denylist (Revogação)
-			tokenDenyList.memory.js - tokenDenyList.memory.test.js
-	🔟 JWT Guards
-			authRequired.js - authRequired.test.js - allowRoles.js - allowRoles.test.js -  isSelfOrRoles.js - isSelforRoles.test.js
-  1️⃣1️⃣ JWT Auth Routes (register / login / logout / me)
-	1️⃣2️⃣ Rotas de auth: register, login, logout, me (+ testes HTTP) e RBAC nas Rotas de Usuário
-	13 - SERVIDOR/POSTMAN
+    ## ESTRUTURA DO PROJETO
+    1️⃣ Fundação do Projeto
+    		README - package.json - .gitignore
+    2️⃣ Ambiente e Config Sensíveis
+    		.env - .env.test
+    3️⃣ Pipeline de Qualidade e Semântica
+    		.editorconfig - estlint.config - .eslintignore - .pretter - pre-commit - commit-msg - husky.sh - commitlint.config.js - logger.js - spyConsole.js
+    4️⃣ Banco de Dados (Prisma)
+    		schema.prisma - MIGRATIONS/init - seed.js - prisma.js
+    5️⃣ Middleware Helpers (success/error/AppError)
+    		success.js - successHandler.js - success.Handler.test.js - AppError.js - errorHandler.js - errorHandler.test.js
+    6️⃣ Configuração Global e Testes
+    		jest.config.cjs - jest.setup.env.cjs - globalSetup.cjs
+    7️⃣ Testes de Integridade de Banco
+    		user.db.test.js - app.bridge.userToDb.js - bridge.http.test.js
+    8️⃣ JWT Core (signJwt / verifyJwt)
+    		signJwt.js - signJtw.test.js - verifyJtw.js - verifyJtw.test.js
+    9️⃣ JWT Denylist (Revogação)
+    		tokenDenyList.memory.js - tokenDenyList.memory.test.js
+    🔟 JWT Guards
+    		authRequired.js - authRequired.test.js - allowRoles.js - allowRoles.test.js -  isSelfOrRoles.js - isSelforRoles.test.js
 
+1️⃣1️⃣ JWT Auth Routes (register / login / logout / me)
+1️⃣2️⃣ Rotas de auth: register, login, logout, me (+ testes HTTP) e RBAC nas Rotas de Usuário
+13 - SERVIDOR/POSTMAN
 
-	13️⃣ Admin Seed & Invariantes
-	14️⃣ Segurança Aplicativa (Hardening)
-	15️⃣ Smoke E2E de Autenticação
-	16️⃣ DX & Pipeline de Qualidade (Husky, lint, commit)
-	17️⃣ Empacotamento & Execução (scripts, env.example, README)
-	18️⃣ Documentação de Rotas (README / Postman)
-	19️⃣ Observabilidade & Logs (logger / spyConsole)
-	20️⃣ Servidor (app.js + server.js, listen e shutdown)
+    13️⃣ Admin Seed & Invariantes
+    14️⃣ Segurança Aplicativa (Hardening)
+    15️⃣ Smoke E2E de Autenticação
+    16️⃣ DX & Pipeline de Qualidade (Husky, lint, commit)
+    17️⃣ Empacotamento & Execução (scripts, env.example, README)
+    18️⃣ Documentação de Rotas (README / Postman)
+    19️⃣ Observabilidade & Logs (logger / spyConsole)
+    20️⃣ Servidor (app.js + server.js, listen e shutdown)
 
 ## 🧭 Estrutura do projeto (resumida)
+
 ```
 middlewares/
 ├── AppError.js
@@ -197,6 +208,7 @@ src/
 ---
 
 ## COMANDO TREE:
+
 tree -I 'node_modules|.git|dist|build' -a
 
 ## 🔑 Rotas principais (API)
@@ -214,6 +226,7 @@ tree -I 'node_modules|.git|dist|build' -a
 ---
 
 ## 🧰 Stack principal
+
 - Node.js (ESM)
 - Express 5
 - Prisma ORM (PostgreSQL)
@@ -229,20 +242,22 @@ tree -I 'node_modules|.git|dist|build' -a
 ---
 
 ## 🧱 Seeds
+
 Arquivo `prisma/seed.js` cria usuários iniciais (ADMIN e STAFF):
 
 ```js
 await prisma.user.createMany({
 	data: [
 		{ name: 'Admin', email: 'admin@demo.com', passwordHash: bcrypt.hashSync('admin123', 10), role: 'ADMIN' },
-		{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' },
-	],
+		{ name: 'Staff', email: 'staff@demo.com', passwordHash: bcrypt.hashSync('staff123', 10), role: 'STAFF' }
+	]
 });
 ```
 
 ---
 
 ## 🧩 Middlewares
+
 - `successHandler.js`: injeta `res.success(status, data)`
 - `errorHandler.js`: captura `AppError` e erros Prisma (P2002 → 409, P2025 → 404)
 - `AppError.js`: classe base de erro customizado

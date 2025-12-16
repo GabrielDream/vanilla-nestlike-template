@@ -18,8 +18,6 @@ export function sanitizeUserInput(input) {
 	return sanitized;
 }
 
-
-
 /*
 export function sanitizeUserInput(input) {
 
