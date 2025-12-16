@@ -34,7 +34,9 @@ router.post('/login', async (req, res, next) => {
 			throw new AppError('EMAIL AND PASSWORD ARE REQUIRED!', 400, 'all', 'ERR_MISSING_FIELDS');
 		}
 
-		email = String(email ?? '').trim().toLowerCase();
+		email = String(email ?? '')
+			.trim()
+			.toLowerCase();
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			throw new AppError('INVALID EMAIL FORMAT!', 400, 'EMAIL', 'ERR_INVALID_EMAIL');
