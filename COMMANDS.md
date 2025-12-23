@@ -73,3 +73,6 @@ O QUE ELE FAZ:
 bash
 # Windows → Linux: CRLF → LF (ao commitar)
 # Linux → Windows: LF → CRLF (ao fazer checkout)
+
+##Testing in runtime:
+	curl -i -X POST http://localhost:3000/users -d "{}"

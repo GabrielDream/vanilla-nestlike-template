@@ -18,36 +18,36 @@ import { router as emailCheckRoute } from './users/emailCheckRoute.js';
 import { router as updateUserStaffRoute } from './users/staffRoutes/updateUserStaff.js';
 import { router as deleteUserStaffRoute } from './users/staffRoutes/deleteUserStaff.js';
 
-// Admin routes (RBAC avançado)
+// Admin routes
 import { router as adminUpdateAllStaffRoute } from './users/adminRoutes/adminUpdateAllStaffRoute.js';
 import { router as adminDeleteAllStaffRoute } from './users/adminRoutes/adminDeleteAllStaffRoute.js';
 
 const app = express();
 
-// Middlewares básicos
+// Basic Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Adiciona res.success em todas as rotas
+// Add res.success in all routes
 app.use(successHandler);
 
-// 🔐 Rotas de autenticação
+// 🔐 Auth Routes
 app.use('/', registerRoute);
 app.use('/', loginRoute);
 app.use('/', logoutRoute);
 app.use('/', getMeRoute);
 
-// 👥 Rotas de usuários (self / gerais / helpers)
+// 👥 User Routes (self / gerais / helpers)
 app.use('/', listUsersRoute);
-app.use('/', emailCheckRoute);
+app.use('/', emailCheckRoute); q
 app.use('/', updateUserStaffRoute);
 app.use('/', deleteUserStaffRoute);
 
-// 🛡️ Rotas ADMIN (RBAC completo)
+// 🛡️ ADMIN Routes (RBAC completo)
 app.use('/', adminUpdateAllStaffRoute);
 app.use('/', adminDeleteAllStaffRoute);
 
-// Middleware global de erro (sempre por último)
+// GLOBAL ERROR MIDDLEWARE
 app.use(errorHandler);
 
 export default app;
