@@ -39,7 +39,8 @@ app.use('/', getMeRoute);
 
 // 👥 User Routes (self / gerais / helpers)
 app.use('/', listUsersRoute);
-app.use('/', emailCheckRoute); q
+app.use('/', emailCheckRoute);
+q;
 app.use('/', updateUserStaffRoute);
 app.use('/', deleteUserStaffRoute);
 
