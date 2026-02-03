@@ -1,6 +1,28 @@
 LOGIN SYSTEM — Backend Node.js + Prisma + JWT Auth
 Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e **Jest**, integrando autenticação, middlewares, testes e estrutura de banco relacional.
 
+## STEPS
+
+    1. Clonar o template base
+    	git clone https://github.com/GabrielDream/vanilla-nestlike-template
+
+    2. Desacoplar pasta clonada:
+    	git remote -v
+    	git remote remove origin
+
+    	Confirmar:
+    		git remote -v
+    		# (não deve aparecer nada)
+
+    3. Instalar dependencias:
+    	npm install
+
+    4. Ajustar prisma/schema.prisma -- NUNCA RODAR MIGRATION ANTES DISSO.
+
+    5. Configurar banco de dados:
+    	No .env:
+    		DATABASE_URL="postgresql://USER:SENHA@localhost:5432/NOME_DO_DB?schema=public"
+
 ## 🚀 Início rápido
 
 #npm init -y: para iniciar o projeto

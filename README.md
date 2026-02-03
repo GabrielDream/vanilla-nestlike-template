@@ -19,12 +19,17 @@ cp .env.example .env
 cp .env.test.example .env.test
 
 # 3. Database setup
-npx prisma db push
-npm run db:seed
+npx prisma migrate dev
 
-# 4. Development
+# 4. Seed database
+npx prisma db seed
+
+# 5. Development
 npm run dev
 # Server: http://localhost:3050
+
+# 6. Check Tree:
+tree -I node_modules
 
 🧰 Main Stack
 Runtime: Node.js (ESM)
