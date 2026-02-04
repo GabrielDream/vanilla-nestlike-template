@@ -7,8 +7,7 @@ import AppError from '../../../middlewares/AppError.js';
 
 export default async function authRequired(req, _res, next) {
 	try {
-		const auth = req.headers?.authorization;
-
+		const auth = req.get('authorization');
 		// 🔐 HTTP PROTOCOL VALIDATION - Ensures request has proper Bearer authentication
 		// Responsibility: Validate HTTP layer, extract token for JWT specialist
 		// Responsibility: HTTP KNOWLEDGE! NO PURE JTW!
