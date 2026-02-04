@@ -33,7 +33,7 @@ export async function acquireEventLock({ eventId, eventType, provider }) {
 			return {
 				acquired: false,
 				status: existing?.status ?? null
-			};//P2002 = Prisma dizendo: violou unique constraint
+			}; //P2002 = Prisma dizendo: violou unique constraint
 		}
 		throw err;
 	}
