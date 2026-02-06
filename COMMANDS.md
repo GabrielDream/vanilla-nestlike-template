@@ -3,7 +3,7 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
 
 ## STEPS
 
-    testeeeeeeewee
+    testeeeeeeeweeqqqq
     1. Clonar o template base
     	git clone https://github.com/GabrielDream/vanilla-nestlike-template
 
