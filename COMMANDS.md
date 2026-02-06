@@ -35,6 +35,14 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
     8. Testa conexão com db:
     	npm run dev
 
+
+#Tests:
+	npm test
+--Se for testes especificos:
+	npm test -- _test_/../../../
+
+
+
 ## 🚀 Início rápido
 
 #npm init -y: para iniciar o projeto
