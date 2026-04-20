@@ -124,6 +124,7 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
 
 
 
+
 ## 🚀 Início rápido -- FLOW like starting the project from zero.
 
 #npm init -y: para iniciar o projeto
