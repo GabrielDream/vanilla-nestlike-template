@@ -21,7 +21,7 @@ const logData = (data) => console.log(`${label.data} -`, data);
 const logTimeStamp = (timestamp) => console.log(`${label.timestamp} -`, timestamp);
 
 const logBanner = (msg, style = chalk.bgGreenBright.bold) => {
-	const line = '='.repeat(msg.lenght + 10);
+	const line = '='.repeat(msg.length + 10);
 	console.log(`\n${line}\n ${msg.toUpperCase()}\n${line}\n`);
 };
 
