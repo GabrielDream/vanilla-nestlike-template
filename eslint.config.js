@@ -11,7 +11,7 @@ export default [
 	js.configs.recommended,
 	{
 		plugins: {
-			import: pluginImport,
+			import: pluginImport
 		},
 		languageOptions: {
 			ecmaVersion: 2021,
