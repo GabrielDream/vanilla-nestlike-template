@@ -12,7 +12,6 @@ export default [
 	{
 		plugins: {
 			import: pluginImport,
-			prettier: pluginPrettier
 		},
 		languageOptions: {
 			ecmaVersion: 2021,
@@ -32,7 +31,6 @@ export default [
 			'operator-linebreak': 'off',
 			'function-paren-newline': 'off',
 			semi: ['error', 'always'],
-			'prettier/prettier': 'error',
 			'no-unused-vars': [
 				'error',
 				{
