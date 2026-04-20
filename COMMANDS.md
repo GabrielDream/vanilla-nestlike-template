@@ -107,6 +107,12 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
     	Initialize Prisma:
     		npx prisma init
 
+
+
+
+
+
+
 ## 🚀 Início rápido -- FLOW like starting the project from zero.
 
 #npm init -y: para iniciar o projeto
