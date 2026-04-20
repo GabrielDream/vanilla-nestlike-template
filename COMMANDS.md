@@ -4,7 +4,8 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
 # COMMANDS.md -- Operational step-by-step for cloning, reusing, configuring, testing, and running the template.
 
 ## STEPS
-	#1- Inicializing the project.
+
+    #1- Inicializing the project.
     1. Clonar o template base
     	git clone https://github.com/GabrielDream/vanilla-nestlike-template
 
@@ -32,85 +33,79 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
 
     7. Criar o ADM da aplicação via Seed:
     	npx prisma db seed
-			npm run db:seed - Ambos validos.
+    		npm run db:seed - Ambos validos.
 
     8. Testa conexão com db:
     	npm run dev
 
 
-	#2 - Testing the template.
-		npm test
-		--Se for testes especificos:
-		npm test -- _test_/../../../
+    #2 - Testing the template.
+    	npm test
+    	--Se for testes especificos:
+    	npm test -- _test_/../../../
 
-	#3 - Code quality and formatting:
-		Check lint:
-			npm run lint
+    #3 - Code quality and formatting:
+    	Check lint:
+    		npm run lint
 
-		Fix lint automatically:
-			npm run lint:fix
+    	Fix lint automatically:
+    		npm run lint:fix
 
-		Format the project:
-			npm run format
+    	Format the project:
+    		npm run format
 
-		Check formatting only:
-			npm run format:check
+    	Check formatting only:
+    		npm run format:check
 
-	#4 - Git utility commands
-		Check compact history:
-			git log --oneline --graph --decorate
+    #4 - Git utility commands
+    	Check compact history:
+    		git log --oneline --graph --decorate
 
-		Check current branch:
-			git branch
+    	Check current branch:
+    		git branch
 
-		Create a new branch:
-			git checkout -b branch-name
+    	Create a new branch:
+    		git checkout -b branch-name
 
-		Check status:
-			git status
+    	Check status:
+    		git status
 
-		Stage all files:
-			git add .
+    	Stage all files:
+    		git add .
 
-		Commit:
-			git commit -m "feat: your message"
+    	Commit:
+    		git commit -m "feat: your message"
 
-		Push current branch:
-			git push -u origin branch-name
+    	Push current branch:
+    		git push -u origin branch-name
 
-		Check remotes:
-			git remote -v
+    	Check remotes:
+    		git remote -v
 
-	#5 - Husky / Commitlint
+    #5 - Husky / Commitlint
 
-	#6 - Tree command
-		tree -I 'node_modules|.git|dist|build' -a
+    #6 - Tree command
+    	tree -I 'node_modules|.git|dist|build' -a
 
-	#8. Runtime smoke tests
-		Check email:
-			curl -i "http://localhost:3051/checkEmail/test@example.com"
+    #8. Runtime smoke tests
+    	Check email:
+    		curl -i "http://localhost:3051/checkEmail/test@example.com"
 
-		Protected route:
-			curl -i http://localhost:3051/me
+    	Protected route:
+    		curl -i http://localhost:3051/me
 
-	#9. EXTRA: from-scratch project notes
-		Initialize a new project:
-			npm init -y
+    #9. EXTRA: from-scratch project notes
+    	Initialize a new project:
+    		npm init -y
 
-		Install main dependencies:
-			npm install bcrypt chalk cors dotenv express jsonwebtoken @prisma/client
+    	Install main dependencies:
+    		npm install bcrypt chalk cors dotenv express jsonwebtoken @prisma/client
 
-		Install dev dependencies:
-			npm install --save-dev prisma nodemon jest supertest eslint prettier husky @commitlint/cli @commitlint/config-conventional
+    	Install dev dependencies:
+    		npm install --save-dev prisma nodemon jest supertest eslint prettier husky @commitlint/cli @commitlint/config-conventional
 
-		Initialize Prisma:
-			npx prisma init
-
-
-
-
-
-
+    	Initialize Prisma:
+    		npx prisma init
 
 ## 🚀 Início rápido -- FLOW like starting the project from zero.
 
@@ -197,5 +192,3 @@ bash
 
 ##Testing in runtime:
 curl -i -X POST http://localhost:3000/users -d "{}"
-
-
