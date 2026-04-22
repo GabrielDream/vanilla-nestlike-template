@@ -369,4 +369,4 @@ Security: Bcrypt + CORS
 
 	**Author:** Jibrail Bussab
 	**Contact:** https://www.linkedin.com/in/gabriel-bussab/
-	**Purpose:** Production-oriented backend template for scalable applications, technical delivery, reusable architecture, and professional software workflows
+	**Purpose:** Production-oriented backend template for scalable applications, technical delivery, reusable architecture, and professional software workflows.
