@@ -57,6 +57,8 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
     	Check formatting only:
     		npm run format:check
 
+    		Editor Config: Ctrl + SHIFT + F
+
     #4 - Git utility commands
     	Check compact history:
     		git log --oneline --graph --decorate
@@ -106,28 +108,6 @@ Projeto backend desenvolvido com **Node.js**, **Express**, **Prisma**, **JWT** e
 
     	Initialize Prisma:
     		npx prisma init
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 🚀 Início rápido -- FLOW like starting the project from zero.
 

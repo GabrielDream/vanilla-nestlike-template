@@ -1,8 +1,8 @@
 {
-	"name": "mission5",
-	"version": "1.0.0",
+	"name": "vanilla-nestlike-template",
+	"version": "1.1.0",
 	"type": "module",
-	"main": "index.js",
+	"main": "server.js",
 	"prisma": {
 		"seed": "node --env-file=.env prisma/seed.js"
 	},
@@ -18,10 +18,24 @@
 		"start": "node server.js",
 		"prepare": "husky"
 	},
-	"keywords": [],
-	"author": "",
+	"keywords": [
+		"nodejs",
+		"express",
+		"prisma",
+		"postgresql",
+		"jwt",
+		"rbac",
+		"backend-template",
+		"api",
+		"jest",
+		"husky",
+		"commitlint",
+		"eslint",
+		"prettier"
+	],
+	"author": "Jibrail Bussab",
 	"license": "ISC",
-	"description": "",
+	"description": "Production-oriented Node.js backend template with Express, Prisma, JWT auth, RBAC, testing, code quality tooling, and reusable architecture.",
 	"dependencies": {
 		"@prisma/client": "^6.14.0",
 		"bcrypt": "^6.0.0",

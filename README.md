@@ -88,10 +88,91 @@ Security: Bcrypt + CORS
 	- catch risky or inconsistent patterns
 
 	Useful commands:
+		npm run lint
+		npm run lint:fix
+			--- IMPORTANT: current rules and current errors, lint:fix is not very useful, because most errors need human decision.
 
-	```bash
-	npm run lint
-	npm run lint:fix
+	### Prettier
+	Prettier is responsible for formatting the code automatically in a consistent style.
+
+	It helps standardize things like:
+
+	spacing
+	line breaks
+	indentation
+	code layout
+
+	Useful commands:
+		npm run format
+		npm run format:check
+
+	Current choice in this template:
+		Prettier is manual by choice
+		it is not automatically executed during commit
+
+	Prettier config
+		semi: true → adds semicolons at the end of statements
+		singleQuote: true → uses single quotes instead of double quotes
+		tabWidth: 2 → defines the visual width of a tab as 2 spaces
+		useTabs: true → uses tabs for indentation
+		trailingComma: "none" → does not add trailing commas
+		printWidth: 120 → tries to keep lines within 120 characters
+
+	### Husky / Commitlint
+	Husky is used to automate Git hook actions.
+
+	Git already supports native hooks such as:
+	pre-commit
+	commit-msg
+	pre-push
+
+	What Husky does is:
+		manage hook files in a cleaner and versioned way
+		make hook behavior easier to maintain inside the project
+		automate tools during Git actions
+		Current flow in this template
+
+	When git commit is executed:
+		Git triggers the commit-msg hook
+		Husky manages this hook through .husky/commit-msg
+		.husky/commit-msg runs:
+		npx --no-install commitlint --edit "$1"
+		commitlint automatically reads commitlint.config.js
+		the commit message is validated using the Conventional Commits pattern
+		Current choice in this template
+
+	In this project, Husky is intentionally being used only for commit message validation.
+
+	Automated:
+		commit message check via commitlint
+
+		Manual by choice:
+			Prettier
+			ESLint
+			What could be automated later with Husky
+
+	If desired, Husky could also be used to run:
+		Prettier on pre-commit
+		ESLint on pre-commit
+		tests before push
+
+	Current files related to this flow:
+		.husky/commit-msg
+		commitlint.config.js
+
+
+SUMMARY:
+	This template currently separates responsibilities like this:
+		EditorConfig → editor/file consistency
+		ESLint → code quality checks
+		Prettier → code formatting
+		Husky + Commitlint → commit message validation
+
+	This structure keeps the workflow simple:
+		formatting is manual
+		linting is manual
+		commit message validation is automatic
+
 
 
 🗄️ Database
@@ -309,42 +390,48 @@ Security: Bcrypt + CORS
 
 📖 Project Narrative Order
 1️⃣ Project Foundation
- README · package.json · .gitignore
+ README · COMMANDS.md · package.json · .gitignore
 
 2️⃣ Environment and Sensitive Config
  .env · .env.test
 
 3️⃣ Quality and Semantic Pipeline
- .editorconfig · eslint.config · .prettierrc · husky · commitlint
+ .editorconfig · eslint.config · .prettierrc · husky/commit-msg · commitlint
 
-4️⃣ Database (Prisma)
- schema.prisma · migrations/ · seed.js · prisma.js
+4️⃣ Terminal & Logging Helpers
+ logger.js · spyConsole.js
 
 5️⃣ Middleware Helpers
  success.js · successHandler.js · AppError.js · errorHandler.js (+ tests)
 
-6️⃣ Global Configuration and Tests
+6️⃣ Database (Prisma)
+ schema.prisma · migrations/ · seed.js · prisma.js
+
+7️⃣ Global Configuration and Tests
  jest.config.cjs · jest.setup.env.cjs · globalSetup.cjs
 
-7️⃣ Database Integrity Tests
+8️⃣ Database Integrity Tests
  user.db.test.js · app.bridge.userToDb.js · bridge.http.test.js
 
-8️⃣ JWT Core
+9️⃣ JWT Core
  signJwt.js · verifyJwt.js (+ tests)
 
-9️⃣ JWT Denylist (Revocation)
+🔟 JWT Denylist (Revocation)
  tokenDenylist.memory.js (+ tests)
 
-🔟 JWT Guards
+1️⃣1️⃣ JWT Guards
  authRequired.js · allowRoles.js · isSelfOrRoles.js (+ tests)
 
-1️⃣1️⃣ Auth Routes
+1️⃣2️⃣ Auth Routes
  sanitize · register · login · logout · me (+ HTTP tests)
 
-1️⃣2️⃣ User Routes with RBAC
+1️⃣3️⃣ User Routes with RBAC
  list · checkEmail · meDelete · adminDeleteStaff (+ tests)
 
-1️⃣3️⃣ Final Server
+1️⃣4️⃣ Webhooks Ready
+ signatureRequired.js · payloadValidator.js · idempotency.js · webhookDataBase.md
+
+1️⃣5️⃣ Final Server
  app.js · server.js (+ listen/shutdown config)
 
 
@@ -370,3 +457,4 @@ Security: Bcrypt + CORS
 	**Author:** Jibrail Bussab
 	**Contact:** https://www.linkedin.com/in/gabriel-bussab/
 	**Purpose:** Production-oriented backend template for scalable applications, technical delivery, reusable architecture, and professional software workflows.
+```

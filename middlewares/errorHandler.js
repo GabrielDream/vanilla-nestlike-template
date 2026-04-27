@@ -23,3 +23,6 @@ export default function errorHandler(err, req, res, next) {
 		error: err.message
 	});
 }
+
+const hello = 'test';
+console.log(hello);

@@ -1,3 +1,4 @@
+//spyConsole.js - A collection of stylized console functions for terminal output, including a beep function for alerts, an emergency function for critical messages, and an animateBox function to display text in a stylized manner with delays between lines. These functions utilize the chalk library for color and style enhancements in the terminal.
 import chalk from 'chalk';
 
 import { logWarn, logError } from './logger.js';
