@@ -389,49 +389,53 @@ SUMMARY:
 
 
 📖 Project Narrative Order
+
 1️⃣ Project Foundation
  README · COMMANDS.md · package.json · .gitignore
 
 2️⃣ Environment and Sensitive Config
- .env · .env.test
+ .env.example · .env · .env.test.example .env.test · .env.docker ·
 
-3️⃣ Quality and Semantic Pipeline
- .editorconfig · eslint.config · .prettierrc · husky/commit-msg · commitlint
+3️⃣ Containerization & Local Infrastructure
+ Dockerfile · docker-compose.yml · .dockerignore
 
-4️⃣ Terminal & Logging Helpers
+4️⃣ Quality and Semantic Pipeline
+ .editorconfig · eslint.config · · eslintignore · .prettierrc · husky/commit-msg · commitlint
+
+5️⃣ Terminal & Logging Helpers
  logger.js · spyConsole.js
 
-5️⃣ Middleware Helpers
+6️⃣ Middleware Helpers
  success.js · successHandler.js · AppError.js · errorHandler.js (+ tests)
 
-6️⃣ Database (Prisma)
+7️⃣ Database (Prisma)
  schema.prisma · migrations/ · seed.js · prisma.js
 
-7️⃣ Global Configuration and Tests
+8️⃣ Global Configuration and Tests
  jest.config.cjs · jest.setup.env.cjs · globalSetup.cjs
 
-8️⃣ Database Integrity Tests
+9️⃣ Database Integrity Tests
  user.db.test.js · app.bridge.userToDb.js · bridge.http.test.js
 
-9️⃣ JWT Core
+🔟 JWT Core
  signJwt.js · verifyJwt.js (+ tests)
 
-🔟 JWT Denylist (Revocation)
+1️⃣1️⃣ JWT Denylist (Revocation)
  tokenDenylist.memory.js (+ tests)
 
-1️⃣1️⃣ JWT Guards
+1️⃣2️⃣ JWT Guards
  authRequired.js · allowRoles.js · isSelfOrRoles.js (+ tests)
 
-1️⃣2️⃣ Auth Routes
+1️⃣3️⃣ Auth Routes
  sanitize · register · login · logout · me (+ HTTP tests)
 
-1️⃣3️⃣ User Routes with RBAC
+1️⃣4️⃣ User Routes with RBAC
  list · checkEmail · meDelete · adminDeleteStaff (+ tests)
 
-1️⃣4️⃣ Webhooks Ready
+1️⃣5️⃣ Webhooks Ready
  signatureRequired.js · payloadValidator.js · idempotency.js · webhookDataBase.md
 
-1️⃣5️⃣ Final Server
+1️⃣6️⃣ Final Server
  app.js · server.js (+ listen/shutdown config)
 
 

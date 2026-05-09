@@ -8,6 +8,7 @@
 # ─────────────────────────────────────────────
 .env
 .env.test
+.env.docker
 
 # Example envs SHOULD be committed
 # (keep these available as templates)

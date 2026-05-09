@@ -5,6 +5,7 @@ import cors from 'cors';
 // Middlewares globais
 import successHandler from '../middlewares/successHandler.js';
 import errorHandler from '../middlewares/errorHandler.js';
+import requestTelemetry from '../middlewares/requestTelemetry.js';
 
 // Auth routes
 import { router as registerRoute } from './auth/routes/registerRoute.js';
@@ -30,6 +31,8 @@ app.use(express.json());
 
 // Add res.success in all routes
 app.use(successHandler);
+
+app.use(requestTelemetry);
 
 // 🔐 Auth Routes
 app.use('/', registerRoute);
